@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "333047774720",
+    "project_id": "tour-guide-1133e",
+    "storage_bucket": "tour-guide-1133e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333047774720:android:afe002cd42ff1ac6d462e5",
+        "android_client_info": {
+          "package_name": "com.example.nusa_guide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjllgkcjPf7WEUKN2VsP8OX0WifuYntzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
