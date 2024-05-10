@@ -33,14 +33,14 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = true) {
-        delay(5000L)
+        delay(3000L)
         navController.graph.startDestinationRoute?.let {
             navController.popBackStack(
                 route = it,
                 inclusive = true
             )
         }
-        // navController.navigate(NavigationTourScreen.)
+        navController.navigate(NavigationTourScreen.OnBoardingScreen.name)
     }
     Surface(
         modifier = Modifier.fillMaxSize(),

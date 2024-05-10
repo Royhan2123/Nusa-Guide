@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
@@ -22,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,20 +73,29 @@ fun OnBoardingScreen(navController: NavController) {
                         bottom = 29.dp
                     )
                 ) {
-                    Text(
-                        text = "Find Your\nAdventure!",
-                        fontSize = 42.sp,
-                        textAlign = TextAlign.Justify,
-                        fontWeight = FontWeight.SemiBold,
-                        color = gray700
-                    )
+                    Column {
+                        Text(
+                            text = "Find Your",
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = gray700,
+                            textAlign = TextAlign.Left,
+                        )
+                        Text(
+                            text = "Adventure!",
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = gray700,
+                            textAlign = TextAlign.Left,
+                        )
+                    }
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = "Jelajahi keajaiban alam dan warisan budaya yang kaya.",
                         fontSize = 16.sp,
                         color = Color.Black,
                     )
-                    Spacer(modifier = Modifier.height(25.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                     ElevatedButton(
                         onClick = { /*TODO*/ },
                         modifier = Modifier
@@ -110,7 +121,7 @@ fun OnBoardingScreen(navController: NavController) {
     }
 }
 
-@Preview()
+@Preview
 @Composable
 fun OnBoardingScreenPreview() {
     OnBoardingScreen(navController = rememberNavController())
