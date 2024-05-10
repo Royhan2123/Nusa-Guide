@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.nusa_guide" />
+                  <option name="mobileSdkAppId" value="1:333047774720:android:afe002cd42ff1ac6d462e5" />
+                  <option name="projectId" value="tour-guide-1133e" />
+                  <option name="projectNumber" value="333047774720" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

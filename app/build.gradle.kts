@@ -72,4 +72,53 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     //noinspection UseTomlInstead
     implementation("com.google.firebase:firebase-analytics")
+    //noinspection UseTomlInstead
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    //noinspection UseTomlInstead
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
+    //noinspection UseTomlInstead
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+
+    //noinspection UseTomlInstead
+    implementation("androidx.compose.material:material:1.6.7")
+    //noinspection UseTomlInstead
+    implementation ("com.google.android.material:material:1.12.0")
+
+    // navigation compose
+    //noinspection UseTomlInstead
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // lottie
+    //noinspection UseTomlInstead
+    implementation("com.airbnb.android:lottie-compose:4.0.0")
+
+    // viewModel
+    //noinspection UseTomlInstead
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
+    // Coroutines
+    //noinspection UseTomlInstead
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    //noinspection UseTomlInstead
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    //noinspection UseTomlInstead
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+    // Coil
+    //noinspection UseTomlInstead
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    //noinspection UseTomlInstead
+    debugImplementation("androidx.compose.material:material-icons-extended")
+
+    // Firebase Cloud Firestore
+    //noinspection UseTomlInstead
+    implementation ("com.google.firebase:firebase-firestore:25.0.0")
+
+    // Firebase Storage
+    //noinspection UseTomlInstead
+    implementation ("com.google.firebase:firebase-storage:21.0.0")
+
 }
