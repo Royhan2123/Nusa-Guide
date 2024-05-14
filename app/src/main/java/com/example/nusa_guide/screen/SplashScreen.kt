@@ -1,4 +1,4 @@
-package com.example.nusa_guide.page
+package com.example.nusa_guide.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

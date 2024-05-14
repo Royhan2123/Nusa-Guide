@@ -1,4 +1,4 @@
-package com.example.nusa_guide.page
+package com.example.nusa_guide.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -67,7 +67,9 @@ fun OnBoardingScreen2(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(
+              20.dp
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -103,24 +105,24 @@ fun OnBoardingScreen2(navController: NavController) {
                     color = gray700,
                     fontSize = 17.sp,
                 )
-                Spacer(modifier = Modifier.height(30.dp))
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    repeat(titleUser.size) { indicatorPage ->
-                        val color =
-                            if (pagerState.currentPage == indicatorPage) brandPrimary500 else Color.Gray
-                        Box(
-                            modifier = Modifier
-                                .size(18.dp)
-                                .padding(4.dp)
-                                .background(color, shape = CircleShape)
-                        )
-                    }
-                }
             }
         }
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            repeat(titleUser.size) { indicatorPage ->
+                val color =
+                    if (pagerState.currentPage == indicatorPage) brandPrimary500 else Color.Gray
+                Box(
+                    modifier = Modifier
+                        .size(18.dp)
+                        .padding(4.dp)
+                        .background(color, shape = CircleShape)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(50.dp))
         ElevatedButton(
             onClick = { /*TODO*/ },
             modifier = Modifier
