@@ -9,16 +9,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -46,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
@@ -74,8 +76,8 @@ fun LoginScreen(navController: NavController) {
             .fillMaxSize()
             .padding(
                 horizontal = 16.dp,
-                vertical = 30.dp
-            ),
+            )
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start
     ) {
         Spacer(modifier = Modifier.height(20.dp))
@@ -91,7 +93,7 @@ fun LoginScreen(navController: NavController) {
             fontSize = 15.sp,
             color = gray700
         )
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = stringResource(id = R.string.email),
             fontSize = 15.sp,
@@ -112,7 +114,7 @@ fun LoginScreen(navController: NavController) {
             shape = RoundedCornerShape(10.dp),
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Outlined.Email,
+                    painter = painterResource(id = R.drawable.icon_email),
                     contentDescription = stringResource(
                         id = R.string.email
                     ),
@@ -121,12 +123,12 @@ fun LoginScreen(navController: NavController) {
                 )
             },
             textStyle = TextStyle(
-                fontSize = 13.sp,
+                fontSize = 15.sp,
                 color = Color.Black
             ),
             placeholder = {
                 Text(
-                    text = "namikazeminato@gmail.com",
+                    text = "name@example.com",
                     fontSize = 14.sp,
                     color = gray
                 )
@@ -145,7 +147,7 @@ fun LoginScreen(navController: NavController) {
                 unfocusedBorderColor = gray
             )
         )
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = stringResource(id = R.string.kata_sandi),
             fontSize = 15.sp,
@@ -166,21 +168,21 @@ fun LoginScreen(navController: NavController) {
             shape = RoundedCornerShape(10.dp),
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Outlined.Lock,
+                    painter = painterResource(id = R.drawable.icon_password),
                     contentDescription = stringResource(
-                        id = R.string.email
+                        id = R.string.kata_sandi
                     ),
                     modifier = Modifier.size(25.dp),
                     tint = gray
                 )
             },
             textStyle = TextStyle(
-                fontSize = 13.sp,
+                fontSize = 15.sp,
                 color = Color.Black
             ),
             placeholder = {
                 Text(
-                    text = "••••••••••",
+                    text = "enter your password",
                     fontSize = 16.sp,
                     color = gray
                 )
@@ -210,7 +212,7 @@ fun LoginScreen(navController: NavController) {
                     else Icons.Filled.Visibility
 
                     val description = if (obsucureText)
-                        "Hide Passworf"
+                        "Hide Password"
                     else "Show Password"
 
                     Icon(
@@ -235,13 +237,13 @@ fun LoginScreen(navController: NavController) {
                 )
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
         ButtonStyle(
             onClicked = { /*TODO*/ },
-            text = stringResource(id = R.string.mulai),
+            text = stringResource(id = R.string.masuk),
         )
+        Spacer(modifier = Modifier.weight(1f))
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.BottomCenter
         ) {
             Row(
@@ -251,7 +253,11 @@ fun LoginScreen(navController: NavController) {
                     text = stringResource(id = R.string.belumPunyaAkun),
                     fontSize = 14.sp,
                 )
-                TextButton(onClick = { /*TODO*/ }) {
+                TextButton(onClick = {
+                    navController.navigate(
+                        NavigationTourScreen.RegisterScreen.name
+                    )
+                }) {
                     Text(
                         text = stringResource(id = R.string.daftar),
                         color = primary700,

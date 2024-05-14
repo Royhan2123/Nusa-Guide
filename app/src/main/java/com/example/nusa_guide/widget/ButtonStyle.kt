@@ -1,4 +1,3 @@
-@file:Suppress("UNUSED_EXPRESSION")
 
 package com.example.nusa_guide.widget
 
@@ -10,7 +9,6 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,12 +17,12 @@ import com.example.nusa_guide.ui.theme.white
 
 @Composable
 fun ButtonStyle(
-    onClicked : @Composable () -> Unit,
+    onClicked : () -> Unit,
     modifier: Modifier = Modifier,
     text: String,
 ) {
     ElevatedButton(
-        onClick = { onClicked },
+        onClick = { onClicked() },
         modifier
             .fillMaxWidth()
             .height(51.dp),
