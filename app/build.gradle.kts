@@ -121,4 +121,13 @@ dependencies {
     //noinspection UseTomlInstead
     implementation ("com.google.firebase:firebase-storage:21.0.0")
 
+    //noinspection UseTomlInstead
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.14.0")
+    //noinspection UseTomlInstead
+    implementation("com.google.accompanist:accompanist-pager:0.14.0")
+
+    //noinspection UseTomlInstead
+    implementation ("com.google.accompanist:accompanist-pager:0.28.0")
+    //noinspection UseTomlInstead
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
 }

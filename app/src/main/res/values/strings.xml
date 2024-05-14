@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Nusa-Guide</string>
+
+    <string name="titleUser">"Masuk Sebagai Pengguna?"</string>
+    <string name="titleTour">"Masuk Sebagai \nTour Guide?"</string>
+
+    <string name="deskUser">"Jelajahi keajaiban alam yang memukau dan warisan budaya yang kaya. Temukan Petualanganmu!"</string>
+    <string name="deskTour">"Mulai Bisnismu dengan mudah dan temukan pengalaman yang baru!"</string>
 </resources>

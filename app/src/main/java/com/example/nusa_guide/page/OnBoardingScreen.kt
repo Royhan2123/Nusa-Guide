@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
@@ -23,13 +22,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray50
 import com.example.nusa_guide.ui.theme.gray700
@@ -42,7 +41,7 @@ fun OnBoardingScreen(navController: NavController) {
     ) {
         Image(
             painter = painterResource(
-                id = R.drawable.on_boarding2
+                id = R.drawable.bg_on_boarding
             ),
             contentDescription = "onBoarding2",
             modifier = Modifier.fillMaxSize(),
@@ -70,7 +69,7 @@ fun OnBoardingScreen(navController: NavController) {
                         top = 25.dp,
                         start = 30.dp,
                         end = 30.dp,
-                        bottom = 29.dp
+                        bottom = 20.dp
                     )
                 ) {
                     Column {
@@ -97,7 +96,11 @@ fun OnBoardingScreen(navController: NavController) {
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     ElevatedButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            navController.navigate(
+                                NavigationTourScreen.OnBoardingScreen2.name
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(51.dp),

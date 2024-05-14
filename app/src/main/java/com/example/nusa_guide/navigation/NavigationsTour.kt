@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.page.OnBoardingScreen
+import com.example.nusa_guide.page.OnBoardingScreen2
 import com.example.nusa_guide.page.SplashScreen
 
 @Composable
@@ -20,6 +21,9 @@ fun NavigationsTour() {
         }
         composable(NavigationTourScreen.OnBoardingScreen.name) {
             OnBoardingScreen(navController = navController)
+        }
+        composable(NavigationTourScreen.OnBoardingScreen2.name) {
+            OnBoardingScreen2(navController = navController)
         }
     }
 
