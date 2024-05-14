@@ -35,9 +35,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.white
+import com.example.nusa_guide.widget.ButtonStyle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.pager.HorizontalPager
@@ -68,7 +70,7 @@ fun OnBoardingScreen2(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(
-              20.dp
+                20.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -123,28 +125,21 @@ fun OnBoardingScreen2(navController: NavController) {
             }
         }
         Spacer(modifier = Modifier.height(50.dp))
-        ElevatedButton(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.elevatedButtonColors(
-                brandPrimary500
-            ),
-            shape = RoundedCornerShape(
-                size = 8.dp
-            )
-        ) {
-            Text(
-                text = "Pengguna",
-                color = white,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
+        ButtonStyle(
+            onClicked = {
+                navController.navigate(
+                    NavigationTourScreen.LoginScreen.name
+                )
+            },
+            text = stringResource(id = R.string.pengguna)
+        )
         Spacer(modifier = Modifier.height(15.dp))
         ElevatedButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(
+                    NavigationTourScreen.LoginScreen.name
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)

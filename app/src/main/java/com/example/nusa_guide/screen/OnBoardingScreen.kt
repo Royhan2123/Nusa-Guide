@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,10 +28,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
-import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray50
 import com.example.nusa_guide.ui.theme.gray700
-import com.example.nusa_guide.ui.theme.white
+import com.example.nusa_guide.widget.ButtonStyle
 
 @Composable
 fun OnBoardingScreen(navController: NavController) {
@@ -95,29 +93,14 @@ fun OnBoardingScreen(navController: NavController) {
                         color = Color.Black,
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    ElevatedButton(
-                        onClick = {
+                    ButtonStyle(
+                        onClicked = {
                             navController.navigate(
                                 NavigationTourScreen.OnBoardingScreen2.name
                             )
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(51.dp),
-                        colors = ButtonDefaults.elevatedButtonColors(
-                            brandPrimary500
-                        ),
-                        shape = RoundedCornerShape(
-                            size = 8.dp
-                        ),
-                    ) {
-                        Text(
-                            text = "Mulai",
-                            fontSize = 18.sp,
-                            color = white,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+                        text = stringResource(id = R.string.mulai)
+                    )
                 }
             }
         }

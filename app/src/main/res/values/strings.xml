@@ -6,4 +6,21 @@
 
     <string name="deskUser">"Jelajahi keajaiban alam yang memukau dan warisan budaya yang kaya. Temukan Petualanganmu!"</string>
     <string name="deskTour">"Mulai Bisnismu dengan mudah dan temukan pengalaman yang baru!"</string>
+    <string name="deskLogin">Senang melihatmu lagi! Masuk dan Mulailah Petualanganmu.</string>
+    <string name="deskRegister">Masukkan data diri dan buat sebuah akun untuk mengakses seluruh layanan!</string>
+    <string name="masuk">Masuk</string>
+    <string name="mulai">Mulai</string>
+    <string name="register">Register</string>
+    <string name="daftar">Daftar</string>
+    <string name="nama">Nama</string>
+    <string name="email">Email</string>
+    <string name="noTel">Nomor Telepon (Whatsapp)</string>
+    <string name="konfirmasi_kata_sandi">Konfirmasi Kata Sandi</string>
+    <string name="kata_sandi">Kata Sandi</string>
+    <string name="belumPunyaAkun">Belum punya akun?</string>
+    <string name="sudahPunyaAkun">Sudah punya akun?</string>
+    <string name="lupaKataSandi">Lupa Kata Sandi?</string>
+    <string name="pengguna">Pengguna</string>
+    <string name="tourGuide">Tour Guide</string>
+
 </resources>
