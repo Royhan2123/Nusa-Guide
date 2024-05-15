@@ -4,8 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,13 +20,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nusa_guide.R
-
 @Composable
 fun HomeScreen() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        // Menampilkan konten profil dan notifikasi terlebih dahulu
+        ProfileAndNotificationRow()
+        Spacer(modifier = Modifier.height(16.dp))  // Memberikan spacer untuk jarak antara konten dan SearchBar
+        // Menempatkan SearchBar di bagian bawah
+        SearchBar()
+    }
+}
+
+@Composable
+fun ProfileAndNotificationRow() {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProfileImage()
@@ -43,13 +55,12 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.weight(1f))
         NotificationIcon()
     }
-
 }
 
 @Composable
 fun ProfileImage() {
     Image(
-        painter = painterResource(id = R.drawable.img_on_boarding1), // Ganti dengan ID gambar yang sesuai
+        painter = painterResource(id = R.drawable.img_on_boarding1),
         contentDescription = "Profile Image",
         modifier = Modifier
             .size(48.dp)
@@ -67,9 +78,21 @@ fun NotificationIcon() {
     )
 }
 
-@Preview(showBackground = true)
+@Composable
+fun SearchBar() {
+    val searchText = remember { mutableStateOf("") }
+
+    OutlinedTextField(
+        value = searchText.value,
+        onValueChange = { newText -> searchText.value = newText },
+        label = { Text("Cari tour guide Anda") },
+        singleLine = true,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen()
-
 }
