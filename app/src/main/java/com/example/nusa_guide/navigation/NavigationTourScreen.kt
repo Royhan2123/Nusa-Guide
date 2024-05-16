@@ -1,5 +1,4 @@
 package com.example.nusa_guide.navigation
-
 enum class NavigationTourScreen {
     SplashScreen,
     OnBoardingScreen,
@@ -14,6 +13,7 @@ enum class NavigationTourScreen {
             OnBoardingScreen2.name -> OnBoardingScreen2
             LoginScreen.name -> LoginScreen
             RegisterScreen.name -> RegisterScreen
+
             null -> SplashScreen
             else -> throw IllegalArgumentException("Route $route is not recognized.")
         }
