@@ -147,7 +147,7 @@ fun LoginScreen(navController: NavController) {
                 unfocusedBorderColor = gray
             )
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.kata_sandi),
             fontSize = 15.sp,
