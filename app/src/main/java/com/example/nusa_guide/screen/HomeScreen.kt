@@ -76,7 +76,7 @@ fun ProfileText() {
 @Composable
 fun NotificationIcon() {
     Icon(
-        painter = painterResource(id = R.drawable.icon_notification),
+        painter = painterResource(id = R.drawable.icon_account),
         contentDescription = "Notification Icon",
         modifier = Modifier.size(24.dp)
     )

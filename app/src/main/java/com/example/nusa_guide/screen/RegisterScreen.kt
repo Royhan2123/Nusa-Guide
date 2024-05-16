@@ -221,6 +221,7 @@ fun RegisterScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
 
+
         Text(
             text = stringResource(id = R.string.noTel),
             fontSize = 15.sp,
