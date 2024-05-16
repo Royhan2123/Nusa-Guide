@@ -118,7 +118,7 @@ fun CategorySection() {
             )
             CategoryItem(
                 imageRes = R.drawable.bg_on_boarding,
-                title = "Alam"
+                title = "samudra"
             )
             CategoryItem(
                 imageRes = R.drawable.bg_on_boarding,
