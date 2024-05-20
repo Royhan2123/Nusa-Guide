@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nusa_guide.R
 import com.example.nusa_guide.ui.theme.BlueButton
+import com.example.nusa_guide.widget.ButtonStyle
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -69,23 +70,7 @@ fun ChangePasswordSuccessScreen() {
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(52.dp))
-                Button(
-                    onClick = { /* TODO: Add navigation logic */ },
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = BlueButton),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-
-
-                ) {
-                    Text(
-                        text = "Selanjutnya",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
-                    )
-                }
+                ButtonStyle(onClicked = { /*TODO*/ }, text = "Selanjutnya" )
             }
         }
     }
