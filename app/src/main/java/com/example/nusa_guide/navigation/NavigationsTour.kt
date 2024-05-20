@@ -15,6 +15,7 @@ import com.example.nusa_guide.screen.OnBoardingScreen2
 import com.example.nusa_guide.screen.ProfilScreen
 import com.example.nusa_guide.screen.RegisterScreen
 import com.example.nusa_guide.screen.RiwayatScreen
+import com.example.nusa_guide.screen.SearchScreen
 import com.example.nusa_guide.screen.SplashScreen
 import com.example.nusa_guide.screen.VerificationCodeScreen
 
@@ -64,6 +65,9 @@ fun NavigationsTour() {
         }
         composable(NavigationTourScreen.VerificationCodeScreen.name) {
             VerificationCodeScreen(navController)
+        }
+        composable(NavigationTourScreen.SearchScreen.name) {
+            SearchScreen(navController)
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 
 
 @Composable
@@ -31,10 +33,11 @@ fun HomeScreen(navController: NavController) {
     Column(modifier = Modifier.padding(16.dp)) {
         ProfileAndNotificationRow()
         Spacer(modifier = Modifier.height(16.dp))
-        SearchBar()
+        SearchBar(navController)
         Spacer(modifier = Modifier.height(16.dp))
         CategorySection()
         Spacer(modifier = Modifier.height(16.dp))
+
     }
 }
 
@@ -60,7 +63,7 @@ fun ProfileImage() {
         modifier = Modifier
             .size(48.dp)
             .clip(CircleShape),
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.FillBounds
     )
 }
 
@@ -90,7 +93,7 @@ fun NotificationIcon() {
 }
 
 @Composable
-fun SearchBar() {
+fun SearchBar(navController: NavController) {
     val searchText = remember { mutableStateOf("") }
 
     OutlinedTextField(
@@ -99,6 +102,11 @@ fun SearchBar() {
         label = { Text("Cari tour guide Anda") },
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
+            .clickable {
+                navController.navigate(
+                    NavigationTourScreen.SearchScreen.name
+                )
+            }
     )
 }
 
@@ -125,7 +133,7 @@ fun CategorySection() {
             )
             CategoryItem(
                 imageRes = R.drawable.bg_on_boarding,
-                title = "Alam"
+                title = "samudra"
             )
             CategoryItem(
                 imageRes = R.drawable.bg_on_boarding,
@@ -161,6 +169,8 @@ fun CategoryItem(imageRes: Int, title: String) {
         )
     }
 }
+
+
 
 
 @Preview(showSystemUi = true)

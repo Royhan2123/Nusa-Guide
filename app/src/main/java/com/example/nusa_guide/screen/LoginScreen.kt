@@ -242,7 +242,11 @@ fun LoginScreen(navController: NavController) {
             }
         }
         ButtonStyle(
-            onClicked = { /*TODO*/ },
+            onClicked = {
+                navController.navigate(
+                    NavigationTourScreen.HalamanBottom.name
+                )
+            },
             text = stringResource(id = R.string.masuk),
         )
         Spacer(modifier = Modifier.weight(1f))

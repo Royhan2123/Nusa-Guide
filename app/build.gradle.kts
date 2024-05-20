@@ -130,4 +130,6 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager:0.28.0")
     //noinspection UseTomlInstead
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+    //noinspection UseTomlInstead
+    implementation ("com.google.accompanist:accompanist-insets:0.23.0")
 }
