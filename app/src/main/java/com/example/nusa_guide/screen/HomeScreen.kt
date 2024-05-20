@@ -1,31 +1,10 @@
 package com.example.nusa_guide.screen
 
-<<<<<<< HEAD
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-
-@Composable
-fun HomeScreen(navController: NavController) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(text = "Home Screen")
-    }
-}
-
-@Preview
-@Composable
-fun PreviewHomeScreen() {
-    HomeScreen(
-        navController = rememberNavController()
-    )
-}
-=======
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -40,13 +19,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 
+
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     Column(modifier = Modifier.padding(16.dp)) {
         ProfileAndNotificationRow()
         Spacer(modifier = Modifier.height(16.dp))
@@ -185,6 +166,5 @@ fun CategoryItem(imageRes: Int, title: String) {
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(rememberNavController())
 }
->>>>>>> 24267e31a2c5fea62c6bf82ffea469b97c662ffe
