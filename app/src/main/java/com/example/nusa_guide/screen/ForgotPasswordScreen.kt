@@ -33,13 +33,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.ui.theme.Gray70
-import com.example.nusa_guide.ui.theme.GrayTextField
+import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.ui.theme.brandPrimary500
+import com.example.nusa_guide.ui.theme.gray
+import com.example.nusa_guide.ui.theme.gray700
+import com.example.nusa_guide.widget.ButtonStyle
 
 
 @Composable
-fun ForgotPasswordScreen() {
+fun ForgotPasswordScreen(navController: NavController) {
     val emailState = remember { mutableStateOf(TextFieldValue()) }
 
 
@@ -52,7 +57,7 @@ fun ForgotPasswordScreen() {
             text = "Lupa Kata Sandi?",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            color = Gray70,
+            color = gray700,
             textAlign = TextAlign.Center
         )
     }
@@ -93,8 +98,8 @@ fun ForgotPasswordScreen() {
                 Icon(imageVector = Icons.Default.Email, contentDescription = null)
             },
             colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = GrayTextField,
-                focusedBorderColor = GrayTextField
+                focusedBorderColor = brandPrimary500,
+                unfocusedBorderColor = gray
             ),
             shape = RoundedCornerShape(8.dp),
             singleLine = true,
@@ -104,21 +109,16 @@ fun ForgotPasswordScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = { /* TODO: Add navigation logic */ },
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF469CAD)),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-        ) {
-            Text(text = "Kirim", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        }
+        ButtonStyle(onClicked = {
+            navController.navigate(
+                NavigationTourScreen.VerificationCodeScreen.name
+            )
+        }, text = "Kirim")
     }
 }
 
 @Preview
 @Composable
 fun PreviewForgotPasswordScreen() {
-    ForgotPasswordScreen()
+    ForgotPasswordScreen(rememberNavController())
 }

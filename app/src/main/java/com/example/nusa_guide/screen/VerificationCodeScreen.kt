@@ -33,13 +33,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.ui.theme.BlueButton
-import com.example.nusa_guide.ui.theme.Gray70
+import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.ui.theme.gray700
+import com.example.nusa_guide.widget.ButtonStyle
 
 
 @Composable
-fun VerificationCodeScreen() {
+fun VerificationCodeScreen(navController: NavController) {
     var code1 by remember { mutableStateOf("") }
     var code2 by remember { mutableStateOf("") }
     var code3 by remember { mutableStateOf("") }
@@ -54,7 +57,7 @@ fun VerificationCodeScreen() {
             text = "Verifikasi Kode",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            color = Gray70,
+            color = gray700,
             textAlign = TextAlign.Center
         )
     }
@@ -149,25 +152,17 @@ fun VerificationCodeScreen() {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Button(
-            onClick = { /* TODO: Add navigation logic */ },
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = BlueButton),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-        ) {
-            Text(
-                text = "Konfirmasi",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+        ButtonStyle(onClicked = {
+            navController.navigate(
+                NavigationTourScreen.ChangePasswordSuccessScreen.name
             )
-        }
+        }, text = "Konfirmasi")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextButton(onClick = { /* TODO: Add back logic */ }) {
+        TextButton(onClick = {
+            navController.popBackStack()
+        }) {
             Text(
                 text = "Kembali",
                 color = Color(0xFF469CAD),
@@ -182,5 +177,5 @@ fun VerificationCodeScreen() {
 @Preview
 @Composable
 fun VerificationCodeScreenPreview() {
-    VerificationCodeScreen()
+    VerificationCodeScreen(rememberNavController())
 }

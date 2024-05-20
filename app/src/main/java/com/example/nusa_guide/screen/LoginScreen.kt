@@ -228,7 +228,11 @@ fun LoginScreen(navController: NavController) {
                 .fillMaxWidth(),
             contentAlignment = Alignment.BottomEnd
         ) {
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = {
+                navController.navigate(
+                    NavigationTourScreen.ForgotPasswordScreen.name
+                )
+            }) {
                 Text(
                     text = stringResource(id = R.string.lupaKataSandi),
                     color = primary700,

@@ -9,7 +9,10 @@ enum class NavigationTourScreen {
     RiwayatScreen,
     FavoritScreen,
     ProfilScreen,
-    HalamanBottom;
+    HalamanBottom,
+    ChangePasswordSuccessScreen,
+    ForgotPasswordScreen,
+    VerificationCodeScreen;
 
     fun fromRoute(route:String?): NavigationTourScreen =
         when (route?.substringBefore("/")) {
@@ -23,6 +26,9 @@ enum class NavigationTourScreen {
             FavoritScreen.name -> FavoritScreen
             ProfilScreen.name -> ProfilScreen
             HalamanBottom.name -> HalamanBottom
+            ChangePasswordSuccessScreen.name -> ChangePasswordSuccessScreen
+            ForgotPasswordScreen.name -> ForgotPasswordScreen
+            VerificationCodeScreen.name -> VerificationCodeScreen
 
             null -> SplashScreen
             else -> throw IllegalArgumentException("Route $route is not recognized.")
