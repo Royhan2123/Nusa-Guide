@@ -3,6 +3,7 @@ package com.example.nusa_guide.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nusa_guide.R
+import com.example.nusa_guide.component.PaketPremiumItem
 
 @Composable
 fun HomeScreen() {
@@ -28,6 +30,7 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         CategorySection()
         Spacer(modifier = Modifier.height(16.dp))
+
     }
 }
 
@@ -154,6 +157,8 @@ fun CategoryItem(imageRes: Int, title: String) {
         )
     }
 }
+
+
 
 
 @Preview(showSystemUi = true)
