@@ -91,8 +91,8 @@ fun RegisterScreen(navController: NavController) {
             .fillMaxSize()
             .padding(
                 horizontal = 16.dp,
-            )
-            .verticalScroll(rememberScrollState()),
+            ),
+//            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start
     ) {
         Spacer(modifier = Modifier.height(20.dp))

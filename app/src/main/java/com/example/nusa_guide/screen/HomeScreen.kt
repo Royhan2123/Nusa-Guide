@@ -3,7 +3,9 @@ package com.example.nusa_guide.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -19,18 +21,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nusa_guide.R
-import com.example.nusa_guide.component.PaketPremiumItem
+import com.example.nusa_guide.model.DummyData
+import com.example.nusa_guide.model.Rekomendasi
 
 @Composable
 fun HomeScreen() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        ProfileAndNotificationRow()
-        Spacer(modifier = Modifier.height(16.dp))
-        SearchBar()
-        Spacer(modifier = Modifier.height(16.dp))
-        CategorySection()
-        Spacer(modifier = Modifier.height(16.dp))
-
+    LazyColumn(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            ProfileAndNotificationRow()
+        }
+        item {
+            SearchBar()
+        }
+        item {
+            CategorySection()
+        }
+        item {
+            RekomendasiScreen()
+        }
     }
 }
 
@@ -100,7 +113,7 @@ fun SearchBar() {
 
 @Composable
 fun CategorySection() {
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(2.dp)) {
         Text(
             text = "Kategori",
             fontSize = 20.sp,
@@ -121,7 +134,7 @@ fun CategorySection() {
             )
             CategoryItem(
                 imageRes = R.drawable.bg_on_boarding,
-                title = "samudra"
+                title = "Samudra"
             )
             CategoryItem(
                 imageRes = R.drawable.bg_on_boarding,
@@ -158,8 +171,53 @@ fun CategoryItem(imageRes: Int, title: String) {
     }
 }
 
+@Composable
+fun RekomendasiScreen() {
+    Column(modifier = Modifier.padding(2.dp)) {
+        Text(
+            text = "Rekomendasi",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Text(
+            text = "Rekomendasi Wisata Terbaik Buat Kamu",
+            fontSize = 12.sp,
+            color = Color.Gray
+        )
+        LazyRow {
+            items(DummyData.rekomendasiList) { rekomendasi ->
+                RekomendasiItem(rekomendasi)
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+        }
+    }
+}
 
-
+@Composable
+fun RekomendasiItem(rekomendasi: Rekomendasi) {
+    Column(
+        modifier = Modifier
+            .width(200.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(8.dp)
+    ) {
+        Image(
+            painter = painterResource(id = rekomendasi.gambar),
+            contentDescription = null,
+            modifier = Modifier
+                .height(120.dp)
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.Crop
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = rekomendasi.nama, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+//        Text(text = "Jarak: ${rekomendasi.jarak} km", fontSize = 14.sp, color = Color.Gray)
+        Text(text = "Rp ${rekomendasi.harga}", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)
+    }
+}
 
 @Preview(showSystemUi = true)
 @Composable

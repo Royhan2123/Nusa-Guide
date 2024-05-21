@@ -1,6 +1,5 @@
 package com.example.nusa_guide.screen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -15,8 +14,8 @@ import com.example.nusa_guide.ui.theme.NusaGuideTheme
 @Composable
 fun PaketPremiumScreen(paketPremiumList: List<PaketPremium>) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(8.dp)
+        columns = GridCells.Adaptive(140.dp),
+        contentPadding = PaddingValues(2.dp)
     ) {
         items(paketPremiumList.size) { index ->
             PaketPremiumItem(paketPremium = paketPremiumList[index])
