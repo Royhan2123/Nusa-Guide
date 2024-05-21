@@ -1,4 +1,4 @@
-    package com.example.nusa_guide.screen
+package com.example.nusa_guide.screen
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -8,13 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.RekomendasiItem
 import com.example.nusa_guide.model.Rekomendasi
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
 
 @Composable
-fun RekomendasiScreen(rekomendasiList: List<Rekomendasi>) {
+fun RekomendasiScreen(
+    navController: NavController,
+    rekomendasiList: List<Rekomendasi>
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
@@ -30,7 +35,7 @@ fun RekomendasiScreen(rekomendasiList: List<Rekomendasi>) {
 @Composable
 fun RekomendasiScreenPreview() {
     NusaGuideTheme {
-        val sampleData = listOf(
+        val DummyData = listOf(
             Rekomendasi(
                 id = 1,
                 nama = "Pantai Kuta",
@@ -102,6 +107,6 @@ fun RekomendasiScreenPreview() {
                 jarak = 22
             )
         )
-        RekomendasiScreen(rekomendasiList = sampleData)
+        RekomendasiScreen(rememberNavController(), DummyData)
     }
 }

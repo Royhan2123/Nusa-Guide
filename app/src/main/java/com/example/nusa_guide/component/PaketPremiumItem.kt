@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.PaketPremium
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
+import com.example.nusa_guide.ui.theme.brandPrimary500
 
 @Composable
 fun PaketPremiumItem(paketPremium: PaketPremium) {
@@ -126,7 +127,7 @@ fun PaketPremiumItem(paketPremium: PaketPremium) {
                         text = "Rp. ${paketPremium.harga} / Orang",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = brandPrimary500
                     )
                 }
             }

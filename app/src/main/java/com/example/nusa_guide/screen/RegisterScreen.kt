@@ -91,8 +91,8 @@ fun RegisterScreen(navController: NavController) {
             .fillMaxSize()
             .padding(
                 horizontal = 16.dp,
-            ),
-//            .verticalScroll(rememberScrollState()),
+            )
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start
     ) {
         Spacer(modifier = Modifier.height(20.dp))
@@ -434,7 +434,11 @@ fun RegisterScreen(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(22.dp))
         ButtonStyle(
-            onClicked = { /*TODO*/ },
+            onClicked = {
+                        navController.navigate(
+                            NavigationTourScreen.LoginScreen.name
+                        )
+            },
             text = stringResource(id = R.string.register),
         )
         Spacer(modifier = Modifier.weight(1f))

@@ -228,7 +228,11 @@ fun LoginScreen(navController: NavController) {
                 .fillMaxWidth(),
             contentAlignment = Alignment.BottomEnd
         ) {
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = {
+                navController.navigate(
+                    NavigationTourScreen.ForgotPasswordScreen.name
+                )
+            }) {
                 Text(
                     text = stringResource(id = R.string.lupaKataSandi),
                     color = primary700,
@@ -238,7 +242,11 @@ fun LoginScreen(navController: NavController) {
             }
         }
         ButtonStyle(
-            onClicked = { /*TODO*/ },
+            onClicked = {
+                navController.navigate(
+                    NavigationTourScreen.HalamanBottom.name
+                )
+            },
             text = stringResource(id = R.string.masuk),
         )
         Spacer(modifier = Modifier.weight(1f))

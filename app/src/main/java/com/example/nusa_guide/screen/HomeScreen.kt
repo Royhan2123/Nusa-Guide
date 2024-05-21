@@ -1,7 +1,8 @@
-package com.example.nusa_guide.screen
+package com.example.nusa_guide.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,15 +21,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.component.PaketPremiumItem
+import com.example.nusa_guide.component.RekomendasiItem
 import com.example.nusa_guide.model.DummyData
-import com.example.nusa_guide.model.Rekomendasi
+import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.ui.theme.brandPrimary500
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     LazyColumn(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(14.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -36,13 +42,16 @@ fun HomeScreen() {
             ProfileAndNotificationRow()
         }
         item {
-            SearchBar()
+            SearchBar(navController)
         }
         item {
             CategorySection()
         }
         item {
-            RekomendasiScreen()
+            RekomendasiSection(navController)
+        }
+        item {
+            PaketPremiumSection(navController)
         }
     }
 }
@@ -69,7 +78,7 @@ fun ProfileImage() {
         modifier = Modifier
             .size(48.dp)
             .clip(CircleShape),
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.FillBounds
     )
 }
 
@@ -92,22 +101,28 @@ fun ProfileText() {
 @Composable
 fun NotificationIcon() {
     Icon(
-        painter = painterResource(id = R.drawable.icon_account),
+        painter = painterResource(id = R.drawable.icon_notification),
         contentDescription = "Notification Icon",
         modifier = Modifier.size(24.dp)
     )
 }
 
 @Composable
-fun SearchBar() {
-    val searchText = remember { mutableStateOf("") }
+fun SearchBar(navController: NavController) {
+    var searchText by remember { mutableStateOf("") }
 
     OutlinedTextField(
-        value = searchText.value,
-        onValueChange = { newText -> searchText.value = newText },
+        value = searchText,
+        onValueChange = { newText -> searchText = newText },
         label = { Text("Cari tour guide Anda") },
         singleLine = true,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(
+                    NavigationTourScreen.SearchScreen.name
+                )
+            }
     )
 }
 
@@ -118,7 +133,7 @@ fun CategorySection() {
             text = "Kategori",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 4.dp)
+            modifier = Modifier.padding(bottom = 8.dp)
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -134,7 +149,7 @@ fun CategorySection() {
             )
             CategoryItem(
                 imageRes = R.drawable.bg_on_boarding,
-                title = "Samudra"
+                title = "Alam"
             )
             CategoryItem(
                 imageRes = R.drawable.bg_on_boarding,
@@ -149,7 +164,7 @@ fun CategoryItem(imageRes: Int, title: String) {
     Column(
         modifier = Modifier
             .width(80.dp)
-            .padding(4.dp),
+            .padding(2.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -172,55 +187,95 @@ fun CategoryItem(imageRes: Int, title: String) {
 }
 
 @Composable
-fun RekomendasiScreen() {
+fun RekomendasiSection(navController: NavController) {
     Column(modifier = Modifier.padding(2.dp)) {
-        Text(
-            text = "Rekomendasi",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        Text(
-            text = "Rekomendasi Wisata Terbaik Buat Kamu",
-            fontSize = 12.sp,
-            color = Color.Gray
-        )
-        LazyRow {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Rekomendasi",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Rekomendasi Wisata Terbaik Buat Kamu",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+            Text(
+                text = "Lihat Semua >",
+                color = brandPrimary500,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate(
+                            NavigationTourScreen.RekomendasiScreen.name
+                        )
+                    }
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             items(DummyData.rekomendasiList) { rekomendasi ->
                 RekomendasiItem(rekomendasi)
-                Spacer(modifier = Modifier.width(8.dp))
             }
         }
     }
 }
 
 @Composable
-fun RekomendasiItem(rekomendasi: Rekomendasi) {
-    Column(
-        modifier = Modifier
-            .width(200.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(8.dp)
-    ) {
-        Image(
-            painter = painterResource(id = rekomendasi.gambar),
-            contentDescription = null,
-            modifier = Modifier
-                .height(120.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp)),
-            contentScale = ContentScale.Crop
-        )
+fun PaketPremiumSection(navController: NavController) {
+    Column(modifier = Modifier.padding(2.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Paket Premium",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Paket Wisata Terbaik Buat Kamu",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+            Text(
+                text = "Lihat Semua >",
+                color = brandPrimary500,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate(
+                            NavigationTourScreen.PaketPremiumScreen.name
+                        )
+                    }
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = rekomendasi.nama, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-//        Text(text = "Jarak: ${rekomendasi.jarak} km", fontSize = 14.sp, color = Color.Gray)
-        Text(text = "Rp ${rekomendasi.harga}", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            items(DummyData.paketPremiumList) { paketpremium ->
+                PaketPremiumItem(paketpremium)
+            }
+        }
     }
 }
 
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(rememberNavController())
 }
