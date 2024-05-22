@@ -34,13 +34,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.Gray80
 
 @OptIn(ExperimentalMaterial3Api::class)
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
@@ -55,7 +58,7 @@ fun ProfileScreen() {
                 .padding(padding)
                 .padding(horizontal = 20.dp)
         ) {
-            ProfileHeader()
+            ProfileHeader(navController)
             Spacer(modifier = Modifier.height(24.dp))
             AccountSection()
             Spacer(modifier = Modifier.height(36.dp))
@@ -66,7 +69,7 @@ fun ProfileScreen() {
 }
 
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(navController: NavController) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -87,7 +90,11 @@ fun ProfileHeader() {
         Image(
             painter = painterResource(id = R.drawable.ic_edit_profile),
             contentDescription = null,
-            modifier = Modifier.clickable { /* Handle edit click */ }
+            modifier = Modifier.clickable {
+                navController.navigate(
+                    NavigationTourScreen.AboutProfileScreen.name
+                )
+            }
         )
     }
 }
@@ -122,7 +129,9 @@ fun ProfileMenuItem(title: String, drawable: Int) {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp).padding(bottom = 5.dp)
+                modifier = Modifier
+                    .size(24.dp)
+                    .padding(bottom = 5.dp)
             )
         }
     }
@@ -149,5 +158,5 @@ fun LogoutButton() {
 @Preview(showBackground = true)
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen()
+    ProfileScreen(rememberNavController())
 }

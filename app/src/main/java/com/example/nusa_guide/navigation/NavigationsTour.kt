@@ -50,8 +50,8 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.RiwayatScreen.name) {
             RiwayatScreen(navController)
         }
-        composable(NavigationTourScreen.ProfilScreen.name) {
-            ProfilScreen(navController)
+        composable(NavigationTourScreen.ProfileScreen.name) {
+            ProfileScreen(navController)
         }
         composable(NavigationTourScreen.ForgotPasswordScreen.name) {
             ForgotPasswordScreen(navController)
@@ -70,6 +70,9 @@ fun NavigationsTour() {
         }
         composable(NavigationTourScreen.PaketPremiumScreen.name) {
             RekomendasiScreen(navController, rekomendasiList)
+        }
+        composable(NavigationTourScreen.AboutProfileScreen.name) {
+            AboutProfileScreen()
         }
     }
 }

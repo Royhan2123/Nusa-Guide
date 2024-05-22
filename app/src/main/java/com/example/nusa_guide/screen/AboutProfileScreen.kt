@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -57,7 +58,7 @@ fun AboutProfileScreen() {
             navigationIcon = {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
-                        imageVector= Icons.Default.KeyboardArrowLeft,
+                        imageVector= Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                         contentDescription = null
                     )
                 }

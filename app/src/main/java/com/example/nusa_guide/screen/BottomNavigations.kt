@@ -109,7 +109,7 @@ fun HalamanBottom() {
                     FavoritScreen(navController = navController)
                 }
                 composable(BottomNavigationScreen.ProfileScreen.title) {
-                    ProfilScreen(navController = navController)
+                    ProfileScreen(navController = navController)
                 }
                 composable(NavigationTourScreen.RekomendasiScreen.name) {
                     RekomendasiScreen(navController, rekomendasiList)
