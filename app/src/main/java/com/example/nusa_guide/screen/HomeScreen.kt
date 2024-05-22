@@ -111,7 +111,7 @@ fun SearchBar(navController: NavController) {
 
     OutlinedTextField(
         value = searchText,
-        onValueChange = { newText -> searchText = newText },
+        onValueChange = { searchText  = it },
         label = { Text("Cari tour guide Anda") },
         singleLine = true,
         modifier = Modifier
