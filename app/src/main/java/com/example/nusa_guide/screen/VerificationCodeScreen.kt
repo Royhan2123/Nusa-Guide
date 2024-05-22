@@ -3,6 +3,10 @@ package com.example.nusa_guide.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+<<<<<<< HEAD
+=======
+import androidx.compose.foundation.layout.Box
+>>>>>>> cf1020ed00ac568b129a3e16336175fa6d1ed24b
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,12 +15,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+<<<<<<< HEAD
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+=======
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.OutlinedTextField
+>>>>>>> cf1020ed00ac568b129a3e16336175fa6d1ed24b
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -33,6 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+<<<<<<< HEAD
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
@@ -49,11 +62,21 @@ import com.example.nusa_guide.ui.theme.gray
 
 @Composable
 fun VerificationCodeScreen(navController: NavController) {
+=======
+import com.example.nusa_guide.R
+import com.example.nusa_guide.ui.theme.BlueButton
+import com.example.nusa_guide.ui.theme.Gray70
+
+
+@Composable
+fun VerificationCodeScreen() {
+>>>>>>> cf1020ed00ac568b129a3e16336175fa6d1ed24b
     var code1 by remember { mutableStateOf("") }
     var code2 by remember { mutableStateOf("") }
     var code3 by remember { mutableStateOf("") }
     var code4 by remember { mutableStateOf("") }
 
+<<<<<<< HEAD
     val focusRequester1 = remember { FocusRequester() }
     val focusRequester2 = remember { FocusRequester() }
     val focusRequester3 = remember { FocusRequester() }
@@ -66,10 +89,18 @@ fun VerificationCodeScreen(navController: NavController) {
             .padding(horizontal = 16.dp),
     ) {
         Spacer(modifier = Modifier.height(36.dp))
+=======
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(horizontal = 30.dp, vertical = 20.dp)
+    ) {
+>>>>>>> cf1020ed00ac568b129a3e16336175fa6d1ed24b
         Text(
             text = "Verifikasi Kode",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
+<<<<<<< HEAD
             color = gray700,
         )
         Spacer(modifier = Modifier.height(40.dp))
@@ -235,12 +266,142 @@ fun VerificationCodeScreen(navController: NavController) {
                     fontSize = 14.sp
                 )
             }
+=======
+            color = Gray70,
+            textAlign = TextAlign.Center
+        )
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        val imagePainter = painterResource(id = R.drawable.verification_code_img)
+        Image(
+            painter = imagePainter, contentDescription = null, modifier = Modifier.size(400.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Masukkan kode verifikasi yang sudah kami kirimkan ke email yang sudah kamu masukkan!",
+            fontSize = 16.sp,
+            color = Color(0xFF6B7280),
+            modifier = Modifier.padding(horizontal = 16.dp),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Kode Verifikasi",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            OutlinedTextField(
+                value = code1,
+                shape = RoundedCornerShape(10.dp),
+                onValueChange = { if (it.length <= 1) code1 = it },
+                modifier = Modifier
+                    .size(80.dp)
+                    .padding(1.dp),
+                singleLine = true,
+                textStyle = LocalTextStyle.current.copy(
+                    textAlign = TextAlign.Center, fontSize = 24.sp
+                )
+            )
+            OutlinedTextField(
+                value = code2,
+                shape = RoundedCornerShape(10.dp),
+                onValueChange = { if (it.length <= 1) code2 = it },
+                modifier = Modifier
+                    .size(80.dp)
+                    .padding(1.dp),
+                singleLine = true,
+                textStyle = LocalTextStyle.current.copy(
+                    textAlign = TextAlign.Center, fontSize = 24.sp
+                )
+            )
+            OutlinedTextField(
+                value = code3,
+                shape = RoundedCornerShape(10.dp),
+                onValueChange = { if (it.length <= 1) code3 = it },
+                modifier = Modifier
+                    .size(80.dp)
+                    .padding(1.dp),
+                singleLine = true,
+                textStyle = LocalTextStyle.current.copy(
+                    textAlign = TextAlign.Center, fontSize = 24.sp
+                )
+            )
+            OutlinedTextField(
+                value = code4,
+                shape = RoundedCornerShape(10.dp),
+                onValueChange = { if (it.length <= 1) code4 = it },
+                modifier = Modifier
+                    .size(80.dp)
+                    .padding(1.dp),
+                singleLine = true,
+                textStyle = LocalTextStyle.current.copy(
+                    textAlign = TextAlign.Center, fontSize = 24.sp
+                )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Button(
+            onClick = { /* TODO: Add navigation logic */ },
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = BlueButton),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+        ) {
+            Text(
+                text = "Konfirmasi",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextButton(onClick = { /* TODO: Add back logic */ }) {
+            Text(
+                text = "Kembali",
+                color = Color(0xFF469CAD),
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp
+            )
+>>>>>>> cf1020ed00ac568b129a3e16336175fa6d1ed24b
         }
     }
 }
 
+<<<<<<< HEAD
 @Preview(showSystemUi = true)
 @Composable
 fun VerificationCodeScreenPreview() {
     VerificationCodeScreen(rememberNavController())
+=======
+
+@Preview
+@Composable
+fun VerificationCodeScreenPreview() {
+    VerificationCodeScreen()
+>>>>>>> cf1020ed00ac568b129a3e16336175fa6d1ed24b
 }
