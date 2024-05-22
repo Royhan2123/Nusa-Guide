@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.PaketPremium
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
+import com.example.nusa_guide.ui.theme.brandPrimary500
 
 @Composable
 fun PaketPremiumItem(paketPremium: PaketPremium) {
@@ -76,7 +77,7 @@ fun PaketPremiumItem(paketPremium: PaketPremium) {
                         modifier = Modifier
                             .clip(CircleShape)
                             .background(Color.White)
-                            .padding(8.dp)
+                            .padding(2.dp)
                     ) {
                         IconButton(
                             onClick = { /* TODO: Handle favorite click */ },
@@ -109,26 +110,10 @@ fun PaketPremiumItem(paketPremium: PaketPremium) {
                 )
                 // Informasi Detail
                 Column(modifier = Modifier.padding(top = 4.dp)) {
-                    Text(
-                        text = "Premium",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
-                    )
-                    Text(
-                        text = "Wisata, Budaya",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
-                    )
-                    Text(
-                        text = "Include penginapan",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
-                    )
-                    Text(
-                        text = "Tersedia penjemputan",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
-                    )
+                    RowWithIconAndText(text = "Premium", iconId = R.drawable.icon_premium)
+                    RowWithIconAndText(text = "Wisata, Budaya", iconId = R.drawable.icon_wisata)
+                    RowWithIconAndText(text = "Include penginapan", iconId = R.drawable.icon_include)
+                    RowWithIconAndText(text = "Tersedia penjemputan", iconId = R.drawable.icon_car)
                 }
                 // Harga
                 Row(
@@ -142,12 +127,28 @@ fun PaketPremiumItem(paketPremium: PaketPremium) {
                         text = "Rp. ${paketPremium.harga} / Orang",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = brandPrimary500
                     )
-
                 }
             }
         }
+    }
+}
+
+@Composable
+fun RowWithIconAndText(text: String, iconId: Int) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            painter = painterResource(id = iconId),
+            contentDescription = null,
+            tint = Color.Gray,
+            modifier = Modifier.size(16.dp).padding(end = 8.dp)
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.Gray
+        )
     }
 }
 

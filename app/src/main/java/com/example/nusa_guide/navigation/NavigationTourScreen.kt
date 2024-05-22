@@ -13,6 +13,8 @@ enum class NavigationTourScreen {
     ChangePasswordSuccessScreen,
     ForgotPasswordScreen,
     VerificationCodeScreen,
+    RekomendasiScreen,
+    PaketPremiumScreen,
     SearchScreen;
 
     fun fromRoute(route:String?): NavigationTourScreen =
@@ -30,6 +32,8 @@ enum class NavigationTourScreen {
             ChangePasswordSuccessScreen.name -> ChangePasswordSuccessScreen
             ForgotPasswordScreen.name -> ForgotPasswordScreen
             VerificationCodeScreen.name -> VerificationCodeScreen
+            RekomendasiScreen.name -> RekomendasiScreen
+            PaketPremiumScreen.name -> PaketPremiumScreen
             SearchScreen.name -> SearchScreen
 
             null -> SplashScreen

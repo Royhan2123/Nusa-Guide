@@ -6,16 +6,20 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.PaketPremiumItem
 import com.example.nusa_guide.model.PaketPremium
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
 
 @Composable
-fun PaketPremiumScreen(paketPremiumList: List<PaketPremium>) {
+fun PaketPremiumScreen(
+    navController: NavController,
+    paketPremiumList: List<PaketPremium>) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(8.dp)
+        columns = GridCells.Adaptive(140.dp),
+        contentPadding = PaddingValues(2.dp)
     ) {
         items(paketPremiumList.size) { index ->
             PaketPremiumItem(paketPremium = paketPremiumList[index])
@@ -71,6 +75,6 @@ fun PaketPremiumScreenPreview() {
                 jarak = 64
             ),
         )
-        PaketPremiumScreen(paketPremiumList = dummyData)
+        PaketPremiumScreen(rememberNavController(), dummyData)
     }
 }

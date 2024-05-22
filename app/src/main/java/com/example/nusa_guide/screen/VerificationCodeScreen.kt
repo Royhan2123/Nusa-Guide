@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -43,6 +44,7 @@ import com.example.nusa_guide.widget.ButtonStyle
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import com.example.nusa_guide.ui.theme.gray
 
 @Composable
@@ -129,6 +131,9 @@ fun VerificationCodeScreen(navController: NavController) {
                         focusedBorderColor = brandPrimary500,
                         unfocusedBorderColor = gray
                     ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
                 )
                 OutlinedTextField(
                     value = code2,
@@ -154,6 +159,9 @@ fun VerificationCodeScreen(navController: NavController) {
                         focusedBorderColor = brandPrimary500,
                         unfocusedBorderColor = gray
                     ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
                 )
                 OutlinedTextField(
                     value = code3,
@@ -179,6 +187,9 @@ fun VerificationCodeScreen(navController: NavController) {
                         focusedBorderColor = brandPrimary500,
                         unfocusedBorderColor = gray
                     ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
                 )
                 OutlinedTextField(
                     value = code4,
@@ -198,6 +209,9 @@ fun VerificationCodeScreen(navController: NavController) {
                         focusedBorderColor = brandPrimary500,
                         unfocusedBorderColor = gray
                     ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
                 )
             }
 

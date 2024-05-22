@@ -22,6 +22,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.component.HomeScreen
+import com.example.nusa_guide.model.DummyData.paketPremiumList
+import com.example.nusa_guide.model.DummyData.rekomendasiList
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray400
 
@@ -30,11 +34,12 @@ sealed class BottomNavigationScreen(
     val iconOutlined: Int,
     val iconFilled: Int,
 ) {
-    data object HomeScreen : BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
-    data object RiwayatScreen : BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
-    data object FavoritScreen : BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
-    data object ProfileScreen : BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
+    object HomeScreen : BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
+    object RiwayatScreen : BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
+    object FavoritScreen : BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
+    object ProfileScreen : BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
 }
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HalamanBottom() {
@@ -88,10 +93,11 @@ fun HalamanBottom() {
                 }
             }
         },
-        content = {
+        content = { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = BottomNavigationScreen.HomeScreen.title
+                startDestination = BottomNavigationScreen.HomeScreen.title,
+                modifier = Modifier.padding(innerPadding) // Apply innerPadding to NavHost
             ) {
                 composable(BottomNavigationScreen.HomeScreen.title) {
                     HomeScreen(navController = navController)
@@ -104,6 +110,15 @@ fun HalamanBottom() {
                 }
                 composable(BottomNavigationScreen.ProfileScreen.title) {
                     ProfilScreen(navController = navController)
+                }
+                composable(NavigationTourScreen.RekomendasiScreen.name) {
+                    RekomendasiScreen(navController, rekomendasiList)
+                }
+                composable(NavigationTourScreen.PaketPremiumScreen.name) {
+                    PaketPremiumScreen(navController, paketPremiumList)
+                }
+                composable(NavigationTourScreen.SearchScreen.name) {
+                    SearchScreen(navController)
                 }
             }
         }

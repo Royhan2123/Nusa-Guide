@@ -1,6 +1,5 @@
 package com.example.nusa_guide.screen
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -24,7 +23,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,96 +35,94 @@ import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.grayText
 import com.example.nusa_guide.widget.ButtonStyle
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsWithImePadding
 
 @Composable
 fun ForgotPasswordScreen(navController: NavController) {
     val emailState = remember { mutableStateOf(TextFieldValue()) }
 
-    ProvideWindowInsets {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState())
-                .navigationBarsWithImePadding(),
-            horizontalAlignment = Alignment.Start
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Spacer(modifier = Modifier.height(36.dp))
+        Text(
+            text = "Lupa Kata Sandi?",
+            fontSize = 32.sp,
+            fontWeight = FontWeight.Bold,
+            color = gray700,
+        )
+
+        Spacer(modifier = Modifier.height(40.dp))
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-            Spacer(modifier = Modifier.height(36.dp))
-            Text(
-                text = "Lupa Kata Sandi?",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = gray700,
+            Image(
+                painter = painterResource(R.drawable.ic_avatar),
+                contentDescription = "Avatar",
+                modifier = Modifier.height(280.dp)
             )
+        }
+        Spacer(modifier = Modifier.height(40.dp))
 
-            Spacer(modifier = Modifier.height(40.dp))
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_avatar),
-                    contentDescription = "Avatar",
-                    modifier = Modifier.height(280.dp)
+        Text(
+            text = "Masukkan email yang kamu gunakan, kami akan mengirimkan kode OTP ke email yang kamu masukkan",
+            fontSize = 15.sp,
+            color = grayText
+        )
+
+        Spacer(modifier = Modifier.height(18.dp))
+        Text(
+            text = "Email",
+            fontSize = 17.sp,
+            color = Color(0XFF1F2A37),
+            fontWeight = FontWeight.SemiBold
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        OutlinedTextField(
+            placeholder = {
+                Text(text = "Input your email here", color = Color(0xFFABABAB))
+            },
+            value = emailState.value,
+            onValueChange = { emailState.value = it },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Email,
+                    contentDescription = null,
+                    tint = gray,
                 )
-            }
-            Spacer(modifier = Modifier.height(40.dp))
-
-            Text(
-                text = "Masukkan email yang kamu gunakan, kami akan mengirimkan kode OTP ke email yang kamu masukkan",
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = brandPrimary500,
+                unfocusedBorderColor = gray
+            ),
+            shape = RoundedCornerShape(10.dp),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Email
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
+            textStyle = TextStyle(
                 fontSize = 15.sp,
-                color = grayText
-            )
+                color = Color.Black
+            ),
+        )
 
-            Spacer(modifier = Modifier.height(18.dp))
-            Text(
-                text = "Email",
-                fontSize = 17.sp,
-                color = Color(0XFF1F2A37),
-                fontWeight = FontWeight.SemiBold
-            )
-            Spacer(modifier = Modifier.height(5.dp))
-            OutlinedTextField(
-                placeholder = {
-                    Text(text = "Input your email here", color = Color(0xFFABABAB))
-                },
-                value = emailState.value,
-                onValueChange = { emailState.value = it },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Email,
-                        contentDescription = null,
-                        tint = gray,
-                    )
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = brandPrimary500,
-                    unfocusedBorderColor = gray
-                ),
-                shape = RoundedCornerShape(10.dp),
-                singleLine = true,
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Email
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
-                textStyle = TextStyle(
-                    fontSize = 15.sp,
-                    color = Color.Black
-                ),
-            )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            ButtonStyle(onClicked = {
+        ButtonStyle(
+            onClicked = {
                 navController.navigate(
                     NavigationTourScreen.VerificationCodeScreen.name
                 )
-            }, text = "Kirim")
-        }
+            },
+            text = "Kirim"
+        )
     }
 }
 

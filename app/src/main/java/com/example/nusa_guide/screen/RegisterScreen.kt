@@ -434,7 +434,11 @@ fun RegisterScreen(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(22.dp))
         ButtonStyle(
-            onClicked = { /*TODO*/ },
+            onClicked = {
+                        navController.navigate(
+                            NavigationTourScreen.LoginScreen.name
+                        )
+            },
             text = stringResource(id = R.string.register),
         )
         Spacer(modifier = Modifier.weight(1f))
