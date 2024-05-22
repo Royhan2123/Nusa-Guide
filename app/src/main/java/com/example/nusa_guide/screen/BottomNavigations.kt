@@ -34,10 +34,10 @@ sealed class BottomNavigationScreen(
     val iconOutlined: Int,
     val iconFilled: Int,
 ) {
-    object HomeScreen : BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
-    object RiwayatScreen : BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
-    object FavoritScreen : BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
-    object ProfileScreen : BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
+    data object HomeScreen : BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
+    data object RiwayatScreen : BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
+   data object FavoritScreen : BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
+   data object ProfileScreen : BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
