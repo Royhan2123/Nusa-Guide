@@ -5,7 +5,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.component.HomeScreen
 import com.example.nusa_guide.model.Rekomendasi
 import com.example.nusa_guide.screen.*
 
@@ -16,7 +15,6 @@ fun NavigationsTour() {
     val rekomendasiList = listOf(
         Rekomendasi(1, "Pantai Kuta", R.drawable.tour_image_1, 50000, 10),
         Rekomendasi(2, "Pura Besakih", R.drawable.tour_image_1, 75000, 25),
-        // Tambahkan item lainnya sesuai kebutuhan
     )
 
     NavHost(

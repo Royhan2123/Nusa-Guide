@@ -1,5 +1,4 @@
-package com.example.nusa_guide.component
-
+package com.example.nusa_guide.screen
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,6 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.component.PaketPremiumItem
+import com.example.nusa_guide.component.RekomendasiItem
 import com.example.nusa_guide.model.DummyData
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
@@ -142,19 +143,6 @@ fun SearchBar(navController: NavController) {
             )
         }
     }
-//    OutlinedTextField(
-//        value = searchText,
-//        onValueChange = { newText -> searchText = newText },
-//        label = { Text("Cari tour guide Anda") },
-//        singleLine = true,
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .clickable {
-//                navController.navigate(
-//                    NavigationTourScreen.SearchScreen.name
-//                )
-//            }
-//    )
 }
 
 @Composable

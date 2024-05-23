@@ -22,7 +22,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.component.HomeScreen
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.DummyData.rekomendasiList
 import com.example.nusa_guide.navigation.NavigationTourScreen
