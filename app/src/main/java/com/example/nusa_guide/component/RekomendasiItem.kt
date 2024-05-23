@@ -31,7 +31,7 @@ fun RekomendasiItem(rekomendasi: Rekomendasi) {
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .width(220.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {

@@ -28,8 +28,8 @@ fun PaketPremiumItem(paketPremium: PaketPremium) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
+            .padding(8.dp)
+            .width(230.dp)
     ) {
         Column {
             Box {

@@ -3,9 +3,6 @@ package com.example.nusa_guide.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -22,19 +19,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.PaketRegular
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
+import com.example.nusa_guide.ui.theme.brandPrimary500
 
 @Composable
 fun PaketRegularItem(paketRegular: PaketRegular) {
     Card(
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .padding(16.dp)
-            .width(200.dp)
+            .padding(8.dp)
+            .width(220.dp)
     ) {
         Column {
             Box(
@@ -141,6 +137,7 @@ fun PaketRegularItem(paketRegular: PaketRegular) {
                 text = "Rp ${paketRegular.harga} /orang",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
+                color = brandPrimary500,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     .padding(4.dp)
@@ -149,63 +146,18 @@ fun PaketRegularItem(paketRegular: PaketRegular) {
     }
 }
 
-
-
 @Preview(showBackground = true)
 @Composable
-fun PaketRegularCardPreview() {
+fun PaketRegularItemPreview() {
     NusaGuideTheme {
-        val navController = rememberNavController()
-        val dummyData = listOf(
-            PaketRegular(
-                id = 1,
-                nama = "3 Wisata - 2 Hari",
-                gambar = R.drawable.tour_image_1,
-                harga = 350000,
-                jarak = 0.64,
-                rating = 4.5f
-            ),
-            PaketRegular(
-                id = 2,
-                nama = "2 Wisata - 1 Hari",
-                gambar = R.drawable.tour_image_1,
-                harga = 250000,
-                jarak = 0.34,
-                rating = 4.0f
-            ),
-            PaketRegular(
-                id = 3,
-                nama = "4 Wisata - 3 Hari",
-                gambar = R.drawable.tour_image_1,
-                harga = 450000,
-                jarak = 1.0,
-                rating = 4.8f
-            ),
-            PaketRegular(
-                id = 4,
-                nama = "5 Wisata - 4 Hari",
-                gambar = R.drawable.tour_image_1,
-                harga = 500000,
-                jarak = 1.5,
-                rating = 4.7f
-            ),
-            PaketRegular(
-                id = 5,
-                nama = "6 Wisata - 5 Hari",
-                gambar = R.drawable.tour_image_1,
-                harga = 550000,
-                jarak = 2.0,
-                rating = 4.9f
-            ),
-            PaketRegular(
-                id = 6,
-                nama = "7 Wisata - 6 Hari",
-                gambar = R.drawable.tour_image_1,
-                harga = 600000,
-                jarak = 2.5,
-                rating = 5.0f
-            ),
+        val dummyData = PaketRegular(
+            id = 1,
+            nama = "3 Wisata - 2 Hari",
+            gambar = R.drawable.tour_image_1,
+            harga = 350000,
+            jarak = 0.64,
+            rating = 4.5f
         )
-        PaketRegularScreen(navController = navController, paketRegularList = dummyData)
+        PaketRegularItem(paketRegular = dummyData)
     }
 }
