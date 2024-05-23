@@ -120,6 +120,9 @@ fun HalamanBottom() {
                 composable(NavigationTourScreen.SearchScreen.name) {
                     SearchScreen(navController)
                 }
+                composable(NavigationTourScreen.AboutProfileScreen.name) {
+                    AboutProfileScreen()
+                }
             }
         }
     )

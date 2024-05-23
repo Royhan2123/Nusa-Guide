@@ -1,5 +1,6 @@
 package com.example.nusa_guide.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,7 +27,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
+import com.example.nusa_guide.ui.theme.gray700
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -107,21 +110,49 @@ fun NotificationIcon() {
 
 @Composable
 fun SearchBar(navController: NavController) {
-    var searchText by remember { mutableStateOf("") }
 
-    OutlinedTextField(
-        value = searchText,
-        onValueChange = { searchText  = it },
-        label = { Text("Cari tour guide Anda") },
-        singleLine = true,
+    Spacer(modifier = Modifier.height(10.dp))
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .height(50.dp)
             .clickable {
                 navController.navigate(
                     NavigationTourScreen.SearchScreen.name
                 )
-            }
-    )
+            },
+        border = BorderStroke(
+            width = 1.dp,
+            color = black51
+        ),
+        shape = RoundedCornerShape(
+            size = 10.dp
+        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+            modifier = Modifier.padding(10.dp)
+        ) {
+            Text(
+                text = "Cari tour guide Anda",
+                color = gray700,
+            )
+        }
+    }
+//    OutlinedTextField(
+//        value = searchText,
+//        onValueChange = { newText -> searchText = newText },
+//        label = { Text("Cari tour guide Anda") },
+//        singleLine = true,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .clickable {
+//                navController.navigate(
+//                    NavigationTourScreen.SearchScreen.name
+//                )
+//            }
+//    )
 }
 
 @Composable
