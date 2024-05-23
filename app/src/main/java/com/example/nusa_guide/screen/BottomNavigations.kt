@@ -22,8 +22,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.component.HomeScreen
 import com.example.nusa_guide.model.DummyData.paketPremiumList
+import com.example.nusa_guide.model.DummyData.paketRegularList
 import com.example.nusa_guide.model.DummyData.rekomendasiList
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
@@ -116,6 +116,9 @@ fun HalamanBottom() {
                 }
                 composable(NavigationTourScreen.PaketPremiumScreen.name) {
                     PaketPremiumScreen(navController, paketPremiumList)
+                }
+                composable(NavigationTourScreen.PaketRegulerScreen.name) {
+                    PaketRegularScreen(navController, paketRegularList)
                 }
                 composable(NavigationTourScreen.SearchScreen.name) {
                     SearchScreen(navController)

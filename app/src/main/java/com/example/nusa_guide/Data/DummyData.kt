@@ -120,4 +120,47 @@ object DummyData {
             jarak = 22
         )
     )
+
+    val paketRegularList = listOf(
+        PaketRegular(
+            id = 1,
+            nama = "Pantai Kuta",
+            gambar = R.drawable.tour_image_1, // pastikan untuk memiliki gambar yang sesuai di drawable
+            harga = 50000,
+            jarak = 10.0,
+            rating = 4.5f
+        ),
+        PaketRegular(
+            id = 2,
+            nama = "Ubud Monkey Forest",
+            gambar = R.drawable.bg_on_boarding, // pastikan untuk memiliki gambar yang sesuai di drawable
+            harga = 75000,
+            jarak = 20.0,
+            rating = 4.7f
+        ),
+        PaketRegular(
+            id = 3,
+            nama = "Tanah Lot",
+            gambar = R.drawable.tour_image_1, // pastikan untuk memiliki gambar yang sesuai di drawable
+            harga = 60000,
+            jarak = 30.0,
+            rating = 4.6f
+        ),
+        PaketRegular(
+            id = 4,
+            nama = "Pura Ulun Danu Bratan",
+            gambar = R.drawable.bg_on_boarding, // pastikan untuk memiliki gambar yang sesuai di drawable
+            harga = 55000,
+            jarak = 40.0,
+            rating = 4.8f
+        ),
+        PaketRegular(
+            id = 5,
+            nama = "Tegallalang Rice Terrace",
+            gambar = R.drawable.tour_image_1, // pastikan untuk memiliki gambar yang sesuai di drawable
+            harga = 45000,
+            jarak = 25.0,
+            rating = 4.4f
+        )
+    )
 }

@@ -1,4 +1,4 @@
-package com.example.nusa_guide.component
+package com.example.nusa_guide.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.component.PaketPremiumItem
+import com.example.nusa_guide.component.RekomendasiItem
 import com.example.nusa_guide.model.DummyData
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
@@ -53,6 +55,9 @@ fun HomeScreen(navController: NavController) {
         }
         item {
             PaketPremiumSection(navController)
+        }
+        item {
+            PaketRegularSection(navController)
         }
     }
 }
@@ -140,19 +145,6 @@ fun SearchBar(navController: NavController) {
             )
         }
     }
-//    OutlinedTextField(
-//        value = searchText,
-//        onValueChange = { newText -> searchText = newText },
-//        label = { Text("Cari tour guide Anda") },
-//        singleLine = true,
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .clickable {
-//                navController.navigate(
-//                    NavigationTourScreen.SearchScreen.name
-//                )
-//            }
-//    )
 }
 
 @Composable
@@ -303,6 +295,49 @@ fun PaketPremiumSection(navController: NavController) {
     }
 }
 
+@Composable
+fun PaketRegularSection(navController: NavController) {
+    Column(modifier = Modifier.padding(2.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Paket Reguler",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Paket Wisata Terjangkau Buat Kamu",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+            Text(
+                text = "Lihat Semua >",
+                color = brandPrimary500,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate(
+                            NavigationTourScreen.PaketRegulerScreen.name
+                        )
+                    }
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            items(DummyData.paketRegularList) { paketRegular ->
+                PaketRegularItem(paketRegular)
+            }
+        }
+    }
+}
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {

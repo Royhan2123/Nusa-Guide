@@ -15,6 +15,7 @@ enum class NavigationTourScreen {
     VerificationCodeScreen,
     RekomendasiScreen,
     PaketPremiumScreen,
+    PaketRegulerScreen,
     SearchScreen,
     AboutProfileScreen;
 
@@ -35,6 +36,7 @@ enum class NavigationTourScreen {
             VerificationCodeScreen.name -> VerificationCodeScreen
             RekomendasiScreen.name -> RekomendasiScreen
             PaketPremiumScreen.name -> PaketPremiumScreen
+            PaketRegulerScreen.name -> PaketRegulerScreen
             SearchScreen.name -> SearchScreen
             AboutProfileScreen.name -> AboutProfileScreen
 
