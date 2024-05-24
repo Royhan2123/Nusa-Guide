@@ -72,5 +72,11 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.AboutProfileScreen.name) {
             AboutProfileScreen()
         }
+        composable(NavigationTourScreen.UlasanScreen.name) {
+            UlasanScreen(navController)
+        }
+        composable(NavigationTourScreen.FilteringScreen.name) {
+            FilteringScreen(navController)
+        }
     }
 }

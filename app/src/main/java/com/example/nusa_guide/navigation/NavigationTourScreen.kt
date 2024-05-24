@@ -1,4 +1,6 @@
 package com.example.nusa_guide.navigation
+
+
 enum class NavigationTourScreen {
     SplashScreen,
     OnBoardingScreen,
@@ -16,7 +18,9 @@ enum class NavigationTourScreen {
     RekomendasiScreen,
     PaketPremiumScreen,
     SearchScreen,
-    AboutProfileScreen;
+    AboutProfileScreen,
+    UlasanScreen,
+    FilteringScreen;
 
     fun fromRoute(route:String?): NavigationTourScreen =
         when (route?.substringBefore("/")) {
@@ -37,6 +41,8 @@ enum class NavigationTourScreen {
             PaketPremiumScreen.name -> PaketPremiumScreen
             SearchScreen.name -> SearchScreen
             AboutProfileScreen.name -> AboutProfileScreen
+            UlasanScreen.name -> UlasanScreen
+            FilteringScreen.name -> FilteringScreen
 
             null -> SplashScreen
             else -> throw IllegalArgumentException("Route $route is not recognized.")

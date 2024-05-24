@@ -122,6 +122,9 @@ fun HalamanBottom() {
                 composable(NavigationTourScreen.AboutProfileScreen.name) {
                     AboutProfileScreen()
                 }
+                composable(NavigationTourScreen.UlasanScreen.name) {
+                    UlasanScreen(navController)
+                }
             }
         }
     )
