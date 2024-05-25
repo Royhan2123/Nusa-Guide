@@ -1,11 +1,11 @@
 package com.example.nusa_guide.screen
 
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -124,13 +124,10 @@ fun HalamanBottom() {
                     AboutProfileScreen(navController)
                 }
                 composable(NavigationTourScreen.UlasanScreen.name) {
-                    UlasanScreen(navController)
+                    UlasanScreen(navController = navController)
                 }
                 composable(NavigationTourScreen.UlasanSuccesScreen.name) {
-                    UlasanScreen(navController)
-                }
-                composable(NavigationTourScreen.FilteringScreen.name) {
-                    UlasanScreen(navController)
+                    UlasanSuccesScreen(navController = navController)
                 }
                 composable(NavigationTourScreen.CameraXScreen.name) {
                     CameraXScreen(navController)
