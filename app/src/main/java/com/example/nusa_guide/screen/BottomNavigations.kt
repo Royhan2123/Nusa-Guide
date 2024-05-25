@@ -25,6 +25,7 @@ import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.DummyData.rekomendasiList
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.screen.cameraX.CameraXScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray400
 
@@ -120,10 +121,19 @@ fun HalamanBottom() {
                     SearchScreen(navController)
                 }
                 composable(NavigationTourScreen.AboutProfileScreen.name) {
-                    AboutProfileScreen()
+                    AboutProfileScreen(navController)
                 }
                 composable(NavigationTourScreen.UlasanScreen.name) {
                     UlasanScreen(navController)
+                }
+                composable(NavigationTourScreen.UlasanSuccesScreen.name) {
+                    UlasanScreen(navController)
+                }
+                composable(NavigationTourScreen.FilteringScreen.name) {
+                    UlasanScreen(navController)
+                }
+                composable(NavigationTourScreen.CameraXScreen.name) {
+                    CameraXScreen(navController)
                 }
             }
         }

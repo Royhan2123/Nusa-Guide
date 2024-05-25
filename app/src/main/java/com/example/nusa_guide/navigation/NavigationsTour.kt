@@ -6,7 +6,26 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.Rekomendasi
-import com.example.nusa_guide.screen.*
+import com.example.nusa_guide.screen.AboutProfileScreen
+import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
+import com.example.nusa_guide.screen.FavoritScreen
+import com.example.nusa_guide.screen.FilteringScreen
+import com.example.nusa_guide.screen.ForgotPasswordScreen
+import com.example.nusa_guide.screen.HalamanBottom
+import com.example.nusa_guide.screen.HomeScreen
+import com.example.nusa_guide.screen.LoginScreen
+import com.example.nusa_guide.screen.OnBoardingScreen
+import com.example.nusa_guide.screen.OnBoardingScreen2
+import com.example.nusa_guide.screen.ProfileScreen
+import com.example.nusa_guide.screen.RegisterScreen
+import com.example.nusa_guide.screen.RekomendasiScreen
+import com.example.nusa_guide.screen.RiwayatScreen
+import com.example.nusa_guide.screen.SearchScreen
+import com.example.nusa_guide.screen.SplashScreen
+import com.example.nusa_guide.screen.UlasanScreen
+import com.example.nusa_guide.screen.UlasanSuccesScreen
+import com.example.nusa_guide.screen.VerificationCodeScreen
+import com.example.nusa_guide.screen.cameraX.CameraXScreen
 
 @Composable
 fun NavigationsTour() {
@@ -70,13 +89,19 @@ fun NavigationsTour() {
             RekomendasiScreen(navController, rekomendasiList)
         }
         composable(NavigationTourScreen.AboutProfileScreen.name) {
-            AboutProfileScreen()
+            AboutProfileScreen(navController)
         }
         composable(NavigationTourScreen.UlasanScreen.name) {
             UlasanScreen(navController)
         }
         composable(NavigationTourScreen.FilteringScreen.name) {
             FilteringScreen(navController)
+        }
+        composable(NavigationTourScreen.UlasanSuccesScreen.name) {
+            UlasanSuccesScreen(navController)
+        }
+        composable(NavigationTourScreen.CameraXScreen.name) {
+            CameraXScreen(navController)
         }
     }
 }

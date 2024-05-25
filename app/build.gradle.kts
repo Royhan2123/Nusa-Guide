@@ -76,10 +76,10 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
     //noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
 
     //noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
 
     //noinspection UseTomlInstead
     implementation("androidx.compose.material:material:1.6.7")
@@ -90,13 +90,9 @@ dependencies {
     //noinspection UseTomlInstead
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
-    // lottie
-    //noinspection UseTomlInstead
-    implementation("com.airbnb.android:lottie-compose:4.0.0")
-
     // viewModel
     //noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
 
     // Coroutines
     //noinspection UseTomlInstead
@@ -136,4 +132,17 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager:0.24.13-rc")
     //noinspection UseTomlInstead
     implementation("com.google.accompanist:accompanist-pager-indicators:0.24.13-rc")
+    //noinspection UseTomlInstead
+    implementation ("com.google.accompanist:accompanist-flowlayout:0.23.0")
+
+
+    // CAMERA X DEPENDECIES
+    //noinspection UseTomlInstead
+    implementation("androidx.camera:camera-core:1.3.3")
+    //noinspection UseTomlInstead
+    implementation("androidx.camera:camera-camera2:1.3.3")
+    //noinspection UseTomlInstead
+    implementation("androidx.camera:camera-lifecycle:1.3.3")
+    //noinspection UseTomlInstead
+    implementation("androidx.camera:camera-view:1.3.3")
 }

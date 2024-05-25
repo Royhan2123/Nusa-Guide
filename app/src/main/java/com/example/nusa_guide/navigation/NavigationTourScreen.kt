@@ -20,7 +20,9 @@ enum class NavigationTourScreen {
     SearchScreen,
     AboutProfileScreen,
     UlasanScreen,
-    FilteringScreen;
+    UlasanSuccesScreen,
+    FilteringScreen,
+    CameraXScreen;
 
     fun fromRoute(route:String?): NavigationTourScreen =
         when (route?.substringBefore("/")) {
@@ -43,6 +45,8 @@ enum class NavigationTourScreen {
             AboutProfileScreen.name -> AboutProfileScreen
             UlasanScreen.name -> UlasanScreen
             FilteringScreen.name -> FilteringScreen
+            UlasanSuccesScreen.name -> UlasanSuccesScreen
+            CameraXScreen.name -> CameraXScreen
 
             null -> SplashScreen
             else -> throw IllegalArgumentException("Route $route is not recognized.")

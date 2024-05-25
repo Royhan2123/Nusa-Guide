@@ -17,13 +17,14 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Checkbox
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -58,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.brandPrimary600
@@ -68,18 +71,21 @@ import com.example.nusa_guide.ui.theme.gray700
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UlasanScreen(navController: NavController) {
-    var isSelected by remember {
-        mutableStateOf(false)
-    }
-    var inputUlsan by remember {
-        mutableStateOf("")
-    }
-    val (checkedState, onStateChange) = remember { mutableStateOf(true) }
-    val (checkedState2, onStateChange2) = remember { mutableStateOf(true) }
-    val (checkedState3, onStateChange3) = remember { mutableStateOf(true) }
-    val (checkedState4, onStateChange5) = remember { mutableStateOf(true) }
+    var inputUlasan by remember { mutableStateOf("") }
+    var checkedState by remember { mutableStateOf(false) }
+    var checkedState2 by remember { mutableStateOf(false) }
+    var checkedState3 by remember { mutableStateOf(false) }
+    var checkedState4 by remember { mutableStateOf(false) }
+    var checkedState5 by remember { mutableStateOf(false) }
+
+    var starRating by remember { mutableIntStateOf(0) }
 
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val isAnyChecked =
+        checkedState || checkedState2 || checkedState3 || checkedState4 || checkedState5
+    val isButtonEnabled = starRating > 0 && inputUlasan.isNotEmpty() && isAnyChecked
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -137,45 +143,15 @@ fun UlasanScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
             ) {
-                IconButton(onClick = { isSelected = !isSelected }) {
-                    Icon(
-                        imageVector = if (isSelected) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                        contentDescription = "icon-Star",
-                        tint = if (isSelected) Color.Yellow else gray,
-                        modifier = Modifier.size(50.dp)
-                    )
-                }
-                IconButton(onClick = { isSelected = !isSelected }) {
-                    Icon(
-                        imageVector = if (isSelected) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                        contentDescription = "icon-Star",
-                        tint = if (isSelected) Color.Yellow else gray,
-                        modifier = Modifier.size(50.dp)
-                    )
-                }
-                IconButton(onClick = { isSelected = !isSelected }) {
-                    Icon(
-                        imageVector = if (isSelected) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                        contentDescription = "icon-Star",
-                        tint = if (isSelected) Color.Yellow else gray,
-                        modifier = Modifier.size(50.dp)
-                    )
-                }
-                IconButton(onClick = { isSelected = !isSelected }) {
-                    Icon(
-                        imageVector = if (isSelected) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                        contentDescription = "icon-Star",
-                        tint = if (isSelected) Color.Yellow else gray,
-                        modifier = Modifier.size(50.dp)
-                    )
-                }
-                IconButton(onClick = { isSelected = !isSelected }) {
-                    Icon(
-                        imageVector = if (isSelected) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                        contentDescription = "icon-Star",
-                        tint = if (isSelected) Color.Yellow else gray,
-                        modifier = Modifier.size(50.dp)
-                    )
+                for (i in 1..5) {
+                    IconButton(onClick = { starRating = i }) {
+                        Icon(
+                            imageVector = if (starRating >= i) Icons.Filled.Star else Icons.Outlined.StarBorder,
+                            contentDescription = "icon-Star",
+                            tint = if (starRating >= i) Color.Yellow else gray,
+                            modifier = Modifier.size(50.dp)
+                        )
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(30.dp))
@@ -204,6 +180,11 @@ fun UlasanScreen(navController: NavController) {
                                 15.dp.toPx()
                             ),
                             style = paint
+                        )
+                    }
+                    .clickable {
+                        navController.navigate(
+                            NavigationTourScreen.CameraXScreen.name
                         )
                     },
                 shape = RoundedCornerShape(size = 15.dp),
@@ -245,9 +226,9 @@ fun UlasanScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(10.dp))
             OutlinedTextField(
-                value = inputUlsan,
+                value = inputUlasan,
                 onValueChange = {
-                    inputUlsan = it
+                    inputUlasan = it
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -288,99 +269,150 @@ fun UlasanScreen(navController: NavController) {
                 color = gray700
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .toggleable(
-                        value = checkedState,
-                        onValueChange = { onStateChange(!checkedState) },
-                        role = Role.Checkbox
-                    )
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row {
-                    Checkbox(
-                        checked = checkedState,
-                        onCheckedChange = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        text = "Option selection",
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .toggleable(
+                                value = checkedState,
+                                onValueChange = { checkedState = it },
+                                role = Role.Checkbox
+                            )
+                    ) {
+                        Checkbox(
+                            checked = checkedState,
+                            onCheckedChange = null,
+                            modifier = Modifier.size(20.dp),
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = brandPrimary500,
+                                uncheckedColor = brandPrimary500,
+                                checkmarkColor = brandPrimary600
+                            )
+                        )
+                        Text(
+                            text = "Lokasi Dekat dari Kota",
+                            fontSize = 13.sp,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .toggleable(
+                                value = checkedState2,
+                                onValueChange = { checkedState2 = it },
+                                role = Role.Checkbox
+                            )
+                    ) {
+                        Checkbox(
+                            checked = checkedState2,
+                            onCheckedChange = null,
+                            modifier = Modifier.size(20.dp),
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = brandPrimary500,
+                                uncheckedColor = brandPrimary500,
+                                checkmarkColor = brandPrimary600
+                            )
+                        )
+                        Text(
+                            text = "Akses Mudah",
+                            fontSize = 13.sp,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
+                    }
                 }
-                Row {
-                    Checkbox(
-                        checked = checkedState,
-                        onCheckedChange = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        text = "Option selection",
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .toggleable(
+                                value = checkedState3,
+                                onValueChange = { checkedState3 = it },
+                                role = Role.Checkbox
+                            )
+                    ) {
+                        Checkbox(
+                            checked = checkedState3,
+                            onCheckedChange = null,
+                            modifier = Modifier.size(20.dp),
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = brandPrimary500,
+                                uncheckedColor = brandPrimary500,
+                                checkmarkColor = brandPrimary600
+                            )
+                        )
+                        Text(
+                            text = "Biayanya Murah hehe",
+                            fontSize = 13.sp,
+
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .toggleable(
+                                value = checkedState5,
+                                onValueChange = { checkedState5 = it },
+                                role = Role.Checkbox
+                            )
+                    ) {
+                        Checkbox(
+                            checked = checkedState5,
+                            onCheckedChange = null,
+                            modifier = Modifier.size(20.dp),
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = brandPrimary500,
+                                uncheckedColor = brandPrimary500,
+                                checkmarkColor = brandPrimary600
+                            )
+                        )
+                        Text(
+                            text = "Sesuai Ekspetasi",
+                            fontSize = 13.sp,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
+                    }
                 }
-            }
-            Spacer(modifier = Modifier.height(15.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .toggleable(
-                        value = checkedState,
-                        onValueChange = { onStateChange(!checkedState) },
-                        role = Role.Checkbox
-                    )
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row {
-                    Checkbox(
-                        checked = checkedState,
-                        onCheckedChange = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        text = "Option selection",
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
-                }
-                Row {
-                    Checkbox(
-                        checked = checkedState,
-                        onCheckedChange = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        text = "Option selection",
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(15.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .toggleable(
-                        value = checkedState,
-                        onValueChange = { onStateChange(!checkedState) },
-                        role = Role.Checkbox
-                    )
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Row {
-                    Checkbox(
-                        checked = checkedState,
-                        onCheckedChange = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        text = "Option selection",
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start,
+
+                    ) {
+                    Row(
+                        modifier = Modifier
+                            .toggleable(
+                                value = checkedState4,
+                                onValueChange = { checkedState4 = it },
+                                role = Role.Checkbox
+                            )
+                    ) {
+                        Checkbox(
+                            checked = checkedState4,
+                            onCheckedChange = null,
+                            modifier = Modifier.size(20.dp),
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = brandPrimary500,
+                                uncheckedColor = brandPrimary500,
+                                checkmarkColor = brandPrimary600
+                            )
+                        )
+                        Text(
+                            text = "Pemandangan bagus",
+                            fontSize = 13.sp,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
+                    }
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -390,11 +422,16 @@ fun UlasanScreen(navController: NavController) {
             ) {
                 ElevatedButton(
                     onClick = {
-
+                        if (isButtonEnabled) {
+                            navController.navigate(
+                                NavigationTourScreen.UlasanSuccesScreen.name
+                            )
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(
-                        brandPrimary500
+                        if (isButtonEnabled) brandPrimary500 else gray
                     ),
+                    enabled = isButtonEnabled,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(45.dp),
@@ -412,7 +449,6 @@ fun UlasanScreen(navController: NavController) {
         }
     }
 }
-
 
 @Preview(showSystemUi = true)
 @Composable

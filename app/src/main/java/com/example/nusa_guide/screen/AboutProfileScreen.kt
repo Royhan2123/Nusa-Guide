@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -36,6 +35,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.ui.theme.BlueButton
 import com.example.nusa_guide.ui.theme.BrandPrimary400
@@ -47,7 +48,7 @@ import com.example.nusa_guide.ui.theme.Gray80
 @OptIn(ExperimentalMaterial3Api::class)
 
 @Composable
-fun AboutProfileScreen() {
+fun AboutProfileScreen(navController: NavController) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(
             title = {
@@ -56,7 +57,9 @@ fun AboutProfileScreen() {
                 )
             },
             navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
                     Icon(
                         imageVector= Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                         contentDescription = null
@@ -134,5 +137,5 @@ fun ProfileTextField(label: String, value: String) {
 @Preview
 @Composable
 fun AboutProfileScreenPreview() {
-    AboutProfileScreen()
+    AboutProfileScreen(rememberNavController())
 }
