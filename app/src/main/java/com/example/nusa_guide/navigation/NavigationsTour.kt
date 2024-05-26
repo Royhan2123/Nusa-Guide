@@ -56,7 +56,7 @@ fun NavigationsTour() {
             RegisterScreen(navController = navController)
         }
         composable(NavigationTourScreen.HalamanBottom.name) {
-            HalamanBottom()
+            HalamanBottom(navController)
         }
         composable(NavigationTourScreen.HomeScreen.name) {
             HomeScreen(navController)

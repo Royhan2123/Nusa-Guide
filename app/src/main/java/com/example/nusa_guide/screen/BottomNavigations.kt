@@ -15,17 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.model.DummyData.paketPremiumList
-import com.example.nusa_guide.model.DummyData.rekomendasiList
-import com.example.nusa_guide.navigation.NavigationTourScreen
-import com.example.nusa_guide.screen.cameraX.CameraXScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray400
 
@@ -36,14 +32,14 @@ sealed class BottomNavigationScreen(
 ) {
     data object HomeScreen : BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
     data object RiwayatScreen : BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
-   data object FavoritScreen : BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
-   data object ProfileScreen : BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
+    data object FavoritScreen : BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
+    data object ProfileScreen : BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HalamanBottom() {
-    val navController = rememberNavController()
+fun HalamanBottom(navController: NavController) {
+    val bottomNavController = rememberNavController()
 
     val items = listOf(
         BottomNavigationScreen.HomeScreen,
@@ -58,15 +54,15 @@ fun HalamanBottom() {
                 backgroundColor = Color.White,
                 elevation = 10.dp
             ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
                 items.forEach { screen ->
                     val icon = if (currentRoute == screen.title) screen.iconFilled else screen.iconOutlined
                     BottomNavigationItem(
                         selected = currentRoute == screen.title,
                         onClick = {
-                            navController.navigate(screen.title) {
-                                popUpTo(navController.graph.startDestinationId) {
+                            bottomNavController.navigate(screen.title) {
+                                popUpTo(bottomNavController.graph.startDestinationId) {
                                     saveState = true
                                 }
                                 launchSingleTop = true
@@ -95,9 +91,9 @@ fun HalamanBottom() {
         },
         content = { innerPadding ->
             NavHost(
-                navController = navController,
+                navController = bottomNavController,
                 startDestination = BottomNavigationScreen.HomeScreen.title,
-                modifier = Modifier.padding(innerPadding) // Apply innerPadding to NavHost
+                modifier = Modifier.padding(innerPadding)
             ) {
                 composable(BottomNavigationScreen.HomeScreen.title) {
                     HomeScreen(navController = navController)
@@ -111,34 +107,7 @@ fun HalamanBottom() {
                 composable(BottomNavigationScreen.ProfileScreen.title) {
                     ProfileScreen(navController = navController)
                 }
-                composable(NavigationTourScreen.RekomendasiScreen.name) {
-                    RekomendasiScreen(navController, rekomendasiList)
-                }
-                composable(NavigationTourScreen.PaketPremiumScreen.name) {
-                    PaketPremiumScreen(navController, paketPremiumList)
-                }
-                composable(NavigationTourScreen.SearchScreen.name) {
-                    SearchScreen(navController)
-                }
-                composable(NavigationTourScreen.AboutProfileScreen.name) {
-                    AboutProfileScreen(navController)
-                }
-                composable(NavigationTourScreen.UlasanScreen.name) {
-                    UlasanScreen(navController = navController)
-                }
-                composable(NavigationTourScreen.UlasanSuccesScreen.name) {
-                    UlasanSuccesScreen(navController = navController)
-                }
-                composable(NavigationTourScreen.CameraXScreen.name) {
-                    CameraXScreen(navController)
-                }
             }
         }
     )
-}
-
-@Preview
-@Composable
-fun PreviewHalamanBottom() {
-    HalamanBottom()
 }
