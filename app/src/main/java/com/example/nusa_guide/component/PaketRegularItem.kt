@@ -29,7 +29,7 @@ fun PaketRegularItem(paketRegular: PaketRegular) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .padding(8.dp)
+            .padding(2.dp)
             .width(220.dp)
     ) {
         Column {

@@ -1,7 +1,6 @@
 package com.example.nusa_guide.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -9,6 +8,7 @@ import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.Rekomendasi
 import com.example.nusa_guide.screen.*
+import com.example.nusa_guide.screen.detail_screen.DetailScreen
 
 @Composable
 fun NavigationsTour() {
@@ -73,6 +73,9 @@ fun NavigationsTour() {
         }
         composable(NavigationTourScreen.AboutProfileScreen.name) {
             AboutProfileScreen()
+        }
+        composable(NavigationTourScreen.DetailScreen.name) {
+            DetailScreen()
         }
     }
 }
