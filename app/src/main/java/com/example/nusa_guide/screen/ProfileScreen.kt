@@ -3,6 +3,7 @@ package com.example.nusa_guide.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,12 +13,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -29,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,8 +49,9 @@ import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.Gray80
 
-@OptIn(ExperimentalMaterial3Api::class)
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController) {
 
@@ -62,7 +72,7 @@ fun ProfileScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
             AccountSection()
             Spacer(modifier = Modifier.height(36.dp))
-
+            FavoriteSection()
         }
     }
 
@@ -105,14 +115,15 @@ fun AccountSection() {
         Text(text = "Akun", fontWeight = FontWeight.Bold, fontSize = 18.sp)
         Spacer(modifier = Modifier.height(8.dp))
         ProfileMenuItem("Keamanan Akun", R.drawable.ic_security_safe)
-
-
+        Divider()
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = "Favoritmu", fontWeight = FontWeight.Bold, fontSize = 18.sp)
     }
 }
 
 @Composable
 fun ProfileMenuItem(title: String, drawable: Int) {
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         Image(
             painter = painterResource(drawable),
             contentDescription = null,
@@ -123,7 +134,7 @@ fun ProfileMenuItem(title: String, drawable: Int) {
             text = title,
             color = Gray80,
             fontSize = 16.sp,
-            modifier = Modifier.padding(start=30.dp,end = 180.dp),
+            modifier = Modifier.padding(start = 30.dp, end = 180.dp),
         )
         TextButton(onClick = { /*TODO*/ }) {
             Icon(
@@ -135,11 +146,40 @@ fun ProfileMenuItem(title: String, drawable: Int) {
             )
         }
     }
+}
 
+@Composable
+fun FavoriteSection() {
+    val images = listOf(
+        R.drawable.pantai_1,
+        R.drawable.pantai_2,
+        R.drawable.pantai_3,
+        R.drawable.pantai_4,
+        R.drawable.pantai_5,
+        R.drawable.pantai_6
+    )
+
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(150.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = Modifier.fillMaxSize(),
+        content = {
+            items(images) { imageResId ->
+                Image(
+                    painter = painterResource(id = imageResId),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                )
+            }
+        }
+    )
 }
 
 
-// incase if needed
+// encase if needed
 @Composable
 fun LogoutButton() {
     Button(
