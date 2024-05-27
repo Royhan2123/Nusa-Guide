@@ -8,6 +8,7 @@ import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.Rekomendasi
 import com.example.nusa_guide.screen.*
+import com.example.nusa_guide.screen.detail_screen.DetailPremiumScreen
 import com.example.nusa_guide.screen.detail_screen.DetailScreen
 
 @Composable
@@ -76,6 +77,9 @@ fun NavigationsTour() {
         }
         composable(NavigationTourScreen.DetailScreen.name) {
             DetailScreen()
+        }
+        composable(NavigationTourScreen.DetailPremiumScreen.name) {
+            DetailPremiumScreen()
         }
     }
 }

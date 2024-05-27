@@ -2,6 +2,7 @@ package com.example.nusa_guide.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,13 +24,18 @@ import com.example.nusa_guide.model.PaketPremium
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
 import com.example.nusa_guide.ui.theme.brandPrimary500
 
+
 @Composable
-fun PaketPremiumItem(paketPremium: PaketPremium) {
+fun PaketPremiumItem(
+    paketPremium: PaketPremium,
+    onItemClicked: (Int) -> Unit
+) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(2.dp)
             .width(220.dp)
+            .clickable { onItemClicked(paketPremium.id) }
     ) {
         Column {
             Box {
@@ -164,6 +170,6 @@ fun PaketItemPreview() {
                 350000,
                 0.64.toInt()
             )
-        )
+        ) {}
     }
 }
