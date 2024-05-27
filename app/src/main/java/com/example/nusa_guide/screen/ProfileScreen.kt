@@ -97,7 +97,8 @@ fun ProfileHeader() {
         Image(
             painter = painterResource(id = R.drawable.ic_edit_profile),
             contentDescription = null,
-            modifier = Modifier.clickable { /* Handle edit click */ }
+
+            modifier = Modifier.clickable { /* Handle edit click */ }.height(40.dp)
         )
     }
 }
