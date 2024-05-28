@@ -82,6 +82,15 @@ fun ProfileAndNotificationRow() {
         Spacer(modifier = Modifier.width(8.dp))
         ProfileText()
         Spacer(modifier = Modifier.weight(1f))
+        Icon(
+            painter = painterResource(id = R.drawable.icon_cart),
+            contentDescription = "icon-keranjang",
+            modifier = Modifier.size(24.dp)
+                .clickable {
+
+                }
+        )
+        Spacer(modifier = Modifier.width(10.dp))
         NotificationIcon()
     }
 }
@@ -305,7 +314,6 @@ fun PaketPremiumSection(navController: NavController) {
         }
     }
 }
-
 
 
 @Composable

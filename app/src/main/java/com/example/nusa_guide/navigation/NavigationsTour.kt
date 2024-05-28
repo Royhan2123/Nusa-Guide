@@ -9,6 +9,7 @@ import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.PaketRegular
 import com.example.nusa_guide.model.Rekomendasi
 import com.example.nusa_guide.screen.AboutProfileScreen
+import com.example.nusa_guide.screen.CartScreen
 import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
 import com.example.nusa_guide.screen.FavoriteScreen
 import com.example.nusa_guide.screen.FilteringScreen
@@ -406,6 +407,9 @@ fun NavigationsTour() {
         }
         composable(NavigationTourScreen.PaketRegulerScreen.name) {
             PaketRegularScreen(navController = navController, paketRegularList = paketRegular )
+        }
+        composable(NavigationTourScreen.CartScreen.name) {
+            CartScreen(navController = navController)
         }
     }
 }
