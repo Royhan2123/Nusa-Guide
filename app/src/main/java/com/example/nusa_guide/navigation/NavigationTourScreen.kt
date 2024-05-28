@@ -8,7 +8,7 @@ enum class NavigationTourScreen {
     RegisterScreen,
     HomeScreen,
     RiwayatScreen,
-    FavoritScreen,
+    FavoriteScreen,
     ProfileScreen,
     HalamanBottom,
     ChangePasswordSuccessScreen,
@@ -34,7 +34,7 @@ enum class NavigationTourScreen {
             RegisterScreen.name -> RegisterScreen
             HomeScreen.name -> HomeScreen
             RiwayatScreen.name -> RiwayatScreen
-            FavoritScreen.name -> FavoritScreen
+            FavoriteScreen.name -> FavoriteScreen
             ProfileScreen.name -> ProfileScreen
             HalamanBottom.name -> HalamanBottom
             ChangePasswordSuccessScreen.name -> ChangePasswordSuccessScreen

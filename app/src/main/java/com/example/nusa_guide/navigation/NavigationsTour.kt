@@ -10,7 +10,7 @@ import com.example.nusa_guide.model.PaketRegular
 import com.example.nusa_guide.model.Rekomendasi
 import com.example.nusa_guide.screen.AboutProfileScreen
 import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
-import com.example.nusa_guide.screen.FavoritScreen
+import com.example.nusa_guide.screen.FavoriteScreen
 import com.example.nusa_guide.screen.FilteringScreen
 import com.example.nusa_guide.screen.ForgotPasswordScreen
 import com.example.nusa_guide.screen.HalamanBottom
@@ -18,6 +18,8 @@ import com.example.nusa_guide.screen.HomeScreen
 import com.example.nusa_guide.screen.LoginScreen
 import com.example.nusa_guide.screen.OnBoardingScreen
 import com.example.nusa_guide.screen.OnBoardingScreen2
+import com.example.nusa_guide.screen.PaketPremiumScreen
+import com.example.nusa_guide.screen.PaketRegularScreen
 import com.example.nusa_guide.screen.ProfileScreen
 import com.example.nusa_guide.screen.RegisterScreen
 import com.example.nusa_guide.screen.RekomendasiScreen
@@ -28,7 +30,6 @@ import com.example.nusa_guide.screen.UlasanScreen
 import com.example.nusa_guide.screen.UlasanSuccesScreen
 import com.example.nusa_guide.screen.VerificationCodeScreen
 import com.example.nusa_guide.screen.cameraX.CameraXScreen
-import com.example.nusa_guide.screen.*
 import com.example.nusa_guide.screen.detail_screen.DetailPremiumScreen
 import com.example.nusa_guide.screen.detail_screen.DetailScreen
 
@@ -355,8 +356,8 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.HomeScreen.name) {
             HomeScreen(navController)
         }
-        composable(NavigationTourScreen.FavoritScreen.name) {
-            FavoritScreen(navController)
+        composable(NavigationTourScreen.FavoriteScreen.name) {
+            FavoriteScreen(navController)
         }
         composable(NavigationTourScreen.RiwayatScreen.name) {
             RiwayatScreen(navController)

@@ -69,7 +69,7 @@ import java.util.Locale
             Column {
                 Text(
                     text = "Riwayat",
-                    color = Color.Gray,
+                    color = gray700,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.SemiBold
                 )

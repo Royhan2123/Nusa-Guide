@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -102,7 +103,7 @@ fun HalamanBottom(navController: NavController) {
                     RiwayatScreen(navController = navController)
                 }
                 composable(BottomNavigationScreen.FavoritScreen.title) {
-                    FavoritScreen(navController = navController)
+                    FavoriteScreen(navController = navController)
                 }
                 composable(BottomNavigationScreen.ProfileScreen.title) {
                     ProfileScreen(navController = navController)
@@ -110,4 +111,10 @@ fun HalamanBottom(navController: NavController) {
             }
         }
     )
+}
+
+@Preview
+@Composable
+fun PreviewBottomNavigation(){
+    HalamanBottom(navController = rememberNavController())
 }

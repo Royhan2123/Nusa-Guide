@@ -16,7 +16,6 @@ data class PaketPremium(
     val informasiPaket: InformasiPaket
 )
 data class Ulasan(
-
     val nama: String,
     val tanggal: String,
     val rating: Double,
