@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ElevatedButton
@@ -90,7 +91,34 @@ fun UlasanScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Berikan Review",
+                        color = gray700,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = "icon-back",
+                            modifier = Modifier
+                                .size(25.dp)
+                                .clickable {
+                                    navController.popBackStack()
+                                },
+                            tint = black51
+                        )
+                    }
+                },
+            )
             TopAppBar(
+
                 title = {
                     Text(
                         text = "Berikan Review",

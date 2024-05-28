@@ -1,16 +1,27 @@
 package com.example.nusa_guide.screen
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +65,9 @@ fun HomeScreen(navController: NavController) {
         }
         item {
             PaketPremiumSection(navController)
+        }
+        item {
+            PaketRegularSection(navController)
         }
     }
 }
@@ -111,9 +125,6 @@ fun NotificationIcon() {
 
 @Composable
 fun SearchBar(navController: NavController) {
-    // var searchText by remember { mutableStateOf("") }
-
-
     Spacer(modifier = Modifier.height(10.dp))
     Surface(
         modifier = Modifier
@@ -287,7 +298,55 @@ fun PaketPremiumSection(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             items(DummyData.paketPremiumList) { paketpremium ->
-                PaketPremiumItem(paketpremium)
+                PaketPremiumItem(paketpremium) {
+                    navController.navigate(NavigationTourScreen.DetailPremiumScreen.name + "/${paketpremium.id}")
+                }
+            }
+        }
+    }
+}
+
+
+
+@Composable
+fun PaketRegularSection(navController: NavController) {
+    Column(modifier = Modifier.padding(2.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Paket Reguler",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Paket Wisata Terjangkau Buat Kamu",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+            Text(
+                text = "Lihat Semua >",
+                color = brandPrimary500,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate(
+                            NavigationTourScreen.PaketRegulerScreen.name
+                        )
+                    }
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            items(DummyData.paketRegularList) { paketRegular ->
+                PaketRegularItem(paketRegular)
             }
         }
     }
