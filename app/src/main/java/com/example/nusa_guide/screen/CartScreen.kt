@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -51,16 +52,14 @@ import com.example.nusa_guide.ui.theme.white
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CartScreen(navController: NavController) {
-    val cartItems = listOf(
-        CartItem("Pantai Bias", "Rp 150.000", R.drawable.pantai_1),
-        CartItem("Pantai Bias", "Rp 150.000", R.drawable.pantai_1),
-        CartItem("Pantai Bias", "Rp 150.000", R.drawable.pantai_1),
-        CartItem("Pantai Bias", "Rp 150.000", R.drawable.pantai_1),
-        CartItem("Pantai Bias", "Rp 150.000", R.drawable.pantai_1),
-        CartItem("Pantai Bias", "Rp 150.000", R.drawable.pantai_1),
-    )
+    val cartItems = remember { mutableStateListOf(
+        CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+        CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+        CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+        CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+    ) }
 
-    val selectedItems = remember { mutableStateOf(cartItems.map { false }.toMutableList()) }
+    val selectedItems = remember { mutableStateListOf(*Array(cartItems.size) { false }) }
     val selectedAll = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -93,6 +92,9 @@ fun CartScreen(navController: NavController) {
             )
         }
     ) {
+        val totalPrice = selectedItems.indices.filter { selectedItems[it] }
+            .sumOf { cartItems[it].price * cartItems[it].quantity }
+
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
@@ -111,24 +113,34 @@ fun CartScreen(navController: NavController) {
                         imageResource = cartItem.imageResource,
                         title = cartItem.title,
                         price = cartItem.price,
-                        quantity = 1,
-                        onAdd = {},
-                        onRemove = {},
-                        onDelete = {},
-                        isSelected = selectedItems.value[index],
+                        quantity = cartItem.quantity,
+                        onAdd = {
+                            cartItems[index] = cartItems[index].copy(quantity = cartItems[index].quantity + 1)
+                        },
+                        onRemove = {
+                            if (cartItems[index].quantity > 1) {
+                                cartItems[index] = cartItems[index].copy(quantity = cartItems[index].quantity - 1)
+                            }
+                        },
+                        onDelete = {
+                            cartItems.removeAt(index)
+                            selectedItems.removeAt(index)
+                        },
+                        isSelected = selectedItems[index],
                         onSelectionChange = {
-                            selectedItems.value[index] = !selectedItems.value[index]
-                            selectedAll.value = selectedItems.value.all { it }
+                            selectedItems[index] = !selectedItems[index]
+                            selectedAll.value = selectedItems.all { it }
                         }
                     )
                 }
             }
             SurfaceBottom(
                 isSelected = selectedAll.value,
+                totalPrice = totalPrice,
                 onSelectionChange = {
                     val newValue = !selectedAll.value
                     selectedAll.value = newValue
-                    selectedItems.value = selectedItems.value.map { newValue }.toMutableList()
+                    selectedItems.indices.forEach { selectedItems[it] = newValue }
                 },
             )
         }
@@ -138,6 +150,7 @@ fun CartScreen(navController: NavController) {
 @Composable
 fun SurfaceBottom(
     isSelected: Boolean,
+    totalPrice: Int,
     onSelectionChange: () -> Unit
 ) {
     Box(
@@ -169,7 +182,7 @@ fun SurfaceBottom(
                 Spacer(modifier = Modifier.width(25.dp))
                 Column {
                     Text(text = "Total Tagihan")
-                    Text(text = "Rp 300.000")
+                    Text(text = "Rp ${totalPrice.formatCurrency()}")
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 ElevatedButton(
@@ -182,7 +195,7 @@ fun SurfaceBottom(
                     ),
                     shape = RoundedCornerShape(10.dp),
                 ) {
-                    Text(text = "Pesan")
+                    Text(text = "Pesan (1)")
                 }
             }
         }
@@ -191,9 +204,14 @@ fun SurfaceBottom(
 
 data class CartItem(
     val title: String,
-    val price: String,
-    val imageResource: Int
+    val price: Int,
+    val imageResource: Int,
+    var quantity: Int = 1
 )
+
+fun Int.formatCurrency(): String {
+    return String.format("%,d", this).replace(",", ".")
+}
 
 @Preview
 @Composable

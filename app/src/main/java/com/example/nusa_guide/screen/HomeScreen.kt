@@ -85,7 +85,8 @@ fun ProfileAndNotificationRow() {
         Icon(
             painter = painterResource(id = R.drawable.icon_cart),
             contentDescription = "icon-keranjang",
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier
+                .size(24.dp)
                 .clickable {
 
                 }
@@ -263,7 +264,11 @@ fun RekomendasiSection(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(DummyData.rekomendasiList) { rekomendasi ->
-                RekomendasiItem(rekomendasi)
+                RekomendasiItem(rekomendasi, onClick = {
+                    navController.navigate(
+                        NavigationTourScreen.DetailScreen.name
+                    )
+                })
             }
         }
     }

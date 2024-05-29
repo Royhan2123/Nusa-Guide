@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.RekomendasiItem
 import com.example.nusa_guide.model.Rekomendasi
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
 
 @Composable
@@ -20,15 +21,20 @@ fun RekomendasiScreen(
     navController: NavController,
     rekomendasiList: List<Rekomendasi>
 ) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier
-                .padding(2.dp)
-        ) {
-            items(rekomendasiList) { rekomendasi ->
-                RekomendasiItem(rekomendasi = rekomendasi)
-            }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier
+            .padding(2.dp)
+    ) {
+        items(rekomendasiList) { rekomendasi ->
+            RekomendasiItem(rekomendasi = rekomendasi,
+                onClick = {
+                    navController.navigate(
+                        NavigationTourScreen.DetailScreen.name
+                    )
+                })
         }
+    }
 }
 
 @Preview(showBackground = true)

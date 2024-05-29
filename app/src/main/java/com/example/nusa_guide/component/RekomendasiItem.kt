@@ -2,6 +2,7 @@ package com.example.nusa_guide.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,12 +40,16 @@ import com.example.nusa_guide.ui.theme.NusaGuideTheme
 import com.example.nusa_guide.ui.theme.brandPrimary500
 
 @Composable
-fun RekomendasiItem(rekomendasi: Rekomendasi) {
+fun RekomendasiItem(
+    rekomendasi: Rekomendasi,
+    onClick: () -> Unit,
+) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(10.dp)
-            .width(220.dp),
+            .width(220.dp)
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {
@@ -216,8 +221,9 @@ fun RekomendasiItemPreview() {
                 ),
                 km = 7,
                 waktuKeberangkatan = 18.00,
-                lokasi = "Bali"
-            )
+                lokasi = "Bali",
+            ),
+            onClick = {},
         )
     }
 }

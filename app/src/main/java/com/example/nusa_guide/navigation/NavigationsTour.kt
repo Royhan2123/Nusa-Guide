@@ -400,7 +400,7 @@ fun NavigationsTour() {
             CameraXScreen(navController)
         }
         composable(NavigationTourScreen.DetailScreen.name) {
-            DetailScreen()
+            DetailScreen(navController)
         }
         composable(NavigationTourScreen.DetailPremiumScreen.name) {
             DetailPremiumScreen()

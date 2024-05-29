@@ -42,7 +42,7 @@ import com.example.nusa_guide.ui.theme.gray700
 fun CartItemCard(
     imageResource: Int,
     title: String,
-    price: String,
+    price: Int,
     quantity: Int,
     onAdd: () -> Unit,
     onRemove: () -> Unit,
@@ -101,7 +101,7 @@ fun CartItemCard(
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
-                        text = "${price}/orang",
+                        text = "${price.formatCurrency()}/orang",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = brandPrimary500
@@ -183,7 +183,7 @@ fun CartItemCardPreview() {
     CartItemCard(
         imageResource = R.drawable.pantai_1,
         title = "Pantai Bias",
-        price = "Rp 150.000",
+        price = 150000,
         quantity = 1,
         onAdd = {},
         onRemove = {},
@@ -191,4 +191,8 @@ fun CartItemCardPreview() {
         isSelected = true,
         onSelectionChange = {}
     )
+}
+
+fun Int.formatCurrency(): String {
+    return String.format("%,d", this).replace(",", ".")
 }
