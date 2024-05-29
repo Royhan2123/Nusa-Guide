@@ -27,15 +27,14 @@ import com.example.nusa_guide.ui.theme.brandPrimary500
 
 @Composable
 fun PaketPremiumItem(
-    paketPremium: PaketPremium,
-    onItemClicked: (Int) -> Unit
+    paketPremium: PaketPremium
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(2.dp)
             .width(220.dp)
-            .clickable { onItemClicked(paketPremium.id) }
+//            .clickable { onItemClicked(paketPremium.id) }
     ) {
         Column {
             Box {
@@ -170,6 +169,6 @@ fun PaketItemPreview() {
                 350000,
                 0.64.toInt()
             )
-        ) {}
+        )
     }
 }

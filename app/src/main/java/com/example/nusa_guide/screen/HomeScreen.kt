@@ -244,7 +244,7 @@ fun RekomendasiSection(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(DummyData.rekomendasiList) { rekomendasi ->
-                RekomendasiItem(rekomendasi) {
+                RekomendasiItem(rekomendasi); {
                     navController.navigate(NavigationTourScreen.DetailScreen.name + "/${rekomendasi.id}")
                 }
             }
@@ -290,9 +290,7 @@ fun PaketPremiumSection(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             items(DummyData.paketPremiumList) { paketpremium ->
-                PaketPremiumItem(paketpremium) {
-                    navController.navigate(NavigationTourScreen.DetailPremiumScreen.name + "/${paketpremium.id}")
-                }
+                PaketPremiumItem(paketpremium)
             }
         }
     }
