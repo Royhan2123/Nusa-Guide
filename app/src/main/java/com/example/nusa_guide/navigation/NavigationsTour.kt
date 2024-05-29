@@ -29,6 +29,7 @@ import com.example.nusa_guide.screen.SearchScreen
 import com.example.nusa_guide.screen.SplashScreen
 import com.example.nusa_guide.screen.UlasanScreen
 import com.example.nusa_guide.screen.UlasanSuccesScreen
+import com.example.nusa_guide.screen.UploadBuktiScreen
 import com.example.nusa_guide.screen.VerificationCodeScreen
 import com.example.nusa_guide.screen.cameraX.CameraXScreen
 import com.example.nusa_guide.screen.detail_screen.DetailPremiumScreen
@@ -410,6 +411,9 @@ fun NavigationsTour() {
         }
         composable(NavigationTourScreen.CartScreen.name) {
             CartScreen(navController = navController)
+        }
+        composable(NavigationTourScreen.UploadBuktiScreen.name) {
+            UploadBuktiScreen(navController = navController)
         }
     }
 }

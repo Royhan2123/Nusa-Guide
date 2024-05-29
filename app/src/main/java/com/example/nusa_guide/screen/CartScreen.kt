@@ -42,6 +42,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.CartItemCard
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.brandPrimary600
@@ -52,12 +53,14 @@ import com.example.nusa_guide.ui.theme.white
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CartScreen(navController: NavController) {
-    val cartItems = remember { mutableStateListOf(
-        CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
-        CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
-        CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
-        CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
-    ) }
+    val cartItems = remember {
+        mutableStateListOf(
+            CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+            CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+            CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+            CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+        )
+    }
 
     val selectedItems = remember { mutableStateListOf(*Array(cartItems.size) { false }) }
     val selectedAll = remember { mutableStateOf(false) }
@@ -115,11 +118,13 @@ fun CartScreen(navController: NavController) {
                         price = cartItem.price,
                         quantity = cartItem.quantity,
                         onAdd = {
-                            cartItems[index] = cartItems[index].copy(quantity = cartItems[index].quantity + 1)
+                            cartItems[index] =
+                                cartItems[index].copy(quantity = cartItems[index].quantity + 1)
                         },
                         onRemove = {
                             if (cartItems[index].quantity > 1) {
-                                cartItems[index] = cartItems[index].copy(quantity = cartItems[index].quantity - 1)
+                                cartItems[index] =
+                                    cartItems[index].copy(quantity = cartItems[index].quantity - 1)
                             }
                         },
                         onDelete = {
@@ -142,6 +147,7 @@ fun CartScreen(navController: NavController) {
                     selectedAll.value = newValue
                     selectedItems.indices.forEach { selectedItems[it] = newValue }
                 },
+                navController = navController
             )
         }
     }
@@ -151,7 +157,8 @@ fun CartScreen(navController: NavController) {
 fun SurfaceBottom(
     isSelected: Boolean,
     totalPrice: Int,
-    onSelectionChange: () -> Unit
+    onSelectionChange: () -> Unit,
+    navController: NavController
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -181,12 +188,22 @@ fun SurfaceBottom(
                 )
                 Spacer(modifier = Modifier.width(25.dp))
                 Column {
-                    Text(text = "Total Tagihan")
-                    Text(text = "Rp ${totalPrice.formatCurrency()}")
+                    Text(
+                        text = "Total Tagihan",
+                        color = gray700,
+                        fontSize = 14.sp
+                    )
+                    Text(
+                        text = "Rp ${totalPrice.formatCurrency()}",
+                        color = gray700,
+                        fontSize = 13.sp
+                    )
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 ElevatedButton(
-                    onClick = { /* TODO: Add action */ },
+                    onClick = { navController.navigate(
+                        NavigationTourScreen.UploadBuktiScreen.name
+                    ) },
                     modifier = Modifier
                         .width(145.dp)
                         .height(45.dp),
@@ -209,6 +226,7 @@ data class CartItem(
     var quantity: Int = 1
 )
 
+@SuppressLint("DefaultLocale")
 fun Int.formatCurrency(): String {
     return String.format("%,d", this).replace(",", ".")
 }

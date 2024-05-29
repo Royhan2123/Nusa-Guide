@@ -52,7 +52,7 @@ fun HomeScreen(navController: NavController) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            ProfileAndNotificationRow()
+            ProfileAndNotificationRow(navController)
         }
         item {
             SearchBar(navController)
@@ -73,7 +73,9 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-fun ProfileAndNotificationRow() {
+fun ProfileAndNotificationRow(
+    navController: NavController
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -88,7 +90,9 @@ fun ProfileAndNotificationRow() {
             modifier = Modifier
                 .size(24.dp)
                 .clickable {
-
+navController.navigate(
+    NavigationTourScreen.CartScreen.name
+)
                 }
         )
         Spacer(modifier = Modifier.width(10.dp))
