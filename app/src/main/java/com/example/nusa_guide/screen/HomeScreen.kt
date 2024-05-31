@@ -316,9 +316,7 @@ fun PaketPremiumSection(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             items(DummyData.paketPremiumList) { paketpremium ->
-                PaketPremiumItem(paketpremium) {
-                    navController.navigate(NavigationTourScreen.DetailPremiumScreen.name + "/${paketpremium.id}")
-                }
+                PaketPremiumItem(paketpremium)
             }
         }
     }

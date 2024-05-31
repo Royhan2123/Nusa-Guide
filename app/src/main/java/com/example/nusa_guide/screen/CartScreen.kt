@@ -137,6 +137,7 @@ fun CartScreen(navController: NavController) {
                             selectedAll.value = selectedItems.all { it }
                         }
                     )
+                    Spacer(modifier = Modifier.height(16.dp)) // Add space between cards
                 }
             }
             SurfaceBottom(

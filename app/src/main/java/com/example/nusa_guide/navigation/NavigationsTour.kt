@@ -34,6 +34,8 @@ import com.example.nusa_guide.screen.VerificationCodeScreen
 import com.example.nusa_guide.screen.cameraX.CameraXScreen
 import com.example.nusa_guide.screen.detail_screen.DetailPremiumScreen
 import com.example.nusa_guide.screen.detail_screen.DetailScreen
+import com.example.nusa_guide.screen.payment.PaymentDetailsUI
+import com.example.nusa_guide.screen.payment.PaymentScreen
 
 @Composable
 fun NavigationsTour() {
@@ -414,6 +416,12 @@ fun NavigationsTour() {
         }
         composable(NavigationTourScreen.UploadBuktiScreen.name) {
             UploadBuktiScreen(navController = navController)
+        }
+        composable(NavigationTourScreen.PaymentDetailsUI.name) {
+            PaymentDetailsUI(navController = navController)
+        }
+        composable(NavigationTourScreen.PaymentScreen.name) {
+            PaymentScreen(navController = navController)
         }
     }
 }
