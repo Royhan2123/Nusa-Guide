@@ -345,7 +345,10 @@ fun NavigationsTour() {
         startDestination = NavigationTourScreen.SplashScreen.name
     ) {
         composable(NavigationTourScreen.SplashScreen.name) {
-            SplashScreen(navController = navController)
+            SplashScreen(
+                navController = navController,
+                authViewModel
+            )
         }
         composable(NavigationTourScreen.OnBoardingScreen.name) {
             OnBoardingScreen(navController = navController)
@@ -399,7 +402,7 @@ fun NavigationsTour() {
             PaketPremiumScreen(navController, paketPremiumList)
         }
         composable(NavigationTourScreen.AboutProfileScreen.name) {
-            AboutProfileScreen(navController,authViewModel)
+            AboutProfileScreen(navController, authViewModel)
         }
         composable(NavigationTourScreen.UlasanScreen.name) {
             UlasanScreen(navController)

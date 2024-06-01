@@ -21,26 +21,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray50
+import com.example.nusa_guide.viewModel.AuthViewModel
 import kotlinx.coroutines.delay
 
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(
+    navController: NavController,
+    authViewModel: AuthViewModel
+) {
     LaunchedEffect(key1 = true) {
         delay(3000L)
-        navController.graph.startDestinationRoute?.let {
-            navController.popBackStack(
-                route = it,
-                inclusive = true
-            )
+        val savedCredentials = authViewModel.getSavedCredentials()
+        if (savedCredentials != null) {
+            navController.navigate(NavigationTourScreen.HalamanBottom.name) {
+                popUpTo(NavigationTourScreen.HalamanBottom.name) { inclusive = true }
+            }
+        } else {
+            navController.navigate(NavigationTourScreen.OnBoardingScreen.name) {
+                popUpTo(NavigationTourScreen.OnBoardingScreen.name) { inclusive = true }
+            }
         }
-        navController.navigate(NavigationTourScreen.OnBoardingScreen.name)
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -95,5 +103,5 @@ fun SplashScreen(navController: NavController) {
 @Preview
 @Composable
 fun PreviewSplashScreen() {
-    SplashScreen(navController = rememberNavController())
+    SplashScreen(navController = rememberNavController(), authViewModel = viewModel())
 }
