@@ -16,14 +16,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,7 +52,7 @@ import kotlinx.coroutines.delay
 fun PaymentDetailsUI(
     navController: NavController
 ) {
-    var timeLeft by remember { mutableStateOf(3600) } // Initial time: 1 hour in seconds
+    var timeLeft by remember { mutableIntStateOf(3600) }
     var showAlert by remember { mutableStateOf(false) }
 
     LaunchedEffect(timeLeft) {
@@ -68,7 +70,7 @@ fun PaymentDetailsUI(
             Button(
                 onClick = {
                     navController.navigate(
-                        NavigationTourScreen.UploadBuktiScreen.name
+                       NavigationTourScreen.UploadBuktiScreen.name
                     )
                 },
                 modifier = Modifier
@@ -160,7 +162,7 @@ fun PaymentDetailsUI(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            Divider(color = gray700, thickness = 2.dp)
+            HorizontalDivider(thickness = 2.dp, color = gray700)
 
             Row(
                 modifier = Modifier
@@ -202,8 +204,8 @@ fun PaymentDetailsUI(
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Button(
-                    onClick = { /*TODO: Handle copy action*/ },
+                TextButton(
+                    onClick = { /* TODO: Handle copy action */ },
                     colors = ButtonDefaults.buttonColors(Color.Transparent),
                 ) {
                     Text(
@@ -233,8 +235,12 @@ fun PaymentDetailsUI(
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Button(
-                    onClick = { /*TODO: Show details*/ },
+                TextButton(
+                    onClick = {
+                              navController.navigate(
+                                  NavigationTourScreen.DetailTransactionScreen.name
+                              )
+                    },
                     colors = ButtonDefaults.buttonColors(Color.Transparent),
                 ) {
                     Text(
@@ -260,7 +266,7 @@ fun PaymentDetailsUI(
                     textAlign = TextAlign.Center
                 )
             }
-            Divider(color = gray700, thickness = 2.dp)
+            HorizontalDivider(thickness = 2.dp, color = gray700)
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
@@ -279,4 +285,3 @@ fun PaymentDetailsUI(
 fun PreviewPaymentDetailsUI() {
     PaymentDetailsUI(rememberNavController())
 }
-

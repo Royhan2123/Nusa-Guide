@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -111,11 +113,14 @@ dependencies {
 
     // Firebase Cloud Firestore
     //noinspection UseTomlInstead
-    implementation("com.google.firebase:firebase-firestore:25.0.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.0.0")
 
+    // Firebase Authentication
+    //noinspection UseTomlInstead
+    implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
     // Firebase Storage
     //noinspection UseTomlInstead
-    implementation("com.google.firebase:firebase-storage:21.0.0")
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
 
     //noinspection UseTomlInstead
     implementation("com.google.accompanist:accompanist-pager-indicators:0.14.0")
