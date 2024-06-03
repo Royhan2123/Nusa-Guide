@@ -36,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.viewModel.SearchLazyColumn
@@ -106,7 +107,12 @@ fun SearchScreen(navController: NavController) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_filtering),
                 contentDescription = "icon-filtering",
-                modifier = Modifier.size(22.dp),
+                modifier = Modifier.size(22.dp)
+                    .clickable { 
+                               navController.navigate(
+                                   NavigationTourScreen.FilteringScreen.name
+                               )
+                    },
                 tint = black51,
             )
         }

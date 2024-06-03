@@ -3,12 +3,24 @@ package com.example.nusa_guide.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +32,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nusa_guide.R
+import com.example.nusa_guide.model.InformasiPaket
 import com.example.nusa_guide.model.PaketPremium
+import com.example.nusa_guide.model.Ulasan
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
 import com.example.nusa_guide.ui.theme.brandPrimary500
 
@@ -32,7 +46,7 @@ fun PaketPremiumItem(
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .padding(2.dp)
+            .padding(10.dp)
             .width(220.dp)
 //            .clickable { onItemClicked(paketPremium.id) }
     ) {
@@ -163,11 +177,40 @@ fun PaketItemPreview() {
     NusaGuideTheme {
         PaketPremiumItem(
             paketPremium = PaketPremium(
-                1,
-                "5 Wisata - 3 Hari",
-                R.drawable.bg_on_boarding, // Ganti dengan ID gambar yang sesuai di folder res/drawable
-                350000,
-                0.64.toInt()
+                id = 1,
+                nama = "5 Wisata - 3 Hari",
+                gambar = R.drawable.bg_on_boarding, // Ganti dengan ID gambar yang sesuai di folder res/drawable
+                harga = 350000,
+                hariBerlibur = "3 Hari",
+                jarak = 0.64,
+                deskripsi = "Deskripsi paket wisata",
+                cuplikanPhotos = listOf(
+                    R.drawable.pantai_1, R.drawable.pantai_2
+                ),
+                informasiTourGuide = "Informasi tentang tour guide",
+                informasiHarga = "Harga termasuk akomodasi",
+                ratingReview = 5.0,
+                ulasan = listOf(
+                    Ulasan(
+                        nama = "Jonathan Kaje",
+                        tanggal = "20 Minggu lalu",
+                        rating = 4.0,
+                        deskripsi = "Tour Guide Rekomendasi! Puoll!! untuk dipesan muantapp...",
+                        images = listOf(R.drawable.pantai_1)
+                    )
+                ),
+                informasiPaket = InformasiPaket(
+                    include = listOf(
+                        "Penjemputan dan pengantaran dari titik pertemuan yang ditentukan",
+                        "Hotel",
+                        "Supir",
+                        "Tour Guide"
+                    ),
+                    exclude = listOf(
+                        "Tip tour guide (min. Rp 50.000/hari)",
+                        "Tip supir (min. Rp 75.000/hari)"
+                    )
+                )
             )
         )
     }

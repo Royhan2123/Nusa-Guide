@@ -2,12 +2,26 @@ package com.example.nusa_guide.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,12 +40,16 @@ import com.example.nusa_guide.ui.theme.NusaGuideTheme
 import com.example.nusa_guide.ui.theme.brandPrimary500
 
 @Composable
-fun RekomendasiItem(rekomendasi: Rekomendasi) {
+fun RekomendasiItem(
+    rekomendasi: Rekomendasi,
+    onClick: () -> Unit,
+) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .padding(2.dp)
-            .width(220.dp),
+            .padding(10.dp)
+            .width(220.dp)
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {
@@ -186,8 +204,26 @@ fun RekomendasiItemPreview() {
                 nama = "Nusa Penida",
                 gambar = R.drawable.bg_on_boarding,
                 harga = 150000,
-                jarak = 0.64.toInt()
-            )
+                jarak = 0.64,
+                deskripsi = "Sebuah pulau indah di Bali.",
+                cuplikanPhoto = R.drawable.pantai_1,
+                informasiTourGuide = "Pemandu tur berpengalaman.",
+                informasiHarga = "Harga termasuk makan siang.",
+                ratingReview = 4,
+                ulasan = 120,
+                ulasanTitle = "Ulasan Terbaik",
+                ulasanImage = R.drawable.pantai_2,
+                deskripsiUlasan = "Tempat ini luar biasa!",
+                cuplikanPhotoUlasan = listOf(
+                    R.drawable.pantai_1,
+                    R.drawable.pantai_2,
+                    R.drawable.pantai_3
+                ),
+                km = 7,
+                waktuKeberangkatan = 18.00,
+                lokasi = "Bali",
+            ),
+            onClick = {},
         )
     }
 }

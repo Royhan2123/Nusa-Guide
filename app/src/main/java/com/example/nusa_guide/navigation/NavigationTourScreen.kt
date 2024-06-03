@@ -8,7 +8,7 @@ enum class NavigationTourScreen {
     RegisterScreen,
     HomeScreen,
     RiwayatScreen,
-    FavoritScreen,
+    FavoriteScreen,
     ProfileScreen,
     HalamanBottom,
     ChangePasswordSuccessScreen,
@@ -19,9 +19,14 @@ enum class NavigationTourScreen {
     PaketRegulerScreen,
     SearchScreen,
     AboutProfileScreen,
+    UlasanScreen,
+    UlasanSuccesScreen,
+    FilteringScreen,
+    CameraXScreen,
     DetailScreen,
-    DetailPremiumScreen;
-
+    DetailPremiumScreen,
+    CartScreen,
+    UploadBuktiScreen;
     fun fromRoute(route: String?): NavigationTourScreen =
         when (route?.substringBefore("/")) {
             SplashScreen.name -> SplashScreen
@@ -31,7 +36,7 @@ enum class NavigationTourScreen {
             RegisterScreen.name -> RegisterScreen
             HomeScreen.name -> HomeScreen
             RiwayatScreen.name -> RiwayatScreen
-            FavoritScreen.name -> FavoritScreen
+            FavoriteScreen.name -> FavoriteScreen
             ProfileScreen.name -> ProfileScreen
             HalamanBottom.name -> HalamanBottom
             ChangePasswordSuccessScreen.name -> ChangePasswordSuccessScreen
@@ -42,8 +47,14 @@ enum class NavigationTourScreen {
             PaketRegulerScreen.name -> PaketRegulerScreen
             SearchScreen.name -> SearchScreen
             AboutProfileScreen.name -> AboutProfileScreen
+            UlasanScreen.name -> UlasanScreen
+            FilteringScreen.name -> FilteringScreen
+            UlasanSuccesScreen.name -> UlasanSuccesScreen
+            CameraXScreen.name -> CameraXScreen
             DetailScreen.name -> DetailScreen
             DetailPremiumScreen.name -> DetailPremiumScreen
+            CartScreen.name -> CartScreen
+            UploadBuktiScreen.name -> UploadBuktiScreen
             null -> SplashScreen
             else -> throw IllegalArgumentException("Route $route is not recognized.")
         }

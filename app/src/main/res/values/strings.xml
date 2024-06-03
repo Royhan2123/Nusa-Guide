@@ -22,5 +22,6 @@
     <string name="lupaKataSandi">Lupa Kata Sandi?</string>
     <string name="pengguna">Pengguna</string>
     <string name="tourGuide">Tour Guide</string>
+    <string name="title_activity_camerax">Camerax</string>
 
 </resources>

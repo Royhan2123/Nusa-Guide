@@ -36,6 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.component.CardBelumBayar
 import com.example.nusa_guide.model.CardBelumBayarModel
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
@@ -68,7 +69,7 @@ import java.util.Locale
             Column {
                 Text(
                     text = "Riwayat",
-                    color = Color.Gray,
+                    color = gray700,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -136,8 +137,9 @@ import java.util.Locale
                     tambahanHarga = 50000,
                     noPemesanan = "W-345890",
                     tanggalPemesanan = Date(),
-                    waktuPemesanan = Date()
-                )
+                    waktuPemesanan = Date(),
+                ),
+                navController
             )
             3 -> SemuaScreen()
         }
@@ -251,7 +253,7 @@ fun PreviewSelesai() {
         waktuPemesanan = Date()
     )
 
-    SelesaiScreen(card = cardData)
+    SelesaiScreen(card = cardData, navController = rememberNavController())
 }
 
 @Composable
@@ -280,7 +282,8 @@ fun SemuaScreen() {
 
 @Composable
 fun SelesaiScreen(
-    card: CardBelumBayarModel
+    card: CardBelumBayarModel,
+    navController: NavController
 ) {
     Column(
         modifier = Modifier
@@ -306,7 +309,11 @@ fun SelesaiScreen(
             colorBorderButton = gray700,
             colorBorderSurface = gray,
             titleElevatedButton = "Beri Ulasan",
-            onClick = {}
+            onClick = {
+                navController.navigate(
+                    NavigationTourScreen.UlasanScreen.name
+                )
+            }
         )
         Spacer(modifier = Modifier.height(20.dp))
         CardBelumBayar(
