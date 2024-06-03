@@ -25,8 +25,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,19 +51,23 @@ import com.example.nusa_guide.component.PaketPremiumItem
 import com.example.nusa_guide.component.RekomendasiItem
 import com.example.nusa_guide.model.DummyData
 import com.example.nusa_guide.model.Rekomendasi
+import com.example.nusa_guide.model.User
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray700
+import com.example.nusa_guide.viewModel.AuthViewModel
 import com.example.nusa_guide.viewModel.PaketRekomendasiViewModelFactory
 import com.example.nusa_guide.viewModel.RekomendasiViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
     navController: NavController,
+    authViewModel: AuthViewModel
 ) {
     val rekomendasiViewModel: RekomendasiViewModel = viewModel(
         factory = PaketRekomendasiViewModelFactory(
@@ -67,6 +76,18 @@ fun HomeScreen(
     )
     val paketRekomendasi by rekomendasiViewModel.paketRekomendasi.observeAsState(emptyList())
     val error by rekomendasiViewModel.error.observeAsState("")
+
+    var currentUser by remember { mutableStateOf<User?>(null) }
+
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = Unit) {
+        authViewModel.getCurrentUserDetails { user ->
+            scope.launch {
+                currentUser = user
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -78,7 +99,7 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        ProfileAndNotificationRow(navController)
+        ProfileAndNotificationRow(navController, currentUser)
 
         SearchBar(navController)
 
@@ -98,7 +119,8 @@ fun HomeScreen(
 
 @Composable
 fun ProfileAndNotificationRow(
-    navController: NavController
+    navController: NavController,
+    currentUser: User?
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -106,7 +128,7 @@ fun ProfileAndNotificationRow(
     ) {
         ProfileImage()
         Spacer(modifier = Modifier.width(8.dp))
-        ProfileText()
+        ProfileText(currentUser)
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             painter = painterResource(id = R.drawable.icon_cart),
@@ -136,16 +158,16 @@ fun ProfileImage() {
 }
 
 @Composable
-fun ProfileText() {
+fun ProfileText(currentUser: User?) {
     Column {
         Text(
-            text = "Muhammad Al Kahfi",
+            text = currentUser?.name ?: "Loading...",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Ellipsis,
         )
         Text(
-            text = "Mari eksplore indahnya Bali",
+            text = "Mari eksplor indahnya Bali",
             fontSize = 14.sp,
             color = Color.Gray
         )
@@ -397,5 +419,8 @@ fun PaketRegularSection(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(rememberNavController())
+    HomeScreen(
+        rememberNavController(),
+        authViewModel = viewModel()
+    )
 }

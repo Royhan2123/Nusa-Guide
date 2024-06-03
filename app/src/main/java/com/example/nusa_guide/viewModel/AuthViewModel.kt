@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
+import com.example.nusa_guide.model.User
 import com.example.nusa_guide.repository.AuthRepository
 
 sealed class AuthState {
@@ -17,6 +18,9 @@ sealed class AuthState {
 class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     private val _authState = MutableLiveData<AuthState>()
     val authState: LiveData<AuthState> = _authState
+
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> = _user
 
     fun registerUser(registerModel: RegisterModel) {
         _authState.value = AuthState.Loading
@@ -44,7 +48,15 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
         authRepository.authLogout()
         _authState.value = AuthState.Logout
     }
+
     fun getSavedCredentials(): Pair<String, String>? {
         return authRepository.getSavedCredentials()
+    }
+
+    fun getCurrentUserDetails(onComplete: (User?) -> Unit) {
+        authRepository.getCurrentUserDetails { user ->
+            _user.postValue(user)
+            onComplete(user)
+        }
     }
 }

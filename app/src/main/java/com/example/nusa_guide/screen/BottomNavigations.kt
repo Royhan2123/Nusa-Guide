@@ -14,27 +14,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray400
+import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 sealed class BottomNavigationScreen(
     val title: String,
     val iconOutlined: Int,
     val iconFilled: Int,
 ) {
-    data object HomeScreen : BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
-    data object RiwayatScreen : BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
-    data object FavoritScreen : BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
-    data object ProfileScreen : BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
+    data object HomeScreen :
+        BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
+
+    data object RiwayatScreen :
+        BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
+
+    data object FavoritScreen :
+        BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
+
+    data object ProfileScreen :
+        BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -49,6 +63,17 @@ fun HalamanBottom(navController: NavController) {
         BottomNavigationScreen.ProfileScreen,
     )
 
+    val authRepository = AuthRepository(
+        FirebaseAuth.getInstance(),
+        FirebaseFirestore.getInstance(),
+        LocalContext.current
+    )
+    val authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(authRepository)
+    )
+
+
+
     Scaffold(
         bottomBar = {
             BottomNavigation(
@@ -58,7 +83,8 @@ fun HalamanBottom(navController: NavController) {
                 val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
                 items.forEach { screen ->
-                    val icon = if (currentRoute == screen.title) screen.iconFilled else screen.iconOutlined
+                    val icon =
+                        if (currentRoute == screen.title) screen.iconFilled else screen.iconOutlined
                     BottomNavigationItem(
                         selected = currentRoute == screen.title,
                         onClick = {
@@ -97,7 +123,10 @@ fun HalamanBottom(navController: NavController) {
                 modifier = Modifier.padding(innerPadding)
             ) {
                 composable(BottomNavigationScreen.HomeScreen.title) {
-                    HomeScreen(navController = navController)
+                    HomeScreen(
+                        navController = navController,
+                        authViewModel
+                    )
                 }
                 composable(BottomNavigationScreen.RiwayatScreen.title) {
                     RiwayatScreen(navController = navController)
@@ -115,6 +144,6 @@ fun HalamanBottom(navController: NavController) {
 
 @Preview
 @Composable
-fun PreviewBottomNavigation(){
+fun PreviewBottomNavigation() {
     HalamanBottom(navController = rememberNavController())
 }

@@ -3,6 +3,7 @@ package com.example.nusa_guide.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.PaketRegular
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.screen.AboutProfileScreen
 import com.example.nusa_guide.screen.CartScreen
@@ -42,8 +44,10 @@ import com.example.nusa_guide.screen.detail_screen.DetailScreen
 import com.example.nusa_guide.screen.payment.PaymentDetailsUI
 import com.example.nusa_guide.screen.payment.PaymentScreen
 import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import com.example.nusa_guide.viewModel.PaketRekomendasiViewModelFactory
 import com.example.nusa_guide.viewModel.RekomendasiViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -101,7 +105,14 @@ val paketRegular = listOf(
 @Composable
 fun NavigationsTour() {
     val navController = rememberNavController()
-    val authViewModel: AuthViewModel = viewModel()
+    val authRepository = AuthRepository(
+        FirebaseAuth.getInstance(),
+        FirebaseFirestore.getInstance(),
+        LocalContext.current
+    )
+    val authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(authRepository)
+    )
     val rekomendasiViewModel: RekomendasiViewModel = viewModel(
         factory = PaketRekomendasiViewModelFactory(
             RekomendasiRepository(FirebaseFirestore.getInstance())
@@ -141,7 +152,7 @@ fun NavigationsTour() {
             HalamanBottom(navController)
         }
         composable(NavigationTourScreen.HomeScreen.name) {
-            HomeScreen(navController)
+            HomeScreen(navController,authViewModel)
         }
         composable(NavigationTourScreen.FavoriteScreen.name) {
             FavoriteScreen(navController)
