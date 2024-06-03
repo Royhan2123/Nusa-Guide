@@ -71,17 +71,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     //noinspection UseTomlInstead
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     //noinspection UseTomlInstead
     implementation("com.google.firebase:firebase-analytics")
     //noinspection UseTomlInstead
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
     //noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1")
 
     //noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.1")
 
     //noinspection UseTomlInstead
     implementation("androidx.compose.material:material:1.6.7")
@@ -94,7 +94,7 @@ dependencies {
 
     // viewModel
     //noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.1")
 
     // Coroutines
     //noinspection UseTomlInstead
@@ -150,4 +150,5 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.3")
     //noinspection UseTomlInstead
     implementation("androidx.camera:camera-view:1.3.3")
+
 }

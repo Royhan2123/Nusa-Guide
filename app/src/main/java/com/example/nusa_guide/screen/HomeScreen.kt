@@ -13,15 +13,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,45 +34,64 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.PaketPremiumItem
 import com.example.nusa_guide.component.RekomendasiItem
 import com.example.nusa_guide.model.DummyData
+import com.example.nusa_guide.model.Rekomendasi
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray700
+import com.example.nusa_guide.viewModel.PaketRekomendasiViewModelFactory
+import com.example.nusa_guide.viewModel.RekomendasiViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 @Composable
-fun HomeScreen(navController: NavController) {
-    LazyColumn(
+fun HomeScreen(
+    navController: NavController,
+) {
+    val rekomendasiViewModel: RekomendasiViewModel = viewModel(
+        factory = PaketRekomendasiViewModelFactory(
+            RekomendasiRepository(Firebase.firestore)
+        )
+    )
+    val paketRekomendasi by rekomendasiViewModel.paketRekomendasi.observeAsState(emptyList())
+    val error by rekomendasiViewModel.error.observeAsState("")
+
+    Column(
         modifier = Modifier
-            .padding(14.dp)
-            .fillMaxWidth(),
+            .padding(
+                vertical = 20.dp,
+                horizontal = 16.dp,
+            )
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
-            ProfileAndNotificationRow(navController)
-        }
-        item {
-            SearchBar(navController)
-        }
-        item {
-            CategorySection()
-        }
-        item {
-            RekomendasiSection(navController)
-        }
-        item {
-            PaketPremiumSection(navController)
-        }
-        item {
-            PaketRegularSection(navController)
+        ProfileAndNotificationRow(navController)
+
+        SearchBar(navController)
+
+        CategorySection()
+
+        RekomendasiSection(navController, paketRekomendasi)
+
+        PaketPremiumSection(navController)
+
+        PaketRegularSection(navController)
+
+        if (error.isNotEmpty()) {
+            Text(text = "Error: $error", color = Color.Red)
         }
     }
 }
@@ -90,9 +114,9 @@ fun ProfileAndNotificationRow(
             modifier = Modifier
                 .size(24.dp)
                 .clickable {
-navController.navigate(
-    NavigationTourScreen.CartScreen.name
-)
+                    navController.navigate(
+                        NavigationTourScreen.CartScreen.name
+                    )
                 }
         )
         Spacer(modifier = Modifier.width(10.dp))
@@ -102,13 +126,12 @@ navController.navigate(
 
 @Composable
 fun ProfileImage() {
-    Image(
-        painter = painterResource(id = R.drawable.img_on_boarding1),
+    Icon(
+        imageVector = Icons.Filled.AccountCircle,
         contentDescription = "Profile Image",
         modifier = Modifier
             .size(48.dp)
             .clip(CircleShape),
-        contentScale = ContentScale.FillBounds
     )
 }
 
@@ -118,7 +141,8 @@ fun ProfileText() {
         Text(
             text = "Muhammad Al Kahfi",
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            overflow = TextOverflow.Ellipsis,
         )
         Text(
             text = "Mari eksplore indahnya Bali",
@@ -231,7 +255,10 @@ fun CategoryItem(imageRes: Int, title: String) {
 }
 
 @Composable
-fun RekomendasiSection(navController: NavController) {
+fun RekomendasiSection(
+    navController: NavController,
+    rekomendasiList: List<Rekomendasi>
+) {
     Column(modifier = Modifier.padding(2.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -267,7 +294,7 @@ fun RekomendasiSection(navController: NavController) {
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(DummyData.rekomendasiList) { rekomendasi ->
+            items(rekomendasiList) { rekomendasi ->
                 RekomendasiItem(rekomendasi, onClick = {
                     navController.navigate(
                         NavigationTourScreen.DetailScreen.name
