@@ -3,6 +3,7 @@ package com.example.nusa_guide.repository
 import android.content.Context
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
+import com.example.nusa_guide.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -65,10 +66,10 @@ class AuthRepository(
         registerModel: RegisterModel,
         onComplete: (Boolean, String?) -> Unit
     ) {
-        val user = hashMapOf(
-            "name" to registerModel.nama,
-            "email" to registerModel.email,
-            "numberPhone" to registerModel.numberPhone,
+        val user = User(
+            name = registerModel.nama,
+            email = registerModel.email,
+            numberPhone = registerModel.numberPhone
         )
 
         firestore.collection("users").document(userId)
@@ -80,5 +81,21 @@ class AuthRepository(
                     onComplete(false, task.exception?.message)
                 }
             }
+    }
+
+    fun getCurrentUserDetails(onComplete: (User?) -> Unit) {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            firestore.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    val user = document.toObject(User::class.java)
+                    onComplete(user)
+                }
+                .addOnFailureListener {
+                    onComplete(null)
+                }
+        } else {
+            onComplete(null)
+        }
     }
 }

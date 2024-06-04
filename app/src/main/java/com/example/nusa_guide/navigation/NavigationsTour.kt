@@ -1,14 +1,20 @@
 package com.example.nusa_guide.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.PaketRegular
-import com.example.nusa_guide.model.Rekomendasi
+import com.example.nusa_guide.repository.AuthRepository
+import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.screen.AboutProfileScreen
 import com.example.nusa_guide.screen.CartScreen
 import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
@@ -40,305 +46,81 @@ import com.example.nusa_guide.screen.detail_screen.DetailScreen
 import com.example.nusa_guide.screen.payment.PaymentDetailsUI
 import com.example.nusa_guide.screen.payment.PaymentScreen
 import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
+import com.example.nusa_guide.viewModel.PaketRekomendasiViewModelFactory
+import com.example.nusa_guide.viewModel.RekomendasiViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+
+
+val paketRegular = listOf(
+    PaketRegular(
+        id = 1,
+        nama = "3 Wisata - 2 Hari",
+        gambar = R.drawable.tour_image_1,
+        harga = 350000,
+        jarak = 0.64,
+        rating = 4.5f
+    ),
+    PaketRegular(
+        id = 2,
+        nama = "2 Wisata - 1 Hari",
+        gambar = R.drawable.tour_image_1,
+        harga = 250000,
+        jarak = 0.34,
+        rating = 4.0f
+    ),
+    PaketRegular(
+        id = 3,
+        nama = "4 Wisata - 3 Hari",
+        gambar = R.drawable.tour_image_1,
+        harga = 450000,
+        jarak = 1.0,
+        rating = 4.8f
+    ),
+    PaketRegular(
+        id = 4,
+        nama = "5 Wisata - 4 Hari",
+        gambar = R.drawable.tour_image_1,
+        harga = 500000,
+        jarak = 1.5,
+        rating = 4.7f
+    ),
+    PaketRegular(
+        id = 5,
+        nama = "6 Wisata - 5 Hari",
+        gambar = R.drawable.tour_image_1,
+        harga = 550000,
+        jarak = 2.0,
+        rating = 4.9f
+    ),
+    PaketRegular(
+        id = 6,
+        nama = "7 Wisata - 6 Hari",
+        gambar = R.drawable.tour_image_1,
+        harga = 600000,
+        jarak = 2.5,
+        rating = 5.0f
+    ),
+)
 
 @Composable
 fun NavigationsTour() {
     val navController = rememberNavController()
-    val authViewModel: AuthViewModel = viewModel()
-
-    val paketRegular = listOf(
-        PaketRegular(
-            id = 1,
-            nama = "3 Wisata - 2 Hari",
-            gambar = R.drawable.tour_image_1,
-            harga = 350000,
-            jarak = 0.64,
-            rating = 4.5f
-        ),
-        PaketRegular(
-            id = 2,
-            nama = "2 Wisata - 1 Hari",
-            gambar = R.drawable.tour_image_1,
-            harga = 250000,
-            jarak = 0.34,
-            rating = 4.0f
-        ),
-        PaketRegular(
-            id = 3,
-            nama = "4 Wisata - 3 Hari",
-            gambar = R.drawable.tour_image_1,
-            harga = 450000,
-            jarak = 1.0,
-            rating = 4.8f
-        ),
-        PaketRegular(
-            id = 4,
-            nama = "5 Wisata - 4 Hari",
-            gambar = R.drawable.tour_image_1,
-            harga = 500000,
-            jarak = 1.5,
-            rating = 4.7f
-        ),
-        PaketRegular(
-            id = 5,
-            nama = "6 Wisata - 5 Hari",
-            gambar = R.drawable.tour_image_1,
-            harga = 550000,
-            jarak = 2.0,
-            rating = 4.9f
-        ),
-        PaketRegular(
-            id = 6,
-            nama = "7 Wisata - 6 Hari",
-            gambar = R.drawable.tour_image_1,
-            harga = 600000,
-            jarak = 2.5,
-            rating = 5.0f
-        ),
+    val authRepository = AuthRepository(
+        FirebaseAuth.getInstance(),
+        FirebaseFirestore.getInstance(),
+        LocalContext.current
     )
-
-    val rekomendasiList = listOf(
-        Rekomendasi(
-            id = 1,
-            nama = "Pantai Kuta",
-            gambar = R.drawable.tour_image_1,
-            harga = 50000,
-            jarak = 10.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 2,
-            nama = "Pura Besakih",
-            gambar = R.drawable.tour_image_1,
-            harga = 75000,
-            jarak = 25.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 3,
-            nama = "Ubud Monkey ",
-            gambar = R.drawable.bg_on_boarding,
-            harga = 60000,
-            jarak = 15.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 4,
-            nama = "Tanah Lot",
-            gambar = R.drawable.tour_image_1,
-            harga = 80000,
-            jarak = 30.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 5,
-            nama = "Pantai Sanur",
-            gambar = R.drawable.tour_image_1,
-            harga = 45000,
-            jarak = 12.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 6,
-            nama = "Garuda Wisnu Kencana",
-            gambar = R.drawable.tour_image_1,
-            harga = 100000,
-            jarak = 20.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 7,
-            nama = "Tegallalang Rice Terrace",
-            gambar = R.drawable.tour_image_1,
-            harga = 55000,
-            jarak = 18.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 8,
-            nama = "Goa Gajah",
-            gambar = R.drawable.tour_image_1,
-            harga = 50000,
-            jarak = 14.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 9,
-            nama = "Pantai Jimbaran",
-            gambar = R.drawable.bg_on_boarding,
-            harga = 40000,
-            jarak = 16.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
-        ),
-        Rekomendasi(
-            id = 10,
-            nama = "Tirta Empul",
-            gambar = R.drawable.bg_on_boarding,
-            harga = 70000,
-            jarak = 22.0,
-            deskripsi = "Sebuah pulau indah di Bali.",
-            cuplikanPhoto = R.drawable.pantai_1,
-            informasiTourGuide = "Pemandu tur berpengalaman.",
-            informasiHarga = "Harga termasuk makan siang.",
-            ratingReview = 4,
-            ulasan = 120,
-            ulasanTitle = "Ulasan Terbaik",
-            ulasanImage = R.drawable.pantai_2,
-            deskripsiUlasan = "Tempat ini luar biasa!",
-            cuplikanPhotoUlasan = listOf(
-                R.drawable.pantai_1,
-                R.drawable.pantai_2,
-                R.drawable.pantai_3
-            ),
-            km = 7,
-            waktuKeberangkatan = 18.00,
-            lokasi = "Bali"
+    val authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(authRepository)
+    )
+    val rekomendasiViewModel: RekomendasiViewModel = viewModel(
+        factory = PaketRekomendasiViewModelFactory(
+            RekomendasiRepository(FirebaseFirestore.getInstance())
         )
     )
+    val rekomendasiList by rekomendasiViewModel.paketRekomendasi.observeAsState()
 
     NavHost(
         navController = navController,
@@ -372,7 +154,7 @@ fun NavigationsTour() {
             HalamanBottom(navController)
         }
         composable(NavigationTourScreen.HomeScreen.name) {
-            HomeScreen(navController)
+            HomeScreen(navController,authViewModel)
         }
         composable(NavigationTourScreen.FavoriteScreen.name) {
             FavoriteScreen(navController)
@@ -396,7 +178,11 @@ fun NavigationsTour() {
             SearchScreen(navController)
         }
         composable(NavigationTourScreen.RekomendasiScreen.name) {
-            RekomendasiScreen(navController, rekomendasiList)
+            rekomendasiList?.let {
+                RekomendasiScreen(navController, it)
+            } ?: run {
+                // Handle loading or empty state here
+            }
         }
         composable(NavigationTourScreen.PaketPremiumScreen.name) {
             PaketPremiumScreen(navController, paketPremiumList)
@@ -416,8 +202,18 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.CameraXScreen.name) {
             CameraXScreen(navController)
         }
-        composable(NavigationTourScreen.DetailScreen.name) {
-            DetailScreen(navController)
+        composable(
+            route = "${NavigationTourScreen.DetailScreen.name}/{rekomendasiId}",
+            arguments = listOf(navArgument("rekomendasiId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val rekomendasiId = backStackEntry.arguments?.getString("rekomendasiId")
+            if (rekomendasiId != null) {
+                DetailScreen(
+                    navController = navController,
+                    rekomendasiId = rekomendasiId,
+                    rekomendasiViewModel = rekomendasiViewModel
+                )
+            }
         }
         composable(NavigationTourScreen.DetailPremiumScreen.name) {
             DetailPremiumScreen()
