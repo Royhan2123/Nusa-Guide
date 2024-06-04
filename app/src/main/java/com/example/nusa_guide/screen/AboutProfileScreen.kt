@@ -129,9 +129,6 @@ fun AboutProfileScreen(
             Spacer(modifier = Modifier.height(10.dp))
             TextButton(onClick = {
                 authViewModel.authLogout()
-                navController.navigate(
-                    NavigationTourScreen.LoginScreen.name
-                )
             }) {
                 Text(
                     text = "Logout",

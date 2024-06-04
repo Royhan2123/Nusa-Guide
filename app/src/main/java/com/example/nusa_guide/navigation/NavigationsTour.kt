@@ -5,9 +5,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.PaketRegular
@@ -125,10 +127,7 @@ fun NavigationsTour() {
         startDestination = NavigationTourScreen.SplashScreen.name
     ) {
         composable(NavigationTourScreen.SplashScreen.name) {
-            SplashScreen(
-                navController = navController,
-                authViewModel
-            )
+            SplashScreen(navController = navController, authViewModel)
         }
         composable(NavigationTourScreen.OnBoardingScreen.name) {
             OnBoardingScreen(navController = navController)
@@ -137,22 +136,16 @@ fun NavigationsTour() {
             OnBoardingScreen2(navController = navController)
         }
         composable(NavigationTourScreen.LoginScreen.name) {
-            LoginScreen(
-                navController = navController,
-                authViewModel
-            )
+            LoginScreen(navController = navController, authViewModel)
         }
         composable(NavigationTourScreen.RegisterScreen.name) {
-            RegisterScreen(
-                navController = navController,
-                authViewModel
-            )
+            RegisterScreen(navController = navController, authViewModel)
         }
         composable(NavigationTourScreen.HalamanBottom.name) {
             HalamanBottom(navController)
         }
         composable(NavigationTourScreen.HomeScreen.name) {
-            HomeScreen(navController,authViewModel)
+            HomeScreen(navController, authViewModel)
         }
         composable(NavigationTourScreen.FavoriteScreen.name) {
             FavoriteScreen(navController)
@@ -200,8 +193,18 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.CameraXScreen.name) {
             CameraXScreen(navController)
         }
-        composable(NavigationTourScreen.DetailScreen.name) {
-            DetailScreen(navController)
+        composable(
+            route = "${NavigationTourScreen.DetailScreen.name}/{rekomendasiId}",
+            arguments = listOf(navArgument("rekomendasiId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val rekomendasiId = backStackEntry.arguments?.getString("rekomendasiId")
+            if (rekomendasiId != null) {
+                DetailScreen(
+                    navController = navController,
+                    rekomendasiId = rekomendasiId,
+                    rekomendasiViewModel = rekomendasiViewModel
+                )
+            }
         }
         composable(NavigationTourScreen.DetailPremiumScreen.name) {
             DetailPremiumScreen()

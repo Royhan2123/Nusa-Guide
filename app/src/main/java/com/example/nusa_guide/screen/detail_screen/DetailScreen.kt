@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,7 +25,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ElevatedButton
@@ -34,6 +35,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -48,8 +50,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
@@ -58,9 +62,17 @@ import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.orange
 import com.example.nusa_guide.ui.theme.white
+import com.example.nusa_guide.viewModel.RekomendasiViewModel
 
 @Composable
-fun DetailScreen(navController: NavController) {
+fun DetailScreen(
+    navController: NavController,
+    rekomendasiId: String,
+    rekomendasiViewModel: RekomendasiViewModel
+) {
+
+    val rekomendasi by rekomendasiViewModel.getRekomendasiById(rekomendasiId).observeAsState()
+
     var isSelected by remember {
         mutableStateOf(false)
     }
@@ -79,7 +91,7 @@ fun DetailScreen(navController: NavController) {
                     .height(300.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.tour_image_1), // Ganti dengan URL atau resource lokal yang sesuai
+                    painter = rememberAsyncImagePainter(rekomendasi?.gambar),
                     contentDescription = "Foto Utama",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
@@ -131,15 +143,17 @@ fun DetailScreen(navController: NavController) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             // Judul dan Harga
-            Text(
-                text = "Nusa Penida",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            rekomendasi?.let {
+                Text(
+                    text = it.nama,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Rp 150.000 /orang",
+                text = "${rekomendasi?.harga}/ orang",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = brandPrimary500,
@@ -155,11 +169,13 @@ fun DetailScreen(navController: NavController) {
                     painter = painterResource(id = R.drawable.icon_location),
                     contentDescription = null,
                 )
-                Text(
-                    text = "Denpasar, Bali",
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(start = 8.dp)
-                )
+                rekomendasi?.lokasi?.let {
+                    Text(
+                        text = it,
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(8.dp))
             // Waktu
@@ -173,7 +189,7 @@ fun DetailScreen(navController: NavController) {
                     modifier = Modifier.size(18.dp)
                 )
                 Text(
-                    text = "06.00 - 18.00 WITA",
+                    text = "${rekomendasi?.waktuKeberangkatan} WITA",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(start = 8.dp)
                 )
@@ -189,7 +205,7 @@ fun DetailScreen(navController: NavController) {
                     contentDescription = null
                 )
                 Text(
-                    text = "5 km - 20 menit",
+                    text = "${rekomendasi?.km} km - ${rekomendasi?.jarak} menit",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(start = 8.dp)
                 )
@@ -205,12 +221,14 @@ fun DetailScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "Pantai Bias Tugel tidak kalah indah dengan pantai-pantai lainnya di Bali. Pantai Bias Tugel Bali terletak di Desa Padangbai, Kecamatan Manggis, Karangasem, Bali. Dari Bandara Internasional Ngurah Rai sekitar 57 km dengan waktu tempuh 1.5 jam perjalanan dengan menggunakan kendaraan bermotor. ",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = gray700
-            )
+            rekomendasi?.deskripsi?.let {
+                Text(
+                    text = it,
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    color = gray700
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             Spacer(modifier = Modifier.height(16.dp))
@@ -222,34 +240,19 @@ fun DetailScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
+            LazyRow {
+                rekomendasi?.let {
+                    items(it.cuplikanPhoto) { photoUrl ->
+                        Image(
+                            painter = rememberAsyncImagePainter(photoUrl),
+                            contentDescription = "Cuplikan Foto",
+                            modifier = Modifier
+                                .size(100.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                }
             }
             Spacer(modifier = Modifier.height(16.dp))
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -262,11 +265,13 @@ fun DetailScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Percayakan wisata Anda kepada ahlinya! Kami akan memilihkan pemandu wisata terbaik di Nusa Penisa untuk menemani Anda. Tak perlu ragu lagi, Anda akan mendapatkan pengalaman wisata yang tak terlupakan dan penuh petualangan.",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            rekomendasi?.informasiTourGuide?.let {
+                Text(
+                    text = it,
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Harga sudah Termasuk:",
@@ -275,7 +280,7 @@ fun DetailScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Text(
-                text = "• Penjemputan dan pengantaran dari titik pertemuan yang ditentukan\n• Biaya tiket wisata\n• Air mineral dan makanan ringan",
+                text = "• ${rekomendasi?.informasiHarga} ",
                 fontSize = 16.sp,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -355,7 +360,7 @@ fun DetailScreen(navController: NavController) {
                 }
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "4.0/5 (1RB Ulasan)",
+                    text = "${rekomendasi?.ratingReview}/5 (1RB Ulasan)",
                     fontSize = 16.sp
                 )
             }
@@ -368,7 +373,7 @@ fun DetailScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 Image(
-                    imageVector = Icons.Default.AccountCircle,
+                    painter = rememberAsyncImagePainter(model = rekomendasi?.ulasanImage),
                     contentDescription = null,
                     modifier = Modifier
                         .size(40.dp)
@@ -377,11 +382,13 @@ fun DetailScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Column {
-                    Text(
-                        text = "Jonathan Kaje",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    rekomendasi?.ulasanTitle?.let {
+                        Text(
+                            text = it,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                     Text(
                         text = "10 Minggu lalu",
                         fontSize = 14.sp,
@@ -390,40 +397,28 @@ fun DetailScreen(navController: NavController) {
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Tour Guide Rekomendasi Puollll untuk dipesan muantappp....",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            rekomendasi?.deskripsiUlasan?.let {
+                Text(
+                    text = it,
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
-            Row(
+            LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
+                items(rekomendasi!!.cuplikanPhoto) { photoUrl ->
+                    Image(
+                        painter = rememberAsyncImagePainter(photoUrl),
+                        contentDescription = "Cuplikan Foto",
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(250.dp))
         }
@@ -538,5 +533,9 @@ fun startWhatsApp(context: android.content.Context) {
 @Preview(showSystemUi = true)
 @Composable
 fun DetailScreenPreview() {
-    DetailScreen(rememberNavController())
+    DetailScreen(
+        rememberNavController(),
+        "1",
+        viewModel()
+    )
 }

@@ -20,4 +20,24 @@ class RekomendasiRepository(private val firestore: FirebaseFirestore) {
                 onError(exception)
             }
     }
+    fun getRekomendasiById(
+        rekomendasiId: String,
+        onComplete: (Rekomendasi) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        firestore.collection("PaketRekomendasi")
+            .document(rekomendasiId)
+            .get()
+            .addOnSuccessListener { document ->
+                val rekomendasi = document.toObject(Rekomendasi::class.java)
+                if (rekomendasi != null) {
+                    onComplete(rekomendasi)
+                } else {
+                    onError(Exception("Rekomendasi not found"))
+                }
+            }
+            .addOnFailureListener { exception ->
+                onError(exception)
+            }
+    }
 }

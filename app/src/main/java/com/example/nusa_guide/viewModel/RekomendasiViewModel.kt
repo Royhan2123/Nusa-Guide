@@ -31,6 +31,20 @@ class RekomendasiViewModel(
             }
         )
     }
+    fun getRekomendasiById(rekomendasiId: String): LiveData<Rekomendasi> {
+        val rekomendasiLiveData = MutableLiveData<Rekomendasi>()
+
+        repository.getRekomendasiById(rekomendasiId,
+            onComplete = { rekomendasi ->
+                rekomendasiLiveData.value = rekomendasi
+            },
+            onError = { exception ->
+                _error.value = exception.message
+            }
+        )
+
+        return rekomendasiLiveData
+    }
 }
 
 @Suppress("UNCHECKED_CAST")

@@ -40,12 +40,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.PaketPremiumItem
 import com.example.nusa_guide.component.RekomendasiItem
@@ -67,7 +65,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     navController: NavController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
 ) {
     val rekomendasiViewModel: RekomendasiViewModel = viewModel(
         factory = PaketRekomendasiViewModelFactory(
@@ -113,6 +111,57 @@ fun HomeScreen(
 
         if (error.isNotEmpty()) {
             Text(text = "Error: $error", color = Color.Red)
+        }
+    }
+}
+
+@Composable
+fun RekomendasiSection(
+    navController: NavController,
+    rekomendasiList: List<Rekomendasi>
+) {
+    Column(modifier = Modifier.padding(2.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Rekomendasi",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Rekomendasi Wisata Terbaik Buat Kamu",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+            Text(
+                text = "Lihat Semua >",
+                color = brandPrimary500,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate(
+                            NavigationTourScreen.RekomendasiScreen.name
+                        )
+                    }
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(rekomendasiList) { rekomendasi ->
+                RekomendasiItem(rekomendasi, onClick = {
+                    navController.navigate(
+                        "${NavigationTourScreen.DetailScreen.name}/${rekomendasi.id}"
+                    )
+                })
+            }
         }
     }
 }
@@ -276,56 +325,6 @@ fun CategoryItem(imageRes: Int, title: String) {
     }
 }
 
-@Composable
-fun RekomendasiSection(
-    navController: NavController,
-    rekomendasiList: List<Rekomendasi>
-) {
-    Column(modifier = Modifier.padding(2.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
-                Text(
-                    text = "Rekomendasi",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-                Text(
-                    text = "Rekomendasi Wisata Terbaik Buat Kamu",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
-            Text(
-                text = "Lihat Semua >",
-                color = brandPrimary500,
-                fontSize = 14.sp,
-                modifier = Modifier
-                    .clickable {
-                        navController.navigate(
-                            NavigationTourScreen.RekomendasiScreen.name
-                        )
-                    }
-            )
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(rekomendasiList) { rekomendasi ->
-                RekomendasiItem(rekomendasi, onClick = {
-                    navController.navigate(
-                        NavigationTourScreen.DetailScreen.name
-                    )
-                })
-            }
-        }
-    }
-}
 
 @Composable
 fun PaketPremiumSection(navController: NavController) {
@@ -414,13 +413,4 @@ fun PaketRegularSection(navController: NavController) {
             }
         }
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(
-        rememberNavController(),
-        authViewModel = viewModel()
-    )
 }
