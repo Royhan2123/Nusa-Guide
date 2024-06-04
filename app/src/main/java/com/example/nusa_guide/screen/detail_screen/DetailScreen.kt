@@ -3,7 +3,6 @@ package com.example.nusa_guide.screen.detail_screen
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,12 +22,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -57,7 +56,6 @@ import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
-import com.example.nusa_guide.ui.theme.lightGray
 import com.example.nusa_guide.ui.theme.orange
 import com.example.nusa_guide.ui.theme.white
 
@@ -96,7 +94,7 @@ fun DetailScreen(navController: NavController) {
                     IconButton(onClick = {
                         navController.popBackStack()
                     }) {
-                        androidx.compose.material3.Icon(
+                        Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = "icon-back",
                             modifier = Modifier
@@ -104,7 +102,6 @@ fun DetailScreen(navController: NavController) {
                                 .clickable {
                                     navController.popBackStack()
                                 }
-                                .background(lightGray.copy(alpha = 0.5f))
                                 .clip(CircleShape),
                             tint = black51
                         )
@@ -117,17 +114,15 @@ fun DetailScreen(navController: NavController) {
                                 tint = Color.Red,
                                 modifier = Modifier
                                     .size(35.dp)
-                                    .background(lightGray.copy(alpha = 1f))
                                     .clip(CircleShape),
                             )
                         } else {
                             Icon(
                                 imageVector = Icons.Outlined.FavoriteBorder,
                                 contentDescription = "icon-favorit-outlined",
-                                tint = black51,
+                                tint = gray700,
                                 modifier = Modifier
                                     .size(35.dp)
-                                    .background(lightGray.copy(alpha = 0.5f))
                                     .clip(CircleShape),
                             )
                         }
@@ -200,7 +195,7 @@ fun DetailScreen(navController: NavController) {
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             Spacer(modifier = Modifier.height(16.dp))
             // Deskripsi
             Text(
@@ -217,7 +212,7 @@ fun DetailScreen(navController: NavController) {
                 color = gray700
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             Spacer(modifier = Modifier.height(16.dp))
             // Cuplikan Foto
             Text(
@@ -257,7 +252,7 @@ fun DetailScreen(navController: NavController) {
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             Spacer(modifier = Modifier.height(16.dp))
             // Informasi Tour Guide
             Text(
@@ -285,7 +280,7 @@ fun DetailScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             Spacer(modifier = Modifier.height(16.dp))
             // Rating & Review
             Column(
@@ -351,7 +346,7 @@ fun DetailScreen(navController: NavController) {
                             color = brandPrimary500,
                         )
                         Icon(
-                            imageVector = Icons.Filled.KeyboardArrowRight,
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                             contentDescription = "icon-arrow-right",
                             modifier = Modifier.size(20.dp),
                             tint = brandPrimary500
@@ -365,7 +360,7 @@ fun DetailScreen(navController: NavController) {
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             Spacer(modifier = Modifier.height(16.dp))
             // Review Item
             Row(
@@ -471,7 +466,7 @@ fun SurfaceBottom(
                     color = white
                 ) {
                     IconButton(
-                        onClick = {  startWhatsApp(context)  },
+                        onClick = { startWhatsApp(context) },
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_message),
@@ -511,7 +506,11 @@ fun SurfaceBottom(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 ElevatedButton(
-                    onClick = { /* TODO: Add action */ },
+                    onClick = {
+                        navController.navigate(
+                            NavigationTourScreen.PaymentScreen.name
+                        )
+                    },
                     modifier = Modifier
                         .width(145.dp)
                         .height(45.dp),
@@ -520,7 +519,7 @@ fun SurfaceBottom(
                     ),
                     shape = RoundedCornerShape(10.dp),
                 ) {
-                   Text(text = "Pesan (1)")
+                    Text(text = "Pesan (1)")
                 }
             }
         }

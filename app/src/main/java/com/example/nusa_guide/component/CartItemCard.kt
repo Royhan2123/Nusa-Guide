@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -54,11 +53,9 @@ fun CartItemCard(
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
-        color = Color.White
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(bottom = 10.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -170,9 +167,8 @@ fun CartItemCard(
                 }
 
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(50.dp))
             HorizontalDivider(thickness = 1.dp, color = gray)
-            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }

@@ -90,9 +90,7 @@ fun ProfileAndNotificationRow(
             modifier = Modifier
                 .size(24.dp)
                 .clickable {
-navController.navigate(
-    NavigationTourScreen.CartScreen.name
-)
+                    navController.navigate(NavigationTourScreen.CartScreen.name)
                 }
         )
         Spacer(modifier = Modifier.width(10.dp))
@@ -145,9 +143,7 @@ fun SearchBar(navController: NavController) {
             .fillMaxWidth()
             .height(50.dp)
             .clickable {
-                navController.navigate(
-                    NavigationTourScreen.SearchScreen.name
-                )
+                navController.navigate(NavigationTourScreen.SearchScreen.name)
             },
         border = BorderStroke(
             width = 1.dp,
@@ -257,9 +253,7 @@ fun RekomendasiSection(navController: NavController) {
                 fontSize = 14.sp,
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(
-                            NavigationTourScreen.RekomendasiScreen.name
-                        )
+                        navController.navigate(NavigationTourScreen.RekomendasiScreen.name)
                     }
             )
         }
@@ -268,14 +262,9 @@ fun RekomendasiSection(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(DummyData.rekomendasiList) { rekomendasi ->
-                RekomendasiItem(rekomendasi); {
+                RekomendasiItem(rekomendasi) {
                     navController.navigate(NavigationTourScreen.DetailScreen.name + "/${rekomendasi.id}")
                 }
-                RekomendasiItem(rekomendasi, onClick = {
-                    navController.navigate(
-                        NavigationTourScreen.DetailScreen.name
-                    )
-                })
             }
         }
     }
@@ -308,9 +297,7 @@ fun PaketPremiumSection(navController: NavController) {
                 fontSize = 14.sp,
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(
-                            NavigationTourScreen.PaketPremiumScreen.name
-                        )
+                        navController.navigate(NavigationTourScreen.PaketPremiumScreen.name)
                     }
             )
         }
@@ -324,7 +311,6 @@ fun PaketPremiumSection(navController: NavController) {
         }
     }
 }
-
 
 @Composable
 fun PaketRegularSection(navController: NavController) {
@@ -353,9 +339,7 @@ fun PaketRegularSection(navController: NavController) {
                 fontSize = 14.sp,
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(
-                            NavigationTourScreen.PaketRegulerScreen.name
-                        )
+                        navController.navigate(NavigationTourScreen.PaketRegulerScreen.name)
                     }
             )
         }

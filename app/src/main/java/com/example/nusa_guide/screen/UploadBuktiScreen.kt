@@ -60,6 +60,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.brandPrimary600
@@ -367,7 +368,11 @@ fun UploadBuktiScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(50.dp))
             }
             Spacer(modifier = Modifier.weight(1f))
-            ButtonStyle(onClicked = { /*TODO*/ }, text = "Kirim")
+            ButtonStyle(onClicked = {
+                navController.navigate(
+                    NavigationTourScreen.TransactionSuccessScreen.name
+                )
+            }, text = "Kirim")
         }
     }
 }

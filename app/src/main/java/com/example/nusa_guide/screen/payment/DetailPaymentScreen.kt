@@ -13,17 +13,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,15 +38,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.BrandPrimary400
+import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray700
 import kotlinx.coroutines.delay
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun PaymentDetailsUI() {
-    var timeLeft by remember { mutableStateOf(3600) } // Initial time: 1 hour in seconds
+fun PaymentDetailsUI(
+    navController: NavController
+) {
+    var timeLeft by remember { mutableIntStateOf(3600) }
     var showAlert by remember { mutableStateOf(false) }
 
     LaunchedEffect(timeLeft) {
@@ -60,11 +68,15 @@ fun PaymentDetailsUI() {
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             Button(
-                onClick = { /*TODO: Handle upload action*/ },
+                onClick = {
+                    navController.navigate(
+                       NavigationTourScreen.UploadBuktiScreen.name
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = BrandPrimary400),
+                colors = ButtonDefaults.buttonColors(brandPrimary500),
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
@@ -110,15 +122,15 @@ fun PaymentDetailsUI() {
                     )
                     Text(
                         text = "14 Mei 2024, 19:00 PM",
-                        fontSize = 16.sp,
+                        fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                 }
                 Surface(
-                    modifier = Modifier.width(145.dp),
+                    modifier = Modifier.width(100.dp),
                     color = Color.Red,
-                    elevation = 8.dp,
+                    shadowElevation = 8.dp,
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Row(
@@ -140,7 +152,7 @@ fun PaymentDetailsUI() {
 
                         Text(
                             text = timeText,
-                            fontSize = 18.sp,
+                            fontSize = 12.sp,
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center
@@ -150,12 +162,11 @@ fun PaymentDetailsUI() {
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            Divider(color = gray700, thickness = 2.dp)
+            HorizontalDivider(thickness = 2.dp, color = gray700)
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -172,8 +183,6 @@ fun PaymentDetailsUI() {
                         .padding(start = 8.dp)
                 )
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = Modifier
@@ -195,10 +204,9 @@ fun PaymentDetailsUI() {
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Button(
-                    onClick = { /*TODO: Handle copy action*/ },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                    elevation = ButtonDefaults.elevation(defaultElevation = 0.dp)
+                TextButton(
+                    onClick = { /* TODO: Handle copy action */ },
+                    colors = ButtonDefaults.buttonColors(Color.Transparent),
                 ) {
                     Text(
                         text = "Salin",
@@ -207,9 +215,6 @@ fun PaymentDetailsUI() {
                     )
                 }
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -230,10 +235,13 @@ fun PaymentDetailsUI() {
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Button(
-                    onClick = { /*TODO: Show details*/ },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                    elevation = ButtonDefaults.elevation(defaultElevation = 0.dp)
+                TextButton(
+                    onClick = {
+                              navController.navigate(
+                                  NavigationTourScreen.DetailTransactionScreen.name
+                              )
+                    },
+                    colors = ButtonDefaults.buttonColors(Color.Transparent),
                 ) {
                     Text(
                         text = "Lihat Detail",
@@ -244,12 +252,12 @@ fun PaymentDetailsUI() {
             }
 
             Button(
-                onClick = { /*TODO: Handle Lihat Cara Bayar action*/ },
+                onClick = {
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 2.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp)
+                colors = ButtonDefaults.buttonColors(Color.Transparent),
             ) {
                 Text(
                     text = "Lihat Cara Bayar",
@@ -258,7 +266,7 @@ fun PaymentDetailsUI() {
                     textAlign = TextAlign.Center
                 )
             }
-            Divider(color = gray700, thickness = 2.dp)
+            HorizontalDivider(thickness = 2.dp, color = gray700)
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
@@ -275,6 +283,5 @@ fun PaymentDetailsUI() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewPaymentDetailsUI() {
-    PaymentDetailsUI()
+    PaymentDetailsUI(rememberNavController())
 }
-

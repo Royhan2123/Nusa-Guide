@@ -27,7 +27,6 @@ fun PaketPremiumScreen(
         items(paketPremiumList.size) { index ->
             PaketPremiumItem(
                 paketPremium = paketPremiumList[index],
-                onItemClicked = {},
             )
         }
     }

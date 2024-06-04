@@ -15,18 +15,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,46 +45,59 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.BrandPrimary400
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.gray700
 
 @Composable
-fun BottomBar(totalTagihan: Int) {
+fun BottomBar(
+    totalTagihan: Int,
+    navController: NavController
+) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 16.dp), // Added padding to bottom for better visibility
+            .fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+        Surface (
+            modifier = Modifier.fillMaxWidth(),
+            shadowElevation = 10.dp,
         ) {
-            Text(
-                text = "Total tagihan\nRp %,d".format(totalTagihan),
-                fontSize = 18.sp,
-                color = BrandPrimary400
-            )
-            Button(
-                onClick = { /* TODO: Handle payment */ },
+            Row(
                 modifier = Modifier
-                    .height(48.dp)
-                    .width(120.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF00ADEF))
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_shield_tick),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Bayar", color = Color.White)
+                Text(
+                    text = "Total tagihan\nRp %,d".format(totalTagihan),
+                    fontSize = 15.sp,
+                    color = BrandPrimary400,
+                )
+                Button(
+                    onClick = {
+                        navController.navigate(
+                            NavigationTourScreen.PaymentDetailsUI.name
+                        )
+                    },
+                    modifier = Modifier
+                        .height(40.dp)
+                        .width(120.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xFF00ADEF))
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_shield_tick),
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = "Bayar", color = Color.White)
+                    }
                 }
             }
         }
@@ -91,7 +105,7 @@ fun BottomBar(totalTagihan: Int) {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PaymentScreen(navController: NavController) {
     var selectedMethod by remember { mutableStateOf("BCA") }
@@ -106,7 +120,7 @@ fun PaymentScreen(navController: NavController) {
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    androidx.compose.material3.Text(
+                    Text(
                         text = "Edit Profil", fontWeight = FontWeight.Bold, fontSize = 20.sp
                     )
                 },
@@ -195,7 +209,7 @@ fun PaymentScreen(navController: NavController) {
                     Divider(color = gray700, thickness = 2.dp)
                 }
             }
-            BottomBar(totalTagihan)
+            BottomBar(totalTagihan,navController)
         }
     }
 }
@@ -211,8 +225,10 @@ fun SummaryItem(label: String, amount: Int, isTotal: Boolean = false, originalAm
             .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(label, fontSize = fontSize,
-            color = gray700)
+        Text(
+            label, fontSize = fontSize,
+            color = gray700
+        )
         Row {
             originalAmount?.let {
                 Text(
