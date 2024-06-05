@@ -161,7 +161,7 @@ fun RekomendasiSection(
             ) {
                 items(rekomendasiList) { rekomendasi ->
                     RekomendasiItem(rekomendasi, onClick = {
-                        navController.navigate("${NavigationTourScreen.DetailScreen.name}/${rekomendasi.id}")
+                        navController.navigate(NavigationTourScreen.DetailScreen.name)
                     })
                 }
             }

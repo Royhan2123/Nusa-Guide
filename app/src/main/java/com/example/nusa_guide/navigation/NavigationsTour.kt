@@ -5,11 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.PaketRegular
@@ -192,15 +190,11 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.CameraXScreen.name) {
             CameraXScreen(navController)
         }
-        composable(
-            route = "${NavigationTourScreen.DetailScreen.name}/{rekomendasiId}",
-            arguments = listOf(navArgument("rekomendasiId") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val rekomendasiId = backStackEntry.arguments?.getString("rekomendasiId")
-            rekomendasiId?.let { id ->
-                DetailScreen(navController, id, rekomendasiViewModel)
-            }
+
+        composable(NavigationTourScreen.DetailScreen.name) {
+            DetailScreen(navController)
         }
+
         composable(NavigationTourScreen.DetailPremiumScreen.name) {
             DetailPremiumScreen()
         }
