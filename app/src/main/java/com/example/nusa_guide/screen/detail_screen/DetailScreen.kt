@@ -24,9 +24,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -34,6 +35,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -54,15 +56,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
-import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
-import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
-import com.example.nusa_guide.ui.theme.orange
 import com.example.nusa_guide.ui.theme.white
 import com.example.nusa_guide.viewModel.RekomendasiViewModel
+
 
 @Composable
 fun DetailScreen(
@@ -70,181 +71,151 @@ fun DetailScreen(
     rekomendasiId: String,
     rekomendasiViewModel: RekomendasiViewModel
 ) {
+    val rekomendasi = rekomendasiViewModel.rekomendasi.observeAsState()
+    var isSelected by remember { mutableStateOf(false) }
 
-    val rekomendasi by rekomendasiViewModel.getRekomendasiById(rekomendasiId).observeAsState()
 
-    var isSelected by remember {
-        mutableStateOf(false)
+    LaunchedEffect(key1 = rekomendasiId) {
+        rekomendasiViewModel.getRekomendasiById(rekomendasiId)
     }
-    Box(modifier = Modifier.fillMaxSize()) {
 
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            // Gambar Utama
-            Box(
+    rekomendasi.value?.let {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
             ) {
-                Image(
-                    painter = rememberAsyncImagePainter(rekomendasi?.gambar),
-                    contentDescription = "Foto Utama",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-                Row(
+                // Gambar dan tombol favorit
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top
+                        .height(300.dp)
                 ) {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = "icon-back",
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clickable {
-                                    navController.popBackStack()
-                                }
-                                .clip(CircleShape),
-                            tint = black51
-                        )
-                    }
-                    IconButton(onClick = { isSelected = !isSelected }) {
-                        if (isSelected) {
+                    Image(
+                        painter = rememberAsyncImagePainter(it.gambar),
+                        contentDescription = "Foto Utama",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                    // Tombol kembali
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
-                                imageVector = Icons.Filled.Favorite,
-                                contentDescription = "icon-favorit-filled",
-                                tint = Color.Red,
-                                modifier = Modifier
-                                    .size(35.dp)
-                                    .clip(CircleShape),
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "Back",
+                                modifier = Modifier.size(40.dp)
                             )
-                        } else {
+                        }
+                        // Tombol favorit
+                        IconButton(
+                            onClick = { isSelected = !isSelected },
+                            modifier = Modifier.size(35.dp)
+                        ) {
                             Icon(
-                                imageVector = Icons.Outlined.FavoriteBorder,
-                                contentDescription = "icon-favorit-outlined",
-                                tint = gray700,
-                                modifier = Modifier
-                                    .size(35.dp)
-                                    .clip(CircleShape),
+                                imageVector = if (isSelected) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                                contentDescription = "Favorite",
+                                tint = if (isSelected) Color.Red else Color.Gray
                             )
                         }
                     }
                 }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            // Judul dan Harga
-            rekomendasi?.let {
+
+                // Judul dan harga
                 Text(
                     text = it.nama,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "${rekomendasi?.harga}/ orang",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = brandPrimary500,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            // Lokasi
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_location),
-                    contentDescription = null,
+                Text(
+                    text = "$${it.harga} / orang",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = brandPrimary500,
+                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
-                rekomendasi?.lokasi?.let {
+
+                // Lokasi
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_location),
+                        contentDescription = null
+                    )
                     Text(
-                        text = it,
+                        text = it.lokasi,
                         fontSize = 16.sp,
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            // Waktu
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_time),
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
+
+                // Waktu
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_time),
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Text(
+                        text = "${it.waktuKeberangkatan} WITA",
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
+
+                // Jarak
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_wisata),
+                        contentDescription = null
+                    )
+                    Text(
+                        text = "${it.km} km - ${it.jarak} menit",
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
+
+                // Deskripsi
+                Text(
+                    text = "Deskripsi",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)
                 )
                 Text(
-                    text = "${rekomendasi?.waktuKeberangkatan} WITA",
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            // Jarak
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_wisata),
-                    contentDescription = null
-                )
-                Text(
-                    text = "${rekomendasi?.km} km - ${rekomendasi?.jarak} menit",
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-            Spacer(modifier = Modifier.height(16.dp))
-            // Deskripsi
-            Text(
-                text = "Deskripsi",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            rekomendasi?.deskripsi?.let {
-                Text(
-                    text = it,
+                    text = it.deskripsi,
                     fontSize = 16.sp,
                     modifier = Modifier.padding(horizontal = 16.dp),
                     color = gray700
                 )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-            Spacer(modifier = Modifier.height(16.dp))
-            // Cuplikan Foto
-            Text(
-                text = "Cuplikan Foto",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            LazyRow {
-                rekomendasi?.let {
+
+                // Cuplikan Foto
+                Text(
+                    text = "Cuplikan Foto",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)
+                )
+                LazyRow {
                     items(it.cuplikanPhoto) { photoUrl ->
                         Image(
-                            painter = rememberAsyncImagePainter(photoUrl),
+                            painter = rememberImagePainter(data = photoUrl),
                             contentDescription = "Cuplikan Foto",
                             modifier = Modifier
                                 .size(100.dp)
@@ -253,176 +224,52 @@ fun DetailScreen(
                         )
                     }
                 }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-            Spacer(modifier = Modifier.height(16.dp))
-            // Informasi Tour Guide
-            Text(
-                text = "Informasi Tour Guide",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            rekomendasi?.informasiTourGuide?.let {
+
+                // Informasi Tour Guide
                 Text(
-                    text = it,
+                    text = "Informasi Tour Guide",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)
+                )
+                Text(
+                    text = it.informasiTourGuide,
                     fontSize = 16.sp,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Harga sudah Termasuk:",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Text(
-                text = "• ${rekomendasi?.informasiHarga} ",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-            Spacer(modifier = Modifier.height(16.dp))
-            // Rating & Review
-            Column(
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
+
+                // Harga termasuk
+                Text(
+                    text = "Harga sudah Termasuk:",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)
+                )
+                it.informasiHarga.forEach { info ->
+                    Text(
+                        text = "• $info",
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+
+                // Rating & Review
                 Text(
                     text = "Rating & Review",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_star),
-                        contentDescription = "icon-Star",
-                        modifier = Modifier.size(20.dp),
-                        tint = orange
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_star),
-                        contentDescription = "icon-Star",
-                        modifier = Modifier.size(20.dp),
-                        tint = orange
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_star),
-                        contentDescription = "icon-Star",
-                        modifier = Modifier.size(20.dp),
-                        tint = orange
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_star),
-                        contentDescription = "icon-Star",
-                        modifier = Modifier.size(20.dp),
-                        tint = orange
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_star_outlined),
-                        contentDescription = "icon-Star",
-                        modifier = Modifier.size(20.dp),
-                        tint = gray
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.clickable {}
-                    ) {
-                        Text(
-                            text = "Lihat Semua",
-                            fontSize = 14.sp,
-                            color = brandPrimary500,
-                        )
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "icon-arrow-right",
-                            modifier = Modifier.size(20.dp),
-                            tint = brandPrimary500
-                        )
-                    }
-                }
+                // Implementasi bintang dan ulasan di sini
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "${rekomendasi?.ratingReview}/5 (1RB Ulasan)",
-                    fontSize = 16.sp
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-            Spacer(modifier = Modifier.height(16.dp))
-            // Review Item
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Image(
-                    painter = rememberAsyncImagePainter(model = rekomendasi?.ulasanImage),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop,
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Column {
-                    rekomendasi?.ulasanTitle?.let {
-                        Text(
-                            text = it,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                    Text(
-                        text = "10 Minggu lalu",
-                        fontSize = 14.sp,
-                        color = Color.Gray
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            rekomendasi?.deskripsiUlasan?.let {
-                Text(
-                    text = it,
+                    text = "${it.ratingReview}/5 (1RB Ulasan)",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                items(rekomendasi!!.cuplikanPhoto) { photoUrl ->
-                    Image(
-                        painter = rememberAsyncImagePainter(photoUrl),
-                        contentDescription = "Cuplikan Foto",
-                        modifier = Modifier
-                            .size(100.dp)
-                            .clip(RoundedCornerShape(8.dp)),
-                        contentScale = ContentScale.Crop
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(250.dp))
+            SurfaceBottom(navController)
         }
-        SurfaceBottom(navController)
     }
 }
 

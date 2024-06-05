@@ -57,7 +57,9 @@ fun RekomendasiItem(
             .width(250.dp)
             .height(300.dp)
             .clickable { onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(
+            4.dp
+        )
     ) {
         Column {
             Box {
@@ -77,6 +79,7 @@ fun RekomendasiItem(
         }
     }
 }
+
 
 @Composable
 fun GradientImage(imageUrl: String) {

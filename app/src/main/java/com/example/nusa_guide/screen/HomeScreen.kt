@@ -58,8 +58,8 @@ import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.viewModel.AuthViewModel
 import com.example.nusa_guide.viewModel.PaketRekomendasiViewModelFactory
 import com.example.nusa_guide.viewModel.RekomendasiViewModel
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 @Composable
@@ -114,7 +114,6 @@ fun HomeScreen(
         }
     }
 }
-
 @Composable
 fun RekomendasiSection(
     navController: NavController,
@@ -145,22 +144,26 @@ fun RekomendasiSection(
                 fontSize = 14.sp,
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(
-                            NavigationTourScreen.RekomendasiScreen.name
-                        )
+                        navController.navigate(NavigationTourScreen.RekomendasiScreen.name)
                     }
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(rekomendasiList) { rekomendasi ->
-                RekomendasiItem(rekomendasi, onClick = {
-                    navController.navigate(
-                        "${NavigationTourScreen.DetailScreen.name}/${rekomendasi.id}"
-                    )
-                })
+        if (rekomendasiList.isEmpty()) {
+            Text(
+                text = "Tidak ada rekomendasi saat ini.",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        } else {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(rekomendasiList) { rekomendasi ->
+                    RekomendasiItem(rekomendasi, onClick = {
+                        navController.navigate("${NavigationTourScreen.DetailScreen.name}/${rekomendasi.id}")
+                    })
+                }
             }
         }
     }
@@ -185,9 +188,7 @@ fun ProfileAndNotificationRow(
             modifier = Modifier
                 .size(24.dp)
                 .clickable {
-                    navController.navigate(
-                        NavigationTourScreen.CartScreen.name
-                    )
+                    navController.navigate(NavigationTourScreen.CartScreen.name)
                 }
         )
         Spacer(modifier = Modifier.width(10.dp))
@@ -240,9 +241,7 @@ fun SearchBar(navController: NavController) {
             .fillMaxWidth()
             .height(50.dp)
             .clickable {
-                navController.navigate(
-                    NavigationTourScreen.SearchScreen.name
-                )
+                navController.navigate(NavigationTourScreen.SearchScreen.name)
             },
         border = BorderStroke(
             width = 1.dp,
@@ -326,6 +325,7 @@ fun CategoryItem(imageRes: Int, title: String) {
 }
 
 
+
 @Composable
 fun PaketPremiumSection(navController: NavController) {
     Column(modifier = Modifier.padding(2.dp)) {
@@ -353,9 +353,7 @@ fun PaketPremiumSection(navController: NavController) {
                 fontSize = 14.sp,
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(
-                            NavigationTourScreen.PaketPremiumScreen.name
-                        )
+                        navController.navigate(NavigationTourScreen.PaketPremiumScreen.name)
                     }
             )
         }
@@ -369,7 +367,6 @@ fun PaketPremiumSection(navController: NavController) {
         }
     }
 }
-
 
 @Composable
 fun PaketRegularSection(navController: NavController) {
@@ -398,9 +395,7 @@ fun PaketRegularSection(navController: NavController) {
                 fontSize = 14.sp,
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(
-                            NavigationTourScreen.PaketRegulerScreen.name
-                        )
+                        navController.navigate(NavigationTourScreen.PaketRegulerScreen.name)
                     }
             )
         }

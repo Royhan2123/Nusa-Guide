@@ -20,7 +20,8 @@ class RekomendasiRepository(private val firestore: FirebaseFirestore) {
                 onError(exception)
             }
     }
-    fun getRekomendasiById(
+
+    fun getPaketRekomendasiById(
         rekomendasiId: String,
         onComplete: (Rekomendasi) -> Unit,
         onError: (Exception) -> Unit

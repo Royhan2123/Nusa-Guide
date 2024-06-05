@@ -172,7 +172,6 @@ fun NavigationsTour() {
             rekomendasiList?.let {
                 RekomendasiScreen(navController, it)
             } ?: run {
-                // Handle loading or empty state here
             }
         }
         composable(NavigationTourScreen.PaketPremiumScreen.name) {
@@ -198,12 +197,8 @@ fun NavigationsTour() {
             arguments = listOf(navArgument("rekomendasiId") { type = NavType.StringType })
         ) { backStackEntry ->
             val rekomendasiId = backStackEntry.arguments?.getString("rekomendasiId")
-            if (rekomendasiId != null) {
-                DetailScreen(
-                    navController = navController,
-                    rekomendasiId = rekomendasiId,
-                    rekomendasiViewModel = rekomendasiViewModel
-                )
+            rekomendasiId?.let { id ->
+                DetailScreen(navController, id, rekomendasiViewModel)
             }
         }
         composable(NavigationTourScreen.DetailPremiumScreen.name) {

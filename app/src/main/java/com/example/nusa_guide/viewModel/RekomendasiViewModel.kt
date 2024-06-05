@@ -11,8 +11,11 @@ class RekomendasiViewModel(
     private val repository: RekomendasiRepository
 ) : ViewModel() {
 
-    private val _paketRekomendasi = MutableLiveData<List<Rekomendasi>>()
+    private val _paketRekomendasi = MutableLiveData<List<Rekomendasi>>(emptyList())
     val paketRekomendasi: LiveData<List<Rekomendasi>> = _paketRekomendasi
+
+    private val _rekomendasi = MutableLiveData<Rekomendasi>()
+    val rekomendasi: LiveData<Rekomendasi> = _rekomendasi
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
@@ -31,24 +34,24 @@ class RekomendasiViewModel(
             }
         )
     }
-    fun getRekomendasiById(rekomendasiId: String): LiveData<Rekomendasi> {
-        val rekomendasiLiveData = MutableLiveData<Rekomendasi>()
 
-        repository.getRekomendasiById(rekomendasiId,
+    fun getRekomendasiById(rekomendasiId: String) {
+        repository.getPaketRekomendasiById(rekomendasiId,
             onComplete = { rekomendasi ->
-                rekomendasiLiveData.value = rekomendasi
+                // Update LiveData dengan nilai rekomendasi yang ditemukan
+                _rekomendasi.postValue(rekomendasi)
             },
             onError = { exception ->
+                // Penanganan kesalahan jika terjadi
                 _error.value = exception.message
             }
         )
-
-        return rekomendasiLiveData
     }
 }
 
 @Suppress("UNCHECKED_CAST")
-class PaketRekomendasiViewModelFactory(private val repository: RekomendasiRepository) : ViewModelProvider.Factory {
+class PaketRekomendasiViewModelFactory(private val repository: RekomendasiRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RekomendasiViewModel::class.java)) {
             return RekomendasiViewModel(repository) as T
