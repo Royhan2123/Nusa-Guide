@@ -425,7 +425,7 @@ fun DetailScreen(navController: NavController) {
                     contentScale = ContentScale.Crop
                 )
             }
-            Spacer(modifier = Modifier.height(250.dp))
+            Spacer(modifier = Modifier.height(80.dp))
         }
         SurfaceBottom(navController)
     }
