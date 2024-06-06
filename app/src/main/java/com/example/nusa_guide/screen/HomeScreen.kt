@@ -358,7 +358,7 @@ fun PaketPremiumSection(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             items(DummyData.paketPremiumList) { paketpremium ->
-                PaketPremiumItem(paketpremium)
+                PaketPremiumItem(paketPremium = paketpremium, navController = navController)
             }
         }
     }

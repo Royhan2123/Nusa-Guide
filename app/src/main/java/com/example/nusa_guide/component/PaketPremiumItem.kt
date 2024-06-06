@@ -31,24 +31,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.InformasiPaket
 import com.example.nusa_guide.model.PaketPremium
 import com.example.nusa_guide.model.Ulasan
+import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.NusaGuideTheme
 import com.example.nusa_guide.ui.theme.brandPrimary500
 
-
 @Composable
 fun PaketPremiumItem(
-    paketPremium: PaketPremium
+    paketPremium: PaketPremium,
+    navController: NavController
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(10.dp)
             .width(220.dp)
-//            .clickable { onItemClicked(paketPremium.id) }
+            .clickable {
+                navController.navigate("${NavigationTourScreen.DetailPremiumScreen.name}/${paketPremium.id}")
+            }
     ) {
         Column {
             Box {
@@ -171,47 +175,47 @@ fun RowWithIconAndText(text: String, iconId: Int) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PaketItemPreview() {
-    NusaGuideTheme {
-        PaketPremiumItem(
-            paketPremium = PaketPremium(
-                id = 1,
-                nama = "5 Wisata - 3 Hari",
-                gambar = R.drawable.bg_on_boarding, // Ganti dengan ID gambar yang sesuai di folder res/drawable
-                harga = 350000,
-                hariBerlibur = "3 Hari",
-                jarak = 0.64,
-                deskripsi = "Deskripsi paket wisata",
-                cuplikanPhotos = listOf(
-                    R.drawable.pantai_1, R.drawable.pantai_2
-                ),
-                informasiTourGuide = "Informasi tentang tour guide",
-                informasiHarga = "Harga termasuk akomodasi",
-                ratingReview = 5.0,
-                ulasan = listOf(
-                    Ulasan(
-                        nama = "Jonathan Kaje",
-                        tanggal = "20 Minggu lalu",
-                        rating = 4.0,
-                        deskripsi = "Tour Guide Rekomendasi! Puoll!! untuk dipesan muantapp...",
-                        images = listOf(R.drawable.pantai_1)
-                    )
-                ),
-                informasiPaket = InformasiPaket(
-                    include = listOf(
-                        "Penjemputan dan pengantaran dari titik pertemuan yang ditentukan",
-                        "Hotel",
-                        "Supir",
-                        "Tour Guide"
-                    ),
-                    exclude = listOf(
-                        "Tip tour guide (min. Rp 50.000/hari)",
-                        "Tip supir (min. Rp 75.000/hari)"
-                    )
-                )
-            )
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PaketItemPreview() {
+//    NusaGuideTheme {
+//        PaketPremiumItem(
+//            paketPremium = PaketPremium(
+//                id = 1,
+//                nama = "5 Wisata - 3 Hari",
+//                gambar = R.drawable.bg_on_boarding, // Ganti dengan ID gambar yang sesuai di folder res/drawable
+//                harga = 350000,
+//                hariBerlibur = "3 Hari",
+//                jarak = 0.64,
+//                deskripsi = "Deskripsi paket wisata",
+//                cuplikanPhotos = listOf(
+//                    R.drawable.pantai_1, R.drawable.pantai_2
+//                ),
+//                informasiTourGuide = "Informasi tentang tour guide",
+//                informasiHarga = "Harga termasuk akomodasi",
+//                ratingReview = 5.0,
+//                ulasan = listOf(
+//                    Ulasan(
+//                        nama = "Jonathan Kaje",
+//                        tanggal = "20 Minggu lalu",
+//                        rating = 4.0,
+//                        deskripsi = "Tour Guide Rekomendasi! Puoll!! untuk dipesan muantapp...",
+//                        images = listOf(R.drawable.pantai_1)
+//                    )
+//                ),
+//                informasiPaket = InformasiPaket(
+//                    include = listOf(
+//                        "Penjemputan dan pengantaran dari titik pertemuan yang ditentukan",
+//                        "Hotel",
+//                        "Supir",
+//                        "Tour Guide"
+//                    ),
+//                    exclude = listOf(
+//                        "Tip tour guide (min. Rp 50.000/hari)",
+//                        "Tip supir (min. Rp 75.000/hari)"
+//                    )
+//                )
+//            )
+//        )
+//    }
+//}

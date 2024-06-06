@@ -24,7 +24,7 @@ import com.example.nusa_guide.R
 import com.example.nusa_guide.ui.theme.brandPrimary500
 
 @Composable
-fun DetailPremiumScreen() {
+fun DetailPremiumScreen(paketPremiumId: Int) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -335,8 +335,8 @@ fun DetailPremiumScreen() {
     }
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun DetailPremiumPreview() {
-    DetailPremiumScreen()
-}
+//@Preview(showSystemUi = true)
+//@Composable
+//fun DetailPremiumPreview() {
+//    DetailPremiumScreen()
+//}

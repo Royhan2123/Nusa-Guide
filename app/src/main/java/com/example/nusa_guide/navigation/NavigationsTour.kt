@@ -215,9 +215,19 @@ fun NavigationsTour() {
                 )
             }
         }
-        composable(NavigationTourScreen.DetailPremiumScreen.name) {
-            DetailPremiumScreen()
+        composable(
+            route = "${NavigationTourScreen.DetailPremiumScreen.name}/{paketPremiumId}",
+            arguments = listOf(navArgument("paketPremiumId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val paketPremiumId = backStackEntry.arguments?.getInt("paketPremiumId")
+            if (paketPremiumId != null) {
+                DetailPremiumScreen(paketPremiumId = paketPremiumId)
+            }
         }
+
+//        composable(NavigationTourScreen.DetailPremiumScreen.name) {
+//            DetailPremiumScreen()
+//        }
         composable(NavigationTourScreen.PaketRegulerScreen.name) {
             PaketRegularScreen(navController = navController, paketRegularList = paketRegular)
         }

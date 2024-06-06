@@ -56,10 +56,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
-import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
-import com.example.nusa_guide.ui.theme.gray
-import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.orange
 import com.example.nusa_guide.ui.theme.white
 import com.example.nusa_guide.viewModel.RekomendasiViewModel
