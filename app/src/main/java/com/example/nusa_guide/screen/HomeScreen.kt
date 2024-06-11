@@ -135,7 +135,7 @@ fun ProfileAndNotificationRow(
     ) {
         ProfileImage()
         Spacer(modifier = Modifier.width(8.dp))
-        ProfileText(currentUser)
+        ProfileText()
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             painter = painterResource(id = R.drawable.icon_cart),
@@ -163,10 +163,10 @@ fun ProfileImage() {
 }
 
 @Composable
-fun ProfileText(currentUser: User?) {
+fun ProfileText() {
     Column {
         Text(
-            text = currentUser?.name ?: "Loading...",
+            text = "Royhan",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Ellipsis,
