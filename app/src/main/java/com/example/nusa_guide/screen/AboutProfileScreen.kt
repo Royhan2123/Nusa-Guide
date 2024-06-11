@@ -26,9 +26,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,18 +36,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.BlueButton
 import com.example.nusa_guide.ui.theme.BrandPrimary400
 import com.example.nusa_guide.ui.theme.Gray60
 import com.example.nusa_guide.ui.theme.Gray80
 import com.example.nusa_guide.ui.theme.brandPrimary500
-import com.example.nusa_guide.viewModel.AuthState
-import com.example.nusa_guide.viewModel.AuthViewModel
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -59,16 +52,7 @@ import com.example.nusa_guide.viewModel.AuthViewModel
 @Composable
 fun AboutProfileScreen(
     navController: NavController,
-    authViewModel: AuthViewModel
 ) {
-    val authState by authViewModel.authState.observeAsState()
-    LaunchedEffect(authState) {
-        if (authState is AuthState.Logout) {
-            navController.navigate(NavigationTourScreen.LoginScreen.name) {
-                popUpTo(NavigationTourScreen.LoginScreen.name) { inclusive = true }
-            }
-        }
-    }
     Scaffold(topBar = {
         CenterAlignedTopAppBar(
             title = {
@@ -128,7 +112,7 @@ fun AboutProfileScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             TextButton(onClick = {
-                authViewModel.authLogout()
+                /*TODO THIS NOT FUNCTION*/
             }) {
                 Text(
                     text = "Logout",
@@ -174,6 +158,5 @@ fun ProfileTextField(label: String, value: String) {
 fun AboutProfileScreenPreview() {
     AboutProfileScreen(
         rememberNavController(),
-        authViewModel = viewModel()
     )
 }

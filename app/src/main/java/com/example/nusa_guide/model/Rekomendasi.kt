@@ -1,22 +1,21 @@
 package com.example.nusa_guide.model
 
+import java.util.Date
+
 data class Rekomendasi(
-    val id: String= "",
-    val nama: String= "",
-    val gambar: String= "",
-    val harga: String= "",
-    val jarak: String= "",
-    val lokasi: String= "",
-    val waktuKeberangkatan: String= "",
-    val km: String= "",
-    val deskripsi: String= "",
-    val cuplikanPhoto: List<String> = emptyList(),
-    val informasiTourGuide: String= "",
-    val informasiHarga: List<String> = emptyList(),
-    val ratingReview: String= "",
-    val ulasan: String= "",
-    val ulasanTitle: String= "",
-    val ulasanImage: String= "",
-    val deskripsiUlasan: String= "",
-    val cuplikanPhotoUlasan: List<String> = emptyList()
+    val id: Int,
+    val nama: String,
+    val lokasi: String,
+    val jamBuka: Date,
+    val jamTutup: Date,
+    val jarakLokasi: String,
+    val harga: Int,
+    val deskripsi: String,
+    val gambar1: Int,
+    val gambar2: Int,
+    val gambar3: Int,
+    val gambar4: Int,
+    val informasiTourguide: String,
+    val hargaTermasuk: String,
+    val kategori:String,
 )

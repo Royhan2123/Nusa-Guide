@@ -1,18 +1,12 @@
 package com.example.nusa_guide.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.PaketRegular
-import com.example.nusa_guide.repository.AuthRepository
-import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.screen.AboutProfileScreen
 import com.example.nusa_guide.screen.CartScreen
 import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
@@ -43,12 +37,6 @@ import com.example.nusa_guide.screen.detail_screen.DetailPremiumScreen
 import com.example.nusa_guide.screen.detail_screen.DetailScreen
 import com.example.nusa_guide.screen.payment.PaymentDetailsUI
 import com.example.nusa_guide.screen.payment.PaymentScreen
-import com.example.nusa_guide.viewModel.AuthViewModel
-import com.example.nusa_guide.viewModel.AuthViewModelFactory
-import com.example.nusa_guide.viewModel.PaketRekomendasiViewModelFactory
-import com.example.nusa_guide.viewModel.RekomendasiViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 
 val paketRegular = listOf(
@@ -105,27 +93,12 @@ val paketRegular = listOf(
 @Composable
 fun NavigationsTour() {
     val navController = rememberNavController()
-    val authRepository = AuthRepository(
-        FirebaseAuth.getInstance(),
-        FirebaseFirestore.getInstance(),
-        LocalContext.current
-    )
-    val authViewModel: AuthViewModel = viewModel(
-        factory = AuthViewModelFactory(authRepository)
-    )
-    val rekomendasiViewModel: RekomendasiViewModel = viewModel(
-        factory = PaketRekomendasiViewModelFactory(
-            RekomendasiRepository(FirebaseFirestore.getInstance())
-        )
-    )
-    val rekomendasiList by rekomendasiViewModel.paketRekomendasi.observeAsState()
-
     NavHost(
         navController = navController,
         startDestination = NavigationTourScreen.SplashScreen.name
     ) {
         composable(NavigationTourScreen.SplashScreen.name) {
-            SplashScreen(navController = navController, authViewModel)
+            SplashScreen(navController = navController)
         }
         composable(NavigationTourScreen.OnBoardingScreen.name) {
             OnBoardingScreen(navController = navController)
@@ -134,16 +107,16 @@ fun NavigationsTour() {
             OnBoardingScreen2(navController = navController)
         }
         composable(NavigationTourScreen.LoginScreen.name) {
-            LoginScreen(navController = navController, authViewModel)
+            LoginScreen(navController = navController)
         }
         composable(NavigationTourScreen.RegisterScreen.name) {
-            RegisterScreen(navController = navController, authViewModel)
+            RegisterScreen(navController = navController)
         }
         composable(NavigationTourScreen.HalamanBottom.name) {
             HalamanBottom(navController)
         }
         composable(NavigationTourScreen.HomeScreen.name) {
-            HomeScreen(navController, authViewModel)
+            HomeScreen(navController)
         }
         composable(NavigationTourScreen.FavoriteScreen.name) {
             FavoriteScreen(navController)
@@ -167,16 +140,13 @@ fun NavigationsTour() {
             SearchScreen(navController)
         }
         composable(NavigationTourScreen.RekomendasiScreen.name) {
-            rekomendasiList?.let {
-                RekomendasiScreen(navController, it)
-            } ?: run {
-            }
+                RekomendasiScreen(navController)
         }
         composable(NavigationTourScreen.PaketPremiumScreen.name) {
             PaketPremiumScreen(navController, paketPremiumList)
         }
         composable(NavigationTourScreen.AboutProfileScreen.name) {
-            AboutProfileScreen(navController, authViewModel)
+            AboutProfileScreen(navController, )
         }
         composable(NavigationTourScreen.UlasanScreen.name) {
             UlasanScreen(navController)

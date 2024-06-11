@@ -25,13 +25,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,52 +36,26 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.PaketPremiumItem
-import com.example.nusa_guide.component.RekomendasiItem
 import com.example.nusa_guide.model.DummyData
-import com.example.nusa_guide.model.Rekomendasi
 import com.example.nusa_guide.model.User
 import com.example.nusa_guide.navigation.NavigationTourScreen
-import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray700
-import com.example.nusa_guide.viewModel.AuthViewModel
-import com.example.nusa_guide.viewModel.PaketRekomendasiViewModelFactory
-import com.example.nusa_guide.viewModel.RekomendasiViewModel
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    authViewModel: AuthViewModel,
 ) {
-    val rekomendasiViewModel: RekomendasiViewModel = viewModel(
-        factory = PaketRekomendasiViewModelFactory(
-            RekomendasiRepository(Firebase.firestore)
-        )
-    )
-    val paketRekomendasi by rekomendasiViewModel.paketRekomendasi.observeAsState(emptyList())
-    val error by rekomendasiViewModel.error.observeAsState("")
 
-    var currentUser by remember { mutableStateOf<User?>(null) }
-
-    val scope = rememberCoroutineScope()
-
-    LaunchedEffect(key1 = Unit) {
-        authViewModel.getCurrentUserDetails { user ->
-            scope.launch {
-                currentUser = user
-            }
-        }
-    }
+    val currentUser by remember { mutableStateOf<User?>(null) }
 
     Column(
         modifier = Modifier
@@ -103,21 +73,18 @@ fun HomeScreen(
 
         CategorySection()
 
-        RekomendasiSection(navController, paketRekomendasi)
+        RekomendasiSection(navController)
 
         PaketPremiumSection(navController)
 
         PaketRegularSection(navController)
 
-        if (error.isNotEmpty()) {
-            Text(text = "Error: $error", color = Color.Red)
-        }
     }
 }
+
 @Composable
 fun RekomendasiSection(
     navController: NavController,
-    rekomendasiList: List<Rekomendasi>
 ) {
     Column(modifier = Modifier.padding(2.dp)) {
         Row(
@@ -149,22 +116,10 @@ fun RekomendasiSection(
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        if (rekomendasiList.isEmpty()) {
-            Text(
-                text = "Tidak ada rekomendasi saat ini.",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-        } else {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(rekomendasiList) { rekomendasi ->
-                    RekomendasiItem(rekomendasi, onClick = {
-                        navController.navigate(NavigationTourScreen.DetailScreen.name)
-                    })
-                }
-            }
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+//           item
         }
     }
 }
@@ -325,7 +280,6 @@ fun CategoryItem(imageRes: Int, title: String) {
 }
 
 
-
 @Composable
 fun PaketPremiumSection(navController: NavController) {
     Column(modifier = Modifier.padding(2.dp)) {
@@ -408,4 +362,12 @@ fun PaketRegularSection(navController: NavController) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewHomeScreen() {
+    HomeScreen(
+        navController = rememberNavController(),
+    )
 }

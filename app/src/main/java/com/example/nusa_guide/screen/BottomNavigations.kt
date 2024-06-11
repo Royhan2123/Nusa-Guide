@@ -14,24 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray400
-import com.example.nusa_guide.viewModel.AuthViewModel
-import com.example.nusa_guide.viewModel.AuthViewModelFactory
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 sealed class BottomNavigationScreen(
     val title: String,
@@ -62,17 +55,6 @@ fun HalamanBottom(navController: NavController) {
         BottomNavigationScreen.FavoritScreen,
         BottomNavigationScreen.ProfileScreen,
     )
-
-    val authRepository = AuthRepository(
-        FirebaseAuth.getInstance(),
-        FirebaseFirestore.getInstance(),
-        LocalContext.current
-    )
-    val authViewModel: AuthViewModel = viewModel(
-        factory = AuthViewModelFactory(authRepository)
-    )
-
-
 
     Scaffold(
         bottomBar = {
@@ -124,8 +106,7 @@ fun HalamanBottom(navController: NavController) {
             ) {
                 composable(BottomNavigationScreen.HomeScreen.title) {
                     HomeScreen(
-                        navController = navController,
-                        authViewModel
+                        navController = navController
                     )
                 }
                 composable(BottomNavigationScreen.RiwayatScreen.title) {

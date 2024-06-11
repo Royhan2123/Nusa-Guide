@@ -151,4 +151,9 @@ dependencies {
     //noinspection UseTomlInstead
     implementation("androidx.camera:camera-view:1.3.3")
 
+    //noinspection UseTomlInstead
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    //noinspection UseTomlInstead
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }
