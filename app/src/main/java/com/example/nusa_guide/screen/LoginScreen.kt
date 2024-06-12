@@ -239,7 +239,7 @@ fun LoginScreen(
         }
         ButtonStyle(
             onClicked = {
-                navController.navigate(NavigationTourScreen.HomeScreen.name)
+                navController.navigate(NavigationTourScreen.HalamanBottom.name)
             },
             text = stringResource(id = R.string.masuk),
         )
