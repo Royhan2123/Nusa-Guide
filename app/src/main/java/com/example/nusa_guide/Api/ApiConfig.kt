@@ -1,5 +1,6 @@
 package com.example.nusa_guide.Api
 
+import com.example.nusa_guide.CONSTANT
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -7,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitInstance {
     val api: ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl("http://18.141.9.175:5000/")
+            .baseUrl(CONSTANT.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)

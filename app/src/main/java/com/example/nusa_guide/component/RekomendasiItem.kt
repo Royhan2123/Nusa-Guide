@@ -31,9 +31,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
-import com.example.nusa_guide.model.Rekomendasi
+import com.example.nusa_guide.model.RekomendasiModel
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
@@ -42,7 +42,7 @@ import java.util.Locale
 
 @Composable
 fun CardRekomendasiItem(
-    rekomendasi: Rekomendasi,
+    rekomendasi: RekomendasiModel,
     onClick: () -> Unit,
 ) {
     var isSelected by remember {
@@ -63,7 +63,7 @@ fun CardRekomendasiItem(
             Column {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Image(
-                        painter = rememberImagePainter(data = rekomendasi.gambar1),
+                        painter = rememberAsyncImagePainter(model = rekomendasi.gambar1),
                         contentDescription = rekomendasi.nama,
                         modifier = Modifier
                             .height(100.dp)
@@ -120,12 +120,14 @@ fun CardRekomendasiItem(
                         fontSize = 10.sp,
                     )
                     Spacer(modifier = Modifier.height(5.dp))
-                    Text(
-                        text = rekomendasi.nama,
-                        color = gray700,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
+                    rekomendasi.nama?.let {
+                        Text(
+                            text = it,
+                            color = gray700,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                     Spacer(modifier = Modifier.height(7.dp))
 
                     Row(
@@ -139,12 +141,14 @@ fun CardRekomendasiItem(
                             tint = gray700
                         )
                         Spacer(modifier = Modifier.width(5.dp))
-                        Text(
-                            text = rekomendasi.lokasi,
-                            color = gray700,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium
-                        )
+                        rekomendasi.lokasi?.let {
+                            Text(
+                                text = it,
+                                color = gray700,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(7.dp))
                     val formattedHarga = NumberFormat.getNumberInstance(Locale("in", "ID")).format(rekomendasi.harga)
