@@ -25,9 +25,23 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
             }
         }
     }
+
+    fun fetchRekomendasiById(id: Int) {
+        viewModelScope.launch {
+            try {
+                val rekomendasiRepository = repository.getRekomendasiById(id)
+                if (rekomendasiRepository != null) {
+                    _state.value = listOf(rekomendasiRepository)
+                } else {
+                    _state.value = emptyList()
+                    Log.d("RekomendasiViewModel", "Data not found for ID: $id")
+                }
+            } catch (e: Exception) {
+                Log.e("RekomendasiViewModel", "Error fetching data by ID: ${e.message}")
+            }
+        }
+    }
 }
-
-
 @Suppress("UNCHECKED_CAST")
 class RekomendasiViewModelFactory(private val repository: RekomendasiRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

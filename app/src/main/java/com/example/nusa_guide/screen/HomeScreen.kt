@@ -15,11 +15,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
@@ -67,10 +67,10 @@ fun HomeScreen(
     )
     val state by rekomendasiViewModel.state.collectAsState()
 
-
-    var isSelected by remember {
-        mutableStateOf(true)
+    var selectedCategory by remember {
+        mutableStateOf("Alam") // Default category selection
     }
+
     Column(
         modifier = Modifier
             .padding(
@@ -78,7 +78,7 @@ fun HomeScreen(
                 horizontal = 16.dp,
             )
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            //.verticalScroll(rememberScrollState()),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -189,157 +189,178 @@ fun HomeScreen(
             fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(25.dp))
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            Column(
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                modifier = Modifier.height(100.dp)
+//            ) {
+//                Surface(
+//                    modifier = Modifier
+//                        .size(70.dp)
+//                        .border(
+//                            width = if (isSelected) 1.dp else 2.dp,
+//                            color = if (isSelected) gray else gray700,
+//                            shape = RoundedCornerShape(
+//                                size = 10.dp
+//                            )
+//                        )
+//                        .clickable {
+//                            isSelected = !isSelected
+//                        },
+//                    shape = RoundedCornerShape(
+//                        size = 10.dp
+//                    ),
+//                    shadowElevation = 20.dp
+//                ) {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.alam),
+//                        contentDescription = "image-terdekat",
+//                        contentScale = ContentScale.Crop,
+//                    )
+//                }
+//                Spacer(modifier = Modifier.height(10.dp))
+//                Text(
+//                    text = "Alam",
+//                    fontSize = 14.sp,
+//                    color = gray700,
+//                )
+//            }
+//            Column(
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                modifier = Modifier.height(100.dp)
+//            ) {
+//                Surface(
+//                    modifier = Modifier
+//                        .size(70.dp)
+//                        .border(
+//                            width = if (isSelected) 1.dp else 2.dp,
+//                            color = if (isSelected) gray else gray700,
+//                            shape = RoundedCornerShape(
+//                                size = 10.dp
+//                            )
+//                        )
+//                        .clickable {
+//                            isSelected = !isSelected
+//                        },
+//                    shape = RoundedCornerShape(
+//                        size = 10.dp
+//                    ),
+//                    shadowElevation = 10.dp
+//                ) {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.budaya),
+//                        contentDescription = "image-terdekat",
+//                        contentScale = ContentScale.Crop,
+//                    )
+//                }
+//                Spacer(modifier = Modifier.height(10.dp))
+//                Text(
+//                    text = "Budaya",
+//                    fontSize = 14.sp,
+//                    color = gray700,
+//                )
+//            }
+//            Column(
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                modifier = Modifier.height(100.dp)
+//            ) {
+//                Surface(
+//                    modifier = Modifier
+//                        .size(70.dp)
+//                        .border(
+//                            width = if (isSelected) 1.dp else 2.dp,
+//                            color = if (isSelected) gray else gray700,
+//                            shape = RoundedCornerShape(
+//                                size = 10.dp
+//                            )
+//                        )
+//                        .clickable {
+//                            isSelected = !isSelected
+//                        },
+//                    shape = RoundedCornerShape(
+//                        size = 10.dp
+//                    ),
+//                    shadowElevation = 10.dp
+//                ) {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.tour),
+//                        contentDescription = "image-terdekat",
+//                        contentScale = ContentScale.Crop,
+//                    )
+//                }
+//                Spacer(modifier = Modifier.height(10.dp))
+//                Text(
+//                    text = "Tour",
+//                    fontSize = 14.sp,
+//                    color = gray700,
+//                )
+//            }
+//            Column(
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                modifier = Modifier.height(100.dp)
+//            ) {
+//                Surface(
+//                    modifier = Modifier
+//                        .size(70.dp)
+//                        .border(
+//                            width = if (isSelected) 1.dp else 2.dp,
+//                            color = if (isSelected) gray else gray700,
+//                            shape = RoundedCornerShape(
+//                                size = 10.dp
+//                            )
+//                        )
+//                        .clickable {
+//                            isSelected = !isSelected
+//                        },
+//                    shape = RoundedCornerShape(
+//                        size = 10.dp
+//                    ),
+//                    shadowElevation = 10.dp
+//                ) {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.aktifitas_air),
+//                        contentDescription = "image-terdekat",
+//                        contentScale = ContentScale.Crop,
+//                    )
+//                }
+//                Spacer(modifier = Modifier.height(10.dp))
+//                Text(
+//                    text = "Aktifitas Air",
+//                    fontSize = 14.sp,
+//                    color = gray700,
+//                )
+//            }
+//        }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.height(100.dp)
-            ) {
-                Surface(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .border(
-                            width = if (isSelected) 1.dp else 2.dp,
-                            color = if (isSelected) gray else gray700,
-                            shape = RoundedCornerShape(
-                                size = 10.dp
-                            )
-                        )
-                        .clickable {
-                            isSelected = !isSelected
-                        },
-                    shape = RoundedCornerShape(
-                        size = 10.dp
-                    ),
-                    shadowElevation = 20.dp
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.alam),
-                        contentDescription = "image-terdekat",
-                        contentScale = ContentScale.Crop,
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "Alam",
-                    fontSize = 14.sp,
-                    color = gray700,
-                )
+            CategoryItem("Alam", R.drawable.alam, rekomendasiViewModel, 1) {
+                selectedCategory = "Alam"
             }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.height(100.dp)
-            ) {
-                Surface(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .border(
-                            width = if (isSelected) 1.dp else 2.dp,
-                            color = if (isSelected) gray else gray700,
-                            shape = RoundedCornerShape(
-                                size = 10.dp
-                            )
-                        )
-                        .clickable {
-                            isSelected = !isSelected
-                        },
-                    shape = RoundedCornerShape(
-                        size = 10.dp
-                    ),
-                    shadowElevation = 10.dp
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.budaya),
-                        contentDescription = "image-terdekat",
-                        contentScale = ContentScale.Crop,
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "Budaya",
-                    fontSize = 14.sp,
-                    color = gray700,
-                )
+            CategoryItem("Budaya", R.drawable.budaya, rekomendasiViewModel, 2) {
+                selectedCategory = "Budaya"
             }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.height(100.dp)
-            ) {
-                Surface(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .border(
-                            width = if (isSelected) 1.dp else 2.dp,
-                            color = if (isSelected) gray else gray700,
-                            shape = RoundedCornerShape(
-                                size = 10.dp
-                            )
-                        )
-                        .clickable {
-                            isSelected = !isSelected
-                        },
-                    shape = RoundedCornerShape(
-                        size = 10.dp
-                    ),
-                    shadowElevation = 10.dp
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.tour),
-                        contentDescription = "image-terdekat",
-                        contentScale = ContentScale.Crop,
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "Tour",
-                    fontSize = 14.sp,
-                    color = gray700,
-                )
+            CategoryItem("Tour", R.drawable.tour, rekomendasiViewModel, 3) {
+                selectedCategory = "Tour"
             }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.height(100.dp)
-            ) {
-                Surface(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .border(
-                            width = if (isSelected) 1.dp else 2.dp,
-                            color = if (isSelected) gray else gray700,
-                            shape = RoundedCornerShape(
-                                size = 10.dp
-                            )
-                        )
-                        .clickable {
-                            isSelected = !isSelected
-                        },
-                    shape = RoundedCornerShape(
-                        size = 10.dp
-                    ),
-                    shadowElevation = 10.dp
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.aktifitas_air),
-                        contentDescription = "image-terdekat",
-                        contentScale = ContentScale.Crop,
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "Aktifitas Air",
-                    fontSize = 14.sp,
-                    color = gray700,
-                )
+            CategoryItem("Aktifitas Air", R.drawable.aktifitas_air, rekomendasiViewModel, 4) {
+                selectedCategory = "Aktifitas Air"
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(50.dp))
 
-
-        LazyRow {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             if (state.isEmpty()) {
-                item {
+                item(span = { GridItemSpan(2) }) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }
@@ -351,6 +372,51 @@ fun HomeScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun CategoryItem(
+    title: String,
+    iconRes: Int,
+    viewModel: RekomendasiViewModel,
+    id: Int,
+    onClick: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.height(100.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .size(70.dp)
+                .border(
+                    width = 2.dp,
+                    color = gray700,
+                    shape = RoundedCornerShape(
+                        size = 10.dp
+                    )
+                )
+                .clickable {
+                    onClick()
+                },
+            shape = RoundedCornerShape(
+                size = 10.dp
+            ),
+            shadowElevation = 10.dp
+        ) {
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = "gambar-$title",
+                contentScale = ContentScale.Crop,
+            )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = title,
+            fontSize = 14.sp,
+            color = gray700,
+        )
     }
 }
 

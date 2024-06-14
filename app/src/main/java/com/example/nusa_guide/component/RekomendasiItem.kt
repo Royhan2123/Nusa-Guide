@@ -56,7 +56,8 @@ fun CardRekomendasiItem(
                 width = 1.dp,
                 shape = RoundedCornerShape(10.dp),
                 color = gray
-            ),
+            )
+            .height(260.dp),
         shape = RoundedCornerShape(10.dp),
     ) {
         Box {
