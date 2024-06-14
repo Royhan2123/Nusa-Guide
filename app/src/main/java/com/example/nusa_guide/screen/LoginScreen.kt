@@ -17,7 +17,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -25,9 +24,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -47,42 +44,27 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.gray900
 import com.example.nusa_guide.ui.theme.primary700
-import com.example.nusa_guide.viewModel.AuthState
-import com.example.nusa_guide.viewModel.AuthViewModel
 import com.example.nusa_guide.widget.ButtonStyle
 
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
-    authViewModel: AuthViewModel
+    navController: NavController
 ) {
 
-    var txfEmail by rememberSaveable { mutableStateOf("") }
+    var txfUsername by rememberSaveable { mutableStateOf("") }
     var txfPassword by rememberSaveable { mutableStateOf("") }
     var obscureText by remember { mutableStateOf(true) }
 
-    val authState by authViewModel.authState.observeAsState()
-    val savedCredentials = authViewModel.getSavedCredentials()
-
-    LaunchedEffect(savedCredentials) {
-        savedCredentials?.let { (email, password) ->
-            txfEmail = email
-            txfPassword = password
-            authViewModel.loginUser(LoginModel(email, password))
-        }
-    }
 
     val keyboardController = LocalSoftwareKeyboardController.current
     Column(
@@ -115,9 +97,9 @@ fun LoginScreen(
             fontWeight = FontWeight.SemiBold
         )
         OutlinedTextField(
-            value = txfEmail,
+            value = txfUsername,
             onValueChange = {
-                txfEmail = it
+                txfUsername = it
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -257,38 +239,10 @@ fun LoginScreen(
         }
         ButtonStyle(
             onClicked = {
-                authViewModel.loginUser(LoginModel(txfEmail, txfPassword))
+                navController.navigate(NavigationTourScreen.HomeScreen.name)
             },
             text = stringResource(id = R.string.masuk),
         )
-        authState?.let {
-            when (it) {
-                is AuthState.Authenticated -> {
-                    navController.navigate(NavigationTourScreen.HalamanBottom.name)
-                }
-                is AuthState.Error -> {
-                    Text(
-                        text = it.message,
-                        color = Color.Red,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                }
-                is AuthState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(
-                            color = brandPrimary500,
-                            modifier = Modifier.size(50.dp)
-                        )
-                    }
-                }
-
-                AuthState.Logout -> TODO()
-            }
-        }
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -322,6 +276,5 @@ fun LoginScreen(
 fun LoginScreenPreview() {
     LoginScreen(
         navController = rememberNavController(),
-        authViewModel = viewModel()
     )
 }

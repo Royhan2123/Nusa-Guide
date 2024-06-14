@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -23,9 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.nusa_guide.component.RekomendasiItem
-import com.example.nusa_guide.model.Rekomendasi
-import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.gray700
 
@@ -33,8 +27,7 @@ import com.example.nusa_guide.ui.theme.gray700
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RekomendasiScreen(
-    navController: NavController,
-    rekomendasiList: List<Rekomendasi>
+    navController: NavController
 ) {
     Scaffold(
         topBar = {
@@ -73,19 +66,19 @@ fun RekomendasiScreen(
                     top = 80.dp
                 ),
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .padding(top = 20.dp)
-            ) {
-                items(rekomendasiList) { rekomendasi ->
-                    RekomendasiItem(rekomendasi, onClick = {
-                        navController.navigate(
-                            NavigationTourScreen.DetailScreen.name
-                        )
-                    })
-                }
-            }
+//            LazyVerticalGrid(
+//                columns = GridCells.Fixed(2),
+//                modifier = Modifier
+//                    .padding(top = 20.dp)
+//            ) {
+//                items(rekomendasiList) { rekomendasi ->
+//                    RekomendasiItem(rekomendasi, onClick = {
+//                        navController.navigate(
+//                            NavigationTourScreen.DetailScreen.name
+//                        )
+//                    })
+//                }
+//            }
         }
     }
 }

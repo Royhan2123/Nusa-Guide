@@ -1,6 +1,5 @@
 package com.example.nusa_guide.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -27,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -48,25 +45,20 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
-import com.example.nusa_guide.model.RegisterModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.gray900
 import com.example.nusa_guide.ui.theme.primary700
-import com.example.nusa_guide.viewModel.AuthState
-import com.example.nusa_guide.viewModel.AuthViewModel
 import com.example.nusa_guide.widget.ButtonStyle
 
 @Composable
 fun RegisterScreen(
     navController: NavController,
-    authViewModel: AuthViewModel
 ) {
     var txfKonfirmPassword by rememberSaveable {
         mutableStateOf("")
@@ -97,8 +89,6 @@ fun RegisterScreen(
     var obsucureText2 by remember {
         mutableStateOf(true)
     }
-    val authState by authViewModel.authState.observeAsState()
-
     val keyboardController = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier
@@ -449,56 +439,10 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(22.dp))
         ButtonStyle(
             onClicked = {
-                if (txfPassword == txfKonfirmPassword) {
-                    authViewModel.registerUser(
-                        RegisterModel(
-                            txfNama,
-                            txfEmail,
-                            txfNoTel,
-                            txfPassword,
-                            txfKonfirmPassword
-                        )
-                    )
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Password and Confirm Password do not match",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                navController.navigate(NavigationTourScreen.LoginScreen.name)
             },
             text = stringResource(id = R.string.register),
         )
-        authState?.let {
-            when (it) {
-                is AuthState.Authenticated -> {
-                    navController.navigate(NavigationTourScreen.LoginScreen.name)
-                }
-
-                is AuthState.Error -> {
-                    Text(
-                        text = it.message,
-                        color = Color.Red,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                }
-
-                is AuthState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(
-                            color = brandPrimary500,
-                            modifier = Modifier.size(50.dp)
-                        )
-                    }
-                }
-
-                AuthState.Logout -> TODO()
-            }
-        }
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -532,7 +476,6 @@ fun RegisterScreen(
 @Composable
 fun PreviewRegisterScreen() {
     RegisterScreen(
-        navController = rememberNavController(),
-        authViewModel = viewModel()
+        navController = rememberNavController()
     )
 }
