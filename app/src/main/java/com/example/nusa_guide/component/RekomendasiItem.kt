@@ -152,7 +152,8 @@ fun CardRekomendasiItem(
                         }
                     }
                     Spacer(modifier = Modifier.height(7.dp))
-                    val formattedHarga = NumberFormat.getNumberInstance(Locale("in", "ID")).format(rekomendasi.harga)
+                    val formattedHarga =
+                        NumberFormat.getNumberInstance(Locale("in", "ID")).format(rekomendasi.harga)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically

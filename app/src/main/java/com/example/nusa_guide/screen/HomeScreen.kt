@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -47,6 +48,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.CardRekomendasiItem
+import com.example.nusa_guide.model.RekomendasiModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.gray
@@ -68,308 +70,174 @@ fun HomeScreen(
     val state by rekomendasiViewModel.state.collectAsState()
 
     var selectedCategory by remember {
-        mutableStateOf("Alam") // Default category selection
+        mutableStateOf("Alam")
     }
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .padding(
                 vertical = 20.dp,
                 horizontal = 16.dp,
             )
             .fillMaxSize()
-            //.verticalScroll(rememberScrollState()),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Surface(
-                modifier = Modifier
-                    .size(60.dp)
-                    .clickable {
-                        navController.navigate(
-                            NavigationTourScreen.AboutProfileScreen.name
-                        )
-                    },
-            ) {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "icon-circle",
-                )
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            Column(
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(
-                    text = "Muhammad Al Kahfi",
-                    fontSize = 16.sp,
-                    color = gray700,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = "Mari eksplore indahnya Bali",
-                    fontSize = 14.sp,
-                    color = Color.Gray
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Row {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_cart),
-                    contentDescription = "icon-cart",
-                    modifier = Modifier
-                        .size(25.dp)
-                        .clickable {
-                            navController.navigate(
-                                NavigationTourScreen.CartScreen.name
-                            )
-                        }
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_notification),
-                    contentDescription = "icon-notification",
-                    modifier = Modifier.size(25.dp)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(55.dp)
-                .border(
-                    width = 2.dp,
-                    color = gray,
-                    shape = RoundedCornerShape(
-                        size = 10.dp
-                    ),
-                )
-                .clickable {
-                    navController.navigate(
-                        NavigationTourScreen.SearchScreen.name
-                    )
-                },
-            shape = RoundedCornerShape(
-                size = 10.dp
-            ),
-            color = gray50,
-            shadowElevation = 5.dp
-        ) {
+        item {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = 10.dp,
-                        horizontal = 17.dp
-                    ),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = "icon-search",
-                    modifier = Modifier.size(30.dp),
-                    gray700
-                )
+                Surface(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clickable {
+                            navController.navigate(
+                                NavigationTourScreen.AboutProfileScreen.name
+                            )
+                        },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AccountCircle,
+                        contentDescription = "icon-circle",
+                    )
+                }
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = "Cari Tour Guide Anda",
-                    color = grayText,
-                    fontSize = 17.sp,
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Text(
-            text = "Kategori",
-            fontSize = 20.sp,
-            color = gray700,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            Column(
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                modifier = Modifier.height(100.dp)
-//            ) {
-//                Surface(
-//                    modifier = Modifier
-//                        .size(70.dp)
-//                        .border(
-//                            width = if (isSelected) 1.dp else 2.dp,
-//                            color = if (isSelected) gray else gray700,
-//                            shape = RoundedCornerShape(
-//                                size = 10.dp
-//                            )
-//                        )
-//                        .clickable {
-//                            isSelected = !isSelected
-//                        },
-//                    shape = RoundedCornerShape(
-//                        size = 10.dp
-//                    ),
-//                    shadowElevation = 20.dp
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.alam),
-//                        contentDescription = "image-terdekat",
-//                        contentScale = ContentScale.Crop,
-//                    )
-//                }
-//                Spacer(modifier = Modifier.height(10.dp))
-//                Text(
-//                    text = "Alam",
-//                    fontSize = 14.sp,
-//                    color = gray700,
-//                )
-//            }
-//            Column(
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                modifier = Modifier.height(100.dp)
-//            ) {
-//                Surface(
-//                    modifier = Modifier
-//                        .size(70.dp)
-//                        .border(
-//                            width = if (isSelected) 1.dp else 2.dp,
-//                            color = if (isSelected) gray else gray700,
-//                            shape = RoundedCornerShape(
-//                                size = 10.dp
-//                            )
-//                        )
-//                        .clickable {
-//                            isSelected = !isSelected
-//                        },
-//                    shape = RoundedCornerShape(
-//                        size = 10.dp
-//                    ),
-//                    shadowElevation = 10.dp
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.budaya),
-//                        contentDescription = "image-terdekat",
-//                        contentScale = ContentScale.Crop,
-//                    )
-//                }
-//                Spacer(modifier = Modifier.height(10.dp))
-//                Text(
-//                    text = "Budaya",
-//                    fontSize = 14.sp,
-//                    color = gray700,
-//                )
-//            }
-//            Column(
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                modifier = Modifier.height(100.dp)
-//            ) {
-//                Surface(
-//                    modifier = Modifier
-//                        .size(70.dp)
-//                        .border(
-//                            width = if (isSelected) 1.dp else 2.dp,
-//                            color = if (isSelected) gray else gray700,
-//                            shape = RoundedCornerShape(
-//                                size = 10.dp
-//                            )
-//                        )
-//                        .clickable {
-//                            isSelected = !isSelected
-//                        },
-//                    shape = RoundedCornerShape(
-//                        size = 10.dp
-//                    ),
-//                    shadowElevation = 10.dp
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.tour),
-//                        contentDescription = "image-terdekat",
-//                        contentScale = ContentScale.Crop,
-//                    )
-//                }
-//                Spacer(modifier = Modifier.height(10.dp))
-//                Text(
-//                    text = "Tour",
-//                    fontSize = 14.sp,
-//                    color = gray700,
-//                )
-//            }
-//            Column(
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                modifier = Modifier.height(100.dp)
-//            ) {
-//                Surface(
-//                    modifier = Modifier
-//                        .size(70.dp)
-//                        .border(
-//                            width = if (isSelected) 1.dp else 2.dp,
-//                            color = if (isSelected) gray else gray700,
-//                            shape = RoundedCornerShape(
-//                                size = 10.dp
-//                            )
-//                        )
-//                        .clickable {
-//                            isSelected = !isSelected
-//                        },
-//                    shape = RoundedCornerShape(
-//                        size = 10.dp
-//                    ),
-//                    shadowElevation = 10.dp
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.aktifitas_air),
-//                        contentDescription = "image-terdekat",
-//                        contentScale = ContentScale.Crop,
-//                    )
-//                }
-//                Spacer(modifier = Modifier.height(10.dp))
-//                Text(
-//                    text = "Aktifitas Air",
-//                    fontSize = 14.sp,
-//                    color = gray700,
-//                )
-//            }
-//        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            CategoryItem("Alam", R.drawable.alam, rekomendasiViewModel, 1) {
-                selectedCategory = "Alam"
-            }
-            CategoryItem("Budaya", R.drawable.budaya, rekomendasiViewModel, 2) {
-                selectedCategory = "Budaya"
-            }
-            CategoryItem("Tour", R.drawable.tour, rekomendasiViewModel, 3) {
-                selectedCategory = "Tour"
-            }
-            CategoryItem("Aktifitas Air", R.drawable.aktifitas_air, rekomendasiViewModel, 4) {
-                selectedCategory = "Aktifitas Air"
-            }
-        }
-        Spacer(modifier = Modifier.height(50.dp))
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            if (state.isEmpty()) {
-                item(span = { GridItemSpan(2) }) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
+                Column(
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Text(
+                        text = "Muhammad Al Kahfi",
+                        fontSize = 16.sp,
+                        color = gray700,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "Mari eksplore indahnya Bali",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Row {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_cart),
+                        contentDescription = "icon-cart",
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                navController.navigate(
+                                    NavigationTourScreen.CartScreen.name
+                                )
+                            }
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_notification),
+                        contentDescription = "icon-notification",
+                        modifier = Modifier.size(25.dp)
+                    )
                 }
             }
-            items(state) { rekomendasi  ->
-                CardRekomendasiItem(rekomendasi = rekomendasi) {
-                    /*TODO NOT FUNCTION */
+            Spacer(modifier = Modifier.height(30.dp))
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(55.dp)
+                    .border(
+                        width = 2.dp,
+                        color = gray,
+                        shape = RoundedCornerShape(
+                            size = 10.dp
+                        ),
+                    )
+                    .clickable {
+                        navController.navigate(
+                            NavigationTourScreen.SearchScreen.name
+                        )
+                    },
+                shape = RoundedCornerShape(
+                    size = 10.dp
+                ),
+                color = gray50,
+                shadowElevation = 5.dp
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            vertical = 10.dp,
+                            horizontal = 17.dp
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "icon-search",
+                        modifier = Modifier.size(30.dp),
+                        gray700
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = "Cari Tour Guide Anda",
+                        color = grayText,
+                        fontSize = 17.sp,
+                    )
                 }
+            }
+            Spacer(modifier = Modifier.height(30.dp))
+            Text(
+                text = "Kategori",
+                fontSize = 20.sp,
+                color = gray700,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.height(25.dp))
+        }
+
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                CategoryItem("Alam", R.drawable.alam, rekomendasiViewModel, 1) {
+                    selectedCategory = "Alam"
+                }
+                CategoryItem("Budaya", R.drawable.budaya, rekomendasiViewModel, 2) {
+                    selectedCategory = "Budaya"
+                }
+                CategoryItem("Tour", R.drawable.tour, rekomendasiViewModel, 3) {
+                    selectedCategory = "Tour"
+                }
+                CategoryItem("Aktifitas Air", R.drawable.aktifitas_air, rekomendasiViewModel, 4) {
+                    selectedCategory = "Aktifitas Air"
+                }
+            }
+            Spacer(modifier = Modifier.height(50.dp))
+        }
+
+        item {
+            RekomendasiGrid(state)
+        }
+    }
+}
+
+@Composable
+fun RekomendasiGrid(state: List<RekomendasiModel>) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.height(600.dp)  // Specify a height to make it scrollable within the LazyColumn
+    ) {
+        if (state.isEmpty()) {
+            item(span = { GridItemSpan(2) }) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+        items(state) { rekomendasi ->
+            CardRekomendasiItem(rekomendasi = rekomendasi) {
+                /*TODO NOT FUNCTION */
             }
         }
     }
@@ -419,7 +287,6 @@ fun CategoryItem(
         )
     }
 }
-
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewHomeScreen() {
