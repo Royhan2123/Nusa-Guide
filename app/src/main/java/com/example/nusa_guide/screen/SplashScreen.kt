@@ -37,7 +37,7 @@ fun SplashScreen(
     LaunchedEffect(key1 = true) {
         delay(3000L)
 
-        navController.navigate(NavigationTourScreen.HomeScreen.name)
+        navController.navigate(NavigationTourScreen.HalamanBottom.name)
     }
     Surface(
         modifier = Modifier.fillMaxSize(),

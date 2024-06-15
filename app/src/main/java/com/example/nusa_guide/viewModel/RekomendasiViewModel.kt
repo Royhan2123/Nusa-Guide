@@ -14,6 +14,7 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
     private val _state = MutableStateFlow(emptyList<RekomendasiModel>())
     val state: StateFlow<List<RekomendasiModel>> = _state
 
+    private var currentQuery = ""
     init {
         viewModelScope.launch {
             try {
@@ -26,20 +27,20 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
         }
     }
 
-    fun fetchRekomendasiById(id: Int) {
+    fun searchRekomendasi(query: String) {
+        currentQuery = query
         viewModelScope.launch {
             try {
-                val rekomendasiRepository = repository.getRekomendasiById(id)
-                if (rekomendasiRepository != null) {
-                    _state.value = listOf(rekomendasiRepository)
-                } else {
-                    _state.value = emptyList()
-                    Log.d("RekomendasiViewModel", "Data not found for ID: $id")
-                }
+                val rekomendasiRepository = repository.searchRekomendasi(query)
+                _state.value = rekomendasiRepository
             } catch (e: Exception) {
-                Log.e("RekomendasiViewModel", "Error fetching data by ID: ${e.message}")
+                Log.e("RekomendasiViewModel", "Error searching data: ${e.message}")
             }
         }
+    }
+
+    fun getCurrentQuery(): String {
+        return currentQuery
     }
 }
 @Suppress("UNCHECKED_CAST")

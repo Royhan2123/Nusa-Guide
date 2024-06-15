@@ -12,11 +12,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -24,6 +28,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,20 +43,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.component.CardRekomendasiItem
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.gray
-import com.example.nusa_guide.viewModel.SearchLazyColumn
-import com.example.nusa_guide.viewModel.SearchViewModel
+import com.example.nusa_guide.viewModel.RekomendasiViewModel
+import com.example.nusa_guide.viewModel.RekomendasiViewModelFactory
 
 @Composable
 fun SearchScreen(navController: NavController) {
-    val viewModel = viewModel<SearchViewModel>()
-    val searchText by viewModel.searchText.collectAsState()
-    val products by viewModel.products.collectAsState()
-    val isSearching by viewModel.isSearching.collectAsState()
-
-
+    val rekomendasiRepository = remember { RekomendasiRepository() }
+    val rekomendasiViewModel: RekomendasiViewModel = viewModel(
+        factory = RekomendasiViewModelFactory(rekomendasiRepository)
+    )
+    val state by rekomendasiViewModel.state.collectAsState()
+    var txfSearch by remember {
+        mutableStateOf("")
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,11 +82,14 @@ fun SearchScreen(navController: NavController) {
                 tint = black51
             )
             OutlinedTextField(
-                value = searchText,
-                onValueChange = viewModel::onSearchTextChange,
+                value = txfSearch,
+                onValueChange = {
+                    txfSearch = it
+                    rekomendasiViewModel.searchRekomendasi(it)
+                },
                 placeholder = {
                     Text(
-                        text = "Bedugul",
+                        text = "cari wisata destinasimu",
                         fontSize = 15.sp,
                         color = gray
                     )
@@ -107,25 +121,34 @@ fun SearchScreen(navController: NavController) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_filtering),
                 contentDescription = "icon-filtering",
-                modifier = Modifier.size(22.dp)
-                    .clickable { 
-                               navController.navigate(
-                                   NavigationTourScreen.FilteringScreen.name
-                               )
+                modifier = Modifier
+                    .size(22.dp)
+                    .clickable {
+                        navController.navigate(
+                            NavigationTourScreen.FilteringScreen.name
+                        )
                     },
                 tint = black51,
             )
         }
         Spacer(modifier = Modifier.height(50.dp))
-
-        if (isSearching) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            if (state.isEmpty()) {
+                item(span = { GridItemSpan(2) }) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                }
             }
-        } else {
-            SearchLazyColumn(items = products)
+            items(state) { rekomendasi ->
+                CardRekomendasiItem(rekomendasi = rekomendasi) {
+                    /*TODO NOT FUNCTION */
+                }
+            }
         }
     }
 }

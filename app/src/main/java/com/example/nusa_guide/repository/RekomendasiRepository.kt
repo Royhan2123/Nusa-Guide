@@ -18,17 +18,19 @@ class RekomendasiRepository {
             emptyList()
         }
     }
-    suspend fun getRekomendasiById(id: Int): RekomendasiModel? {
+    suspend fun searchRekomendasi(query: String): List<RekomendasiModel> {
         return try {
-            val response = RetrofitInstance.api.getRekomendasiById(id)
-            if (response.message == "Data wisata Dengan ID:$id Berhasil Diambil!") {
-                response.data.getOrNull(0)
+            val response = RetrofitInstance.api.getRekomendasi()
+            if (response.message == "GET all wisata success!") {
+                response.data.filter { rekomendasi ->
+                    rekomendasi.nama?.contains(query, ignoreCase = true) ?: false
+                }
             } else {
-                null
+                emptyList()
             }
         } catch (e: Exception) {
-            Log.e("RekomendasiRepository", "Error fetching data by ID: ${e.message}")
-            null
+            Log.e("RekomendasiRepository", "Error fetching data: ${e.message}")
+            emptyList()
         }
     }
 }
