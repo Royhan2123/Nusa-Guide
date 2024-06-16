@@ -104,11 +104,7 @@ fun HalamanBottom(navController: NavController) {
                 startDestination = BottomNavigationScreen.HomeScreen.title,
                 modifier = Modifier.padding(innerPadding)
             ) {
-                composable(BottomNavigationScreen.HomeScreen.title) {
-                    HomeScreen(
-                        navController = navController
-                    )
-                }
+
                 composable(BottomNavigationScreen.RiwayatScreen.title) {
                     RiwayatScreen(navController = navController)
                 }

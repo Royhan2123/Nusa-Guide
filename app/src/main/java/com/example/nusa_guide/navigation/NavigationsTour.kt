@@ -8,7 +8,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.nusa_guide.R
-import com.example.nusa_guide.model.DummyData.paketPremiumList
 import com.example.nusa_guide.model.PaketRegular
 import com.example.nusa_guide.screen.AboutProfileScreen
 import com.example.nusa_guide.screen.CartScreen
@@ -18,7 +17,6 @@ import com.example.nusa_guide.screen.FavoriteScreen
 import com.example.nusa_guide.screen.FilteringScreen
 import com.example.nusa_guide.screen.ForgotPasswordScreen
 import com.example.nusa_guide.screen.HalamanBottom
-import com.example.nusa_guide.screen.HomeScreen
 import com.example.nusa_guide.screen.LoginScreen
 import com.example.nusa_guide.screen.OnBoardingScreen
 import com.example.nusa_guide.screen.OnBoardingScreen2
@@ -36,7 +34,6 @@ import com.example.nusa_guide.screen.UlasanSuccesScreen
 import com.example.nusa_guide.screen.UploadBuktiScreen
 import com.example.nusa_guide.screen.VerificationCodeScreen
 import com.example.nusa_guide.screen.cameraX.CameraXScreen
-import com.example.nusa_guide.screen.detail_screen.DetailPremiumScreen
 import com.example.nusa_guide.screen.detail_screen.DetailScreen
 import com.example.nusa_guide.screen.payment.PaymentDetailsUI
 import com.example.nusa_guide.screen.payment.PaymentScreen
@@ -119,9 +116,7 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.HalamanBottom.name) {
             HalamanBottom(navController)
         }
-        composable(NavigationTourScreen.HomeScreen.name) {
-            HomeScreen(navController)
-        }
+
         composable(NavigationTourScreen.FavoriteScreen.name) {
             FavoriteScreen(navController)
         }
@@ -146,9 +141,7 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.RekomendasiScreen.name) {
             RekomendasiScreen(navController)
         }
-        composable(NavigationTourScreen.PaketPremiumScreen.name) {
-            PaketPremiumScreen(navController, paketPremiumList)
-        }
+
         composable(NavigationTourScreen.AboutProfileScreen.name) {
             AboutProfileScreen(navController)
         }
@@ -168,18 +161,7 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.DetailScreen.name) {
             DetailScreen(navController)
         }
-        composable(
-            route = "${NavigationTourScreen.DetailPremiumScreen.name}/{paketPremiumId}",
-            arguments = listOf(navArgument("paketPremiumId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val paketPremiumId = backStackEntry.arguments?.getInt("paketPremiumId")
-            if (paketPremiumId != null) {
-                DetailPremiumScreen(paketPremiumId = paketPremiumId)
-            }
-        }
-//        composable(NavigationTourScreen.DetailPremiumScreen.name) {
-//            DetailPremiumScreen()
-//        }
+
 
 
             composable(NavigationTourScreen.PaketRegulerScreen.name) {
