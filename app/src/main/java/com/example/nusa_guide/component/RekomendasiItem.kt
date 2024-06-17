@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
-import com.example.nusa_guide.model.RekomendasiModel
+import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
@@ -42,7 +42,7 @@ import java.util.Locale
 
 @Composable
 fun CardRekomendasiItem(
-    rekomendasi: RekomendasiModel,
+    rekomendasi: WisataModel,
     onClick: () -> Unit,
 ) {
     var isSelected by remember {

@@ -4,9 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.nusa_guide.R
-import com.example.nusa_guide.model.DummyData.paketPremiumList
-import com.example.nusa_guide.model.PaketRegular
 import com.example.nusa_guide.screen.AboutProfileScreen
 import com.example.nusa_guide.screen.CartScreen
 import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
@@ -19,12 +16,9 @@ import com.example.nusa_guide.screen.HomeScreen
 import com.example.nusa_guide.screen.LoginScreen
 import com.example.nusa_guide.screen.OnBoardingScreen
 import com.example.nusa_guide.screen.OnBoardingScreen2
-import com.example.nusa_guide.screen.PaketPremiumScreen
-import com.example.nusa_guide.screen.PaketRegularScreen
 import com.example.nusa_guide.screen.ProfileScreen
 import com.example.nusa_guide.screen.RegisterScreen
 import com.example.nusa_guide.screen.RekomendasiScreen
-import com.example.nusa_guide.screen.RiwayatScreen
 import com.example.nusa_guide.screen.SearchScreen
 import com.example.nusa_guide.screen.SplashScreen
 import com.example.nusa_guide.screen.TransactionSuccessScreen
@@ -33,62 +27,9 @@ import com.example.nusa_guide.screen.UlasanSuccesScreen
 import com.example.nusa_guide.screen.UploadBuktiScreen
 import com.example.nusa_guide.screen.VerificationCodeScreen
 import com.example.nusa_guide.screen.cameraX.CameraXScreen
-import com.example.nusa_guide.screen.detail_screen.DetailPremiumScreen
 import com.example.nusa_guide.screen.detail_screen.DetailScreen
 import com.example.nusa_guide.screen.payment.PaymentDetailsUI
 import com.example.nusa_guide.screen.payment.PaymentScreen
-
-
-val paketRegular = listOf(
-    PaketRegular(
-        id = 1,
-        nama = "3 Wisata - 2 Hari",
-        gambar = R.drawable.tour_image_1,
-        harga = 350000,
-        jarak = 0.64,
-        rating = 4.5f
-    ),
-    PaketRegular(
-        id = 2,
-        nama = "2 Wisata - 1 Hari",
-        gambar = R.drawable.tour_image_1,
-        harga = 250000,
-        jarak = 0.34,
-        rating = 4.0f
-    ),
-    PaketRegular(
-        id = 3,
-        nama = "4 Wisata - 3 Hari",
-        gambar = R.drawable.tour_image_1,
-        harga = 450000,
-        jarak = 1.0,
-        rating = 4.8f
-    ),
-    PaketRegular(
-        id = 4,
-        nama = "5 Wisata - 4 Hari",
-        gambar = R.drawable.tour_image_1,
-        harga = 500000,
-        jarak = 1.5,
-        rating = 4.7f
-    ),
-    PaketRegular(
-        id = 5,
-        nama = "6 Wisata - 5 Hari",
-        gambar = R.drawable.tour_image_1,
-        harga = 550000,
-        jarak = 2.0,
-        rating = 4.9f
-    ),
-    PaketRegular(
-        id = 6,
-        nama = "7 Wisata - 6 Hari",
-        gambar = R.drawable.tour_image_1,
-        harga = 600000,
-        jarak = 2.5,
-        rating = 5.0f
-    ),
-)
 
 @Composable
 fun NavigationsTour() {
@@ -121,9 +62,6 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.FavoriteScreen.name) {
             FavoriteScreen(navController)
         }
-        composable(NavigationTourScreen.RiwayatScreen.name) {
-            RiwayatScreen(navController)
-        }
         composable(NavigationTourScreen.ProfileScreen.name) {
             ProfileScreen(navController)
         }
@@ -140,13 +78,10 @@ fun NavigationsTour() {
             SearchScreen(navController)
         }
         composable(NavigationTourScreen.RekomendasiScreen.name) {
-                RekomendasiScreen(navController)
-        }
-        composable(NavigationTourScreen.PaketPremiumScreen.name) {
-            PaketPremiumScreen(navController, paketPremiumList)
+            RekomendasiScreen(navController)
         }
         composable(NavigationTourScreen.AboutProfileScreen.name) {
-            AboutProfileScreen(navController, )
+            AboutProfileScreen(navController)
         }
         composable(NavigationTourScreen.UlasanScreen.name) {
             UlasanScreen(navController)
@@ -163,13 +98,6 @@ fun NavigationsTour() {
 
         composable(NavigationTourScreen.DetailScreen.name) {
             DetailScreen(navController)
-        }
-
-        composable(NavigationTourScreen.DetailPremiumScreen.name) {
-            DetailPremiumScreen()
-        }
-        composable(NavigationTourScreen.PaketRegulerScreen.name) {
-            PaketRegularScreen(navController = navController, paketRegularList = paketRegular)
         }
         composable(NavigationTourScreen.CartScreen.name) {
             CartScreen(navController = navController)

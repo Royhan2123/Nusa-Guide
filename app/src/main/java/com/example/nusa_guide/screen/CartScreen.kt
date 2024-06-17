@@ -55,10 +55,10 @@ import com.example.nusa_guide.ui.theme.white
 fun CartScreen(navController: NavController) {
     val cartItems = remember {
         mutableStateListOf(
-            CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
-            CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
-            CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
-            CartItem("Pantai Bias", 150000, R.drawable.pantai_1),
+            CartItem("Pantai Bias", 150000, R.drawable.alam),
+            CartItem("Pantai Bias", 150000, R.drawable.budaya),
+            CartItem("Pantai Bias", 150000, R.drawable.aktifitas_air),
+            CartItem("Pantai Bias", 150000, R.drawable.tour),
         )
     }
 

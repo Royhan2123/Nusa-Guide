@@ -177,7 +177,7 @@ fun CartItemCard(
 @Composable
 fun CartItemCardPreview() {
     CartItemCard(
-        imageResource = R.drawable.pantai_1,
+        imageResource = R.drawable.alam,
         title = "Pantai Bias",
         price = 150000,
         quantity = 1,

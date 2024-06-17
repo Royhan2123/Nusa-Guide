@@ -27,7 +27,7 @@ val dummyListFavoritModel = listOf(
         harga = 150000,
         potonganHarga = 500000,
         diskon = 50,
-        image = R.drawable.pantai_1,
+        image = R.drawable.alam,
         menit = 20
     ),
     FavoritModel(
@@ -40,7 +40,7 @@ val dummyListFavoritModel = listOf(
         harga = 150000,
         potonganHarga = 500000,
         diskon = 50,
-        image = R.drawable.pantai_2,
+        image = R.drawable.budaya,
         menit = 20
     ),
     FavoritModel(
@@ -53,7 +53,7 @@ val dummyListFavoritModel = listOf(
         harga = 150000,
         potonganHarga = 500000,
         diskon = 50,
-        image = R.drawable.pantai_3,
+        image = R.drawable.tour,
         menit = 20
     ),
     FavoritModel(
@@ -66,7 +66,7 @@ val dummyListFavoritModel = listOf(
         harga = 150000,
         potonganHarga = 500000,
         diskon = 50,
-        image = R.drawable.pantai_4,
+        image = R.drawable.alam,
         menit = 20
     ),
 )

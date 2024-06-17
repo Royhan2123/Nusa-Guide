@@ -33,10 +33,6 @@ sealed class BottomNavigationScreen(
 ) {
     data object HomeScreen :
         BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
-
-    data object RiwayatScreen :
-        BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
-
     data object FavoritScreen :
         BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
 
@@ -51,7 +47,6 @@ fun HalamanBottom(navController: NavController) {
 
     val items = listOf(
         BottomNavigationScreen.HomeScreen,
-        BottomNavigationScreen.RiwayatScreen,
         BottomNavigationScreen.FavoritScreen,
         BottomNavigationScreen.ProfileScreen,
     )
@@ -108,9 +103,6 @@ fun HalamanBottom(navController: NavController) {
                     HomeScreen(
                         navController = navController
                     )
-                }
-                composable(BottomNavigationScreen.RiwayatScreen.title) {
-                    RiwayatScreen(navController = navController)
                 }
                 composable(BottomNavigationScreen.FavoritScreen.title) {
                     FavoriteScreen(navController = navController)

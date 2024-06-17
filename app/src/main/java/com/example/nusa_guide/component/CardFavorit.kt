@@ -234,7 +234,7 @@ fun PreviewCardFavorit() {
         harga = 150000,
         potonganHarga = 500000,
         diskon = 50,
-        image = R.drawable.pantai_1,
+        image = R.drawable.alam,
         menit = 20
     )
     CardFavorit(favorit = favoritModel)

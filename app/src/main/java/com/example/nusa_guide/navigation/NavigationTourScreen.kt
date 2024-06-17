@@ -7,7 +7,6 @@ enum class NavigationTourScreen {
     LoginScreen,
     RegisterScreen,
     HomeScreen,
-    RiwayatScreen,
     FavoriteScreen,
     ProfileScreen,
     HalamanBottom,
@@ -15,8 +14,6 @@ enum class NavigationTourScreen {
     ForgotPasswordScreen,
     VerificationCodeScreen,
     RekomendasiScreen,
-    PaketPremiumScreen,
-    PaketRegulerScreen,
     SearchScreen,
     AboutProfileScreen,
     UlasanScreen,
@@ -24,7 +21,6 @@ enum class NavigationTourScreen {
     FilteringScreen,
     CameraXScreen,
     DetailScreen,
-    DetailPremiumScreen,
     CartScreen,
     UploadBuktiScreen,
     PaymentDetailsUI,
@@ -39,7 +35,6 @@ enum class NavigationTourScreen {
             LoginScreen.name -> LoginScreen
             RegisterScreen.name -> RegisterScreen
             HomeScreen.name -> HomeScreen
-            RiwayatScreen.name -> RiwayatScreen
             FavoriteScreen.name -> FavoriteScreen
             ProfileScreen.name -> ProfileScreen
             HalamanBottom.name -> HalamanBottom
@@ -47,8 +42,6 @@ enum class NavigationTourScreen {
             ForgotPasswordScreen.name -> ForgotPasswordScreen
             VerificationCodeScreen.name -> VerificationCodeScreen
             RekomendasiScreen.name -> RekomendasiScreen
-            PaketPremiumScreen.name -> PaketPremiumScreen
-            PaketRegulerScreen.name -> PaketRegulerScreen
             SearchScreen.name -> SearchScreen
             AboutProfileScreen.name -> AboutProfileScreen
             UlasanScreen.name -> UlasanScreen
@@ -56,7 +49,6 @@ enum class NavigationTourScreen {
             UlasanSuccesScreen.name -> UlasanSuccesScreen
             CameraXScreen.name -> CameraXScreen
             DetailScreen.name -> DetailScreen
-            DetailPremiumScreen.name -> DetailPremiumScreen
             CartScreen.name -> CartScreen
             UploadBuktiScreen.name -> UploadBuktiScreen
             PaymentDetailsUI.name -> PaymentDetailsUI
