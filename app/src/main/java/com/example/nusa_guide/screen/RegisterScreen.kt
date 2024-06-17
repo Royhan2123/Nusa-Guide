@@ -59,15 +59,9 @@ import com.example.nusa_guide.widget.ButtonStyle
 fun RegisterScreen(
     navController: NavController,
 ) {
-    var txfKonfirmPassword by rememberSaveable {
-        mutableStateOf("")
-    }
 
-    var txfNama by rememberSaveable {
-        mutableStateOf("")
-    }
 
-    var txfNoTel by rememberSaveable {
+    var txfUsername by rememberSaveable {
         mutableStateOf("")
     }
 
@@ -83,10 +77,8 @@ fun RegisterScreen(
         mutableStateOf(true)
     }
 
-    var obsucureText2 by remember {
-        mutableStateOf(true)
-    }
     val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -117,9 +109,9 @@ fun RegisterScreen(
             fontWeight = FontWeight.SemiBold
         )
         OutlinedTextField(
-            value = txfNama,
+            value = txfUsername,
             onValueChange = {
-                txfNama = it
+                txfUsername = it
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -222,64 +214,6 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
 
-
-        Text(
-            text = stringResource(id = R.string.noTel),
-            fontSize = 15.sp,
-            color = gray900,
-            fontWeight = FontWeight.SemiBold
-        )
-        OutlinedTextField(
-            value = txfNoTel,
-            onValueChange = {
-                txfNoTel = it
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-                .padding(
-                    top = 5.dp
-                ),
-            shape = RoundedCornerShape(10.dp),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_number_phone),
-                    contentDescription = stringResource(
-                        id = R.string.noTel
-                    ),
-                    modifier = Modifier.size(25.dp),
-                    tint = gray
-                )
-            },
-            textStyle = TextStyle(
-                fontSize = 15.sp,
-                color = Color.Black
-            ),
-            placeholder = {
-                Text(
-                    text = "enter your number phone",
-                    fontSize = 14.sp,
-                    color = gray
-                )
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Phone
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                }
-            ),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = brandPrimary500,
-                unfocusedBorderColor = gray
-            )
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
         Text(
             text = stringResource(id = R.string.kata_sandi),
             fontSize = 15.sp,
@@ -344,84 +278,6 @@ fun RegisterScreen(
                     else Icons.Filled.Visibility
 
                     val description = if (obsucureText)
-                        "Hide Password"
-                    else "Show Password"
-
-                    Icon(
-                        imageVector = visibilityIcon,
-                        contentDescription = description,
-                        tint = gray
-                    )
-                }
-            },
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-        Text(
-            text = stringResource(id = R.string.konfirmasi_kata_sandi),
-            fontSize = 15.sp,
-            color = gray900,
-            fontWeight = FontWeight.SemiBold
-        )
-        OutlinedTextField(
-            value = txfKonfirmPassword,
-            onValueChange = {
-                txfKonfirmPassword = it
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-                .padding(
-                    top = 5.dp
-                ),
-            shape = RoundedCornerShape(10.dp),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_password),
-                    contentDescription = stringResource(
-                        id = R.string.kata_sandi
-                    ),
-                    modifier = Modifier.size(25.dp),
-                    tint = gray
-                )
-            },
-            textStyle = TextStyle(
-                fontSize = 15.sp,
-                color = Color.Black
-            ),
-            placeholder = {
-                Text(
-                    text = "enter your password",
-                    fontSize = 16.sp,
-                    color = gray
-                )
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Password
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                }
-            ),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = brandPrimary500,
-                unfocusedBorderColor = gray
-            ),
-            visualTransformation = if (obsucureText2)
-                PasswordVisualTransformation()
-            else VisualTransformation.None,
-            trailingIcon = {
-                IconButton(onClick = {
-                    obsucureText2 = !obsucureText2
-                }) {
-                    val visibilityIcon = if (obsucureText2)
-                        Icons.Filled.VisibilityOff
-                    else Icons.Filled.Visibility
-
-                    val description = if (obsucureText2)
                         "Hide Password"
                     else "Show Password"
 

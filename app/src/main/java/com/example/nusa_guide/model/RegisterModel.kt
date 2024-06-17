@@ -1,9 +1,16 @@
 package com.example.nusa_guide.model
 
+import com.google.gson.annotations.SerializedName
+
 data class RegisterModel(
-    val nama:String,
-    val email:String,
-    val numberPhone:String,
-    val password:String,
-    val konfirmPassword:String
+
+    @field:SerializedName("username")
+    val username: String? = null,
+
+    @field:SerializedName("email")
+    val email: String? = null,
+
+    @field:SerializedName("password")
+    val password: String? = null,
+
 )

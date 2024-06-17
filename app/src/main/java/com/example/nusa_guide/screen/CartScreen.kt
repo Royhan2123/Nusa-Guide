@@ -42,7 +42,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.CartItemCard
-import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.black51
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.brandPrimary600
@@ -148,7 +147,6 @@ fun CartScreen(navController: NavController) {
                     selectedAll.value = newValue
                     selectedItems.indices.forEach { selectedItems[it] = newValue }
                 },
-                navController = navController
             )
         }
     }
@@ -159,7 +157,6 @@ fun SurfaceBottom(
     isSelected: Boolean,
     totalPrice: Int,
     onSelectionChange: () -> Unit,
-    navController: NavController
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -202,9 +199,10 @@ fun SurfaceBottom(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 ElevatedButton(
-                    onClick = { navController.navigate(
-                        NavigationTourScreen.UploadBuktiScreen.name
-                    ) },
+                    onClick = {
+                        /*TODO THIS NOTHING FUNCTION*/
+
+                    },
                     modifier = Modifier
                         .width(145.dp)
                         .height(45.dp),

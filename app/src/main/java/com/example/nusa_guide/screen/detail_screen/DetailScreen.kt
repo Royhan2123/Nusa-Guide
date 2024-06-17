@@ -509,9 +509,7 @@ fun SurfaceBottom(
                 Spacer(modifier = Modifier.weight(1f))
                 ElevatedButton(
                     onClick = {
-                        navController.navigate(
-                            NavigationTourScreen.PaymentScreen.name
-                        )
+                        /*TODO THIS NOTHING FUNCTION*/
                     },
                     modifier = Modifier
                         .width(145.dp)
