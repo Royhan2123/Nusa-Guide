@@ -12,7 +12,7 @@
     <string name="mulai">Mulai</string>
     <string name="register">Register</string>
     <string name="daftar">Daftar</string>
-    <string name="nama">Nama</string>
+    <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="noTel">Nomor Telepon (Whatsapp)</string>
     <string name="konfirmasi_kata_sandi">Konfirmasi Kata Sandi</string>

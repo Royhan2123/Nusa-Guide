@@ -1,6 +1,6 @@
 package com.example.nusa_guide.screen
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,10 +15,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -26,6 +30,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -62,6 +67,7 @@ import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.gray900
 import com.example.nusa_guide.ui.theme.primary700
+import com.example.nusa_guide.viewModel.AuthState
 import com.example.nusa_guide.viewModel.AuthViewModel
 import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import com.example.nusa_guide.widget.ButtonStyle
@@ -81,10 +87,10 @@ fun LoginScreen(
     var txfUsername by rememberSaveable { mutableStateOf("") }
     var txfPassword by rememberSaveable { mutableStateOf("") }
     var obscureText by remember { mutableStateOf(true) }
-
-    val loading by authViewModel.loading.observeAsState(initial = false)
-    val loginState by authViewModel.loginResult.observeAsState()
+    val authState by authViewModel.authState.observeAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +115,7 @@ fun LoginScreen(
         )
         Spacer(modifier = Modifier.height(50.dp))
         Text(
-            text = stringResource(id = R.string.email),
+            text = stringResource(id = R.string.username),
             fontSize = 15.sp,
             color = gray900,
             fontWeight = FontWeight.SemiBold
@@ -149,7 +155,7 @@ fun LoginScreen(
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Email
+                keyboardType = KeyboardType.Text
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -261,26 +267,30 @@ fun LoginScreen(
             },
             text = stringResource(id = R.string.masuk),
         )
-
-        if (loading) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
+        Spacer(modifier = Modifier.height(10.dp))
+        when (val currentState = authState) {
+            is AuthState.Loading -> {
                 CircularProgressIndicator(
                     color = Color.Blue,
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
-        } else {
-            Text(
-                text = "Failed",
-                color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-            )
-        }
+            is AuthState.Success -> {
+                LaunchedEffect(Unit) {
+                    scaffoldState.snackbarHostState.showSnackbar(currentState.message)
+                    navController.navigate(NavigationTourScreen.LoginScreen.name)
+                }
+            }
+            is AuthState.Error -> {
+                LaunchedEffect(Unit) {
+                    scaffoldState.snackbarHostState.showSnackbar(currentState.message)
+                }
+            }
+            else -> {
+                Log.e("Login Screen","Error pada bagian Auth")
 
+            }
+        }
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -304,14 +314,6 @@ fun LoginScreen(
                         fontSize = 14.sp,
                     )
                 }
-            }
-        }
-        loginState?.let { response ->
-            if (response.status) {
-                navController.navigate(NavigationTourScreen.HalamanBottom.name)
-                Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
