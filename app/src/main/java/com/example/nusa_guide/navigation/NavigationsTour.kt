@@ -1,9 +1,15 @@
 package com.example.nusa_guide.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.nusa_guide.Api.RetrofitInstance
+import com.example.nusa_guide.data.DataStoreManager
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.screen.AboutProfileScreen
 import com.example.nusa_guide.screen.CartScreen
 import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
@@ -24,10 +30,20 @@ import com.example.nusa_guide.screen.TransactionSuccessScreen
 import com.example.nusa_guide.screen.VerificationCodeScreen
 import com.example.nusa_guide.screen.cameraX.CameraXScreen
 import com.example.nusa_guide.screen.detail_screen.DetailScreen
+import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
 
 @Composable
 fun NavigationsTour() {
     val navController = rememberNavController()
+
+    val context = LocalContext.current
+    val authRepository = remember {
+        AuthRepository(RetrofitInstance.api, DataStoreManager(context))
+    }
+    val authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(authRepository, DataStoreManager(LocalContext.current))
+    )
     NavHost(
         navController = navController,
         startDestination = NavigationTourScreen.SplashScreen.name
@@ -45,7 +61,7 @@ fun NavigationsTour() {
             LoginScreen(navController = navController)
         }
         composable(NavigationTourScreen.RegisterScreen.name) {
-            RegisterScreen(navController = navController)
+            RegisterScreen(navController = navController,authViewModel = authViewModel)
         }
         composable(NavigationTourScreen.HalamanBottom.name) {
             HalamanBottom(navController)

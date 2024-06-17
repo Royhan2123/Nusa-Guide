@@ -8,7 +8,10 @@ import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
 import kotlinx.coroutines.flow.Flow
 
-class AuthRepository(private val apiService: ApiService, private val dataStoreManager: DataStoreManager) {
+class AuthRepository(
+    private val apiService: ApiService,
+    private val dataStoreManager: DataStoreManager
+) {
 
     suspend fun register(registerModel: RegisterModel): RegisterResponse {
         return apiService.register(registerModel)

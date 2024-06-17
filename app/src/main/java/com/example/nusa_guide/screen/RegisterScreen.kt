@@ -1,5 +1,7 @@
 package com.example.nusa_guide.screen
 
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,12 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -40,7 +40,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,14 +51,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.nusa_guide.Api.RetrofitInstance
 import com.example.nusa_guide.R
-import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.RegisterModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
-import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
@@ -67,40 +62,22 @@ import com.example.nusa_guide.ui.theme.gray900
 import com.example.nusa_guide.ui.theme.primary700
 import com.example.nusa_guide.viewModel.AuthState
 import com.example.nusa_guide.viewModel.AuthViewModel
-import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import com.example.nusa_guide.widget.ButtonStyle
 
 @Composable
 fun RegisterScreen(
-    navController: NavController
+    navController: NavController,
+    authViewModel: AuthViewModel
 ) {
-    val context = LocalContext.current
-    val authRepository = remember {
-        AuthRepository(RetrofitInstance.api, DataStoreManager(context))
-    }
-    val authViewModel: AuthViewModel = viewModel(
-        factory = AuthViewModelFactory(authRepository, DataStoreManager(LocalContext.current))
-    )
-    var txfUsername by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    var txfEmail by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    var txfPassword by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    var obsucureText by remember {
-        mutableStateOf(true)
-    }
+    var txfUsername by rememberSaveable { mutableStateOf("") }
+    var txfEmail by rememberSaveable { mutableStateOf("") }
+    var txfPassword by rememberSaveable { mutableStateOf("") }
+    var obscureText by remember { mutableStateOf(true) }
 
     val authState by authViewModel.authState.observeAsState()
-
     val keyboardController = LocalSoftwareKeyboardController.current
     val scaffoldState: ScaffoldState = rememberScaffoldState()
+
 
     Column(
         modifier = Modifier
@@ -289,18 +266,18 @@ fun RegisterScreen(
                 focusedBorderColor = brandPrimary500,
                 unfocusedBorderColor = gray
             ),
-            visualTransformation = if (obsucureText)
+            visualTransformation = if (obscureText)
                 PasswordVisualTransformation()
             else VisualTransformation.None,
             trailingIcon = {
                 IconButton(onClick = {
-                    obsucureText = !obsucureText
+                    obscureText = !obscureText
                 }) {
-                    val visibilityIcon = if (obsucureText)
+                    val visibilityIcon = if (obscureText)
                         Icons.Filled.VisibilityOff
                     else Icons.Filled.Visibility
 
-                    val description = if (obsucureText)
+                    val description = if (obscureText)
                         "Hide Password"
                     else "Show Password"
 
@@ -325,27 +302,36 @@ fun RegisterScreen(
             },
             text = stringResource(id = R.string.register),
         )
+
         Spacer(modifier = Modifier.height(10.dp))
         when (val currentState = authState) {
             is AuthState.Loading -> {
-                CircularProgressIndicator(
-                    color = Color.Blue,
-                    modifier = Modifier.size(24.dp)
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.Blue,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
+
             is AuthState.Success -> {
                 LaunchedEffect(Unit) {
                     scaffoldState.snackbarHostState.showSnackbar(currentState.message)
-                    navController.navigate(NavigationTourScreen.LoginScreen.name)
+                    navController.popBackStack(NavigationTourScreen.LoginScreen.name, inclusive = false)
                 }
             }
+
             is AuthState.Error -> {
                 LaunchedEffect(Unit) {
                     scaffoldState.snackbarHostState.showSnackbar(currentState.message)
                 }
             }
+
             else -> {
-                Log.e("Register Screen","Error pada bagian Auth")
+                Log.e("Register Screen", "Error pada bagian Auth")
             }
         }
         Spacer(modifier = Modifier.weight(1f))
