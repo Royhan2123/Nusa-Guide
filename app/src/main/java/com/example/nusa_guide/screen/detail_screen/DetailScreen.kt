@@ -79,7 +79,7 @@ fun DetailScreen(navController: NavController) {
                     .height(300.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.tour_image_1), // Ganti dengan URL atau resource lokal yang sesuai
+                    painter = painterResource(id = R.drawable.budaya), // Ganti dengan URL atau resource lokal yang sesuai
                     contentDescription = "Foto Utama",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
@@ -227,7 +227,7 @@ fun DetailScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
+                    painter = painterResource(id = R.drawable.budaya),
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
@@ -235,7 +235,7 @@ fun DetailScreen(navController: NavController) {
                     contentScale = ContentScale.Crop
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
+                    painter = painterResource(id = R.drawable.budaya),
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
@@ -243,7 +243,7 @@ fun DetailScreen(navController: NavController) {
                     contentScale = ContentScale.Crop
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
+                    painter = painterResource(id = R.drawable.budaya),
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
@@ -401,7 +401,7 @@ fun DetailScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
+                    painter = painterResource(id = R.drawable.budaya),
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
@@ -409,7 +409,7 @@ fun DetailScreen(navController: NavController) {
                     contentScale = ContentScale.Crop
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
+                    painter = painterResource(id = R.drawable.budaya),
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
@@ -417,7 +417,7 @@ fun DetailScreen(navController: NavController) {
                     contentScale = ContentScale.Crop
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.tour_image_1),
+                    painter = painterResource(id = R.drawable.budaya),
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)

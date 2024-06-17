@@ -173,21 +173,7 @@ fun CartItemCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun CartItemCardPreview() {
-    CartItemCard(
-        imageResource = R.drawable.pantai_1,
-        title = "Pantai Bias",
-        price = 150000,
-        quantity = 1,
-        onAdd = {},
-        onRemove = {},
-        onDelete = {},
-        isSelected = true,
-        onSelectionChange = {}
-    )
-}
+
 
 fun Int.formatCurrency(): String {
     return String.format("%,d", this).replace(",", ".")

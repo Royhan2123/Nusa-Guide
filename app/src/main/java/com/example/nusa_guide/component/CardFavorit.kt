@@ -221,21 +221,3 @@ fun formatHarga(harga: Int): String {
     return numberFormat.format(harga)
 }
 
-@Preview
-@Composable
-fun PreviewCardFavorit() {
-    val favoritModel = FavoritModel(
-        id = 1,
-        title = "Pantai Pandawa",
-        waktu = 6.00,
-        waktuSelesai = 18.00,
-        km = 1,
-        rating = 4.5,
-        harga = 150000,
-        potonganHarga = 500000,
-        diskon = 50,
-        image = R.drawable.pantai_1,
-        menit = 20
-    )
-    CardFavorit(favorit = favoritModel)
-}

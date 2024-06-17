@@ -151,12 +151,12 @@ fun ProfileMenuItem(title: String, drawable: Int) {
 @Composable
 fun FavoriteSection() {
     val images = listOf(
-        R.drawable.pantai_1,
-        R.drawable.pantai_2,
-        R.drawable.pantai_3,
-        R.drawable.pantai_4,
-        R.drawable.pantai_5,
-        R.drawable.pantai_6
+        R.drawable.budaya,
+        R.drawable.budaya,
+        R.drawable.budaya,
+        R.drawable.budaya,
+        R.drawable.budaya,
+        R.drawable.budaya
     )
 
     LazyVerticalGrid(

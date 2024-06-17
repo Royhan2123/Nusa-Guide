@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.component.CardFavorit
-import com.example.nusa_guide.model.dummyListFavoritModel
 import com.example.nusa_guide.ui.theme.gray700
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -70,14 +69,7 @@ fun FavoriteScreen(navController: NavController) {
                 tint = Color.Gray
             )
         }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-        ) {
-            items(dummyListFavoritModel) { favorit ->
-                CardFavorit(favorit = favorit)
-            }
-        }
+
     }
 }
 
