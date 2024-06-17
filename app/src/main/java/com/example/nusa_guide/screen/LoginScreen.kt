@@ -1,5 +1,6 @@
 package com.example.nusa_guide.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -25,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,15 +48,22 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.nusa_guide.Api.RetrofitInstance
 import com.example.nusa_guide.R
+import com.example.nusa_guide.data.DataStoreManager
+import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.gray900
 import com.example.nusa_guide.ui.theme.primary700
+import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import com.example.nusa_guide.widget.ButtonStyle
 
 
@@ -60,12 +71,19 @@ import com.example.nusa_guide.widget.ButtonStyle
 fun LoginScreen(
     navController: NavController
 ) {
-
+    val context = LocalContext.current
+    val authRepository = remember {
+        AuthRepository(RetrofitInstance.api, DataStoreManager(context))
+    }
+    val authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(authRepository, DataStoreManager(LocalContext.current))
+    )
     var txfUsername by rememberSaveable { mutableStateOf("") }
     var txfPassword by rememberSaveable { mutableStateOf("") }
     var obscureText by remember { mutableStateOf(true) }
 
-
+    val loading by authViewModel.loading.observeAsState(initial = false)
+    val loginState by authViewModel.loginResult.observeAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier
@@ -239,10 +257,30 @@ fun LoginScreen(
         }
         ButtonStyle(
             onClicked = {
-                navController.navigate(NavigationTourScreen.HalamanBottom.name)
+                authViewModel.login(LoginModel(username = txfUsername, password = txfPassword))
             },
             text = stringResource(id = R.string.masuk),
         )
+
+        if (loading) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    color = Color.Blue,
+                    modifier = Modifier.size(30.dp)
+                )
+            }
+        } else {
+            Text(
+                text = "Failed",
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -268,7 +306,16 @@ fun LoginScreen(
                 }
             }
         }
+        loginState?.let { response ->
+            if (response.status) {
+                navController.navigate(NavigationTourScreen.HalamanBottom.name)
+                Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
 }
 
 @Preview(showBackground = true)
