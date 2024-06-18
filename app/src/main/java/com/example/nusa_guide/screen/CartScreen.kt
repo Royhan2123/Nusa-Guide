@@ -55,10 +55,10 @@ import com.example.nusa_guide.ui.theme.white
 fun CartScreen(navController: NavController) {
     val cartItems = remember {
         mutableStateListOf(
+            CartItem("Pantai Bias", 150000, R.drawable.alam),
             CartItem("Pantai Bias", 150000, R.drawable.budaya),
-            CartItem("Pantai Bias", 150000, R.drawable.budaya),
-            CartItem("Pantai Bias", 150000, R.drawable.budaya),
-            CartItem("Pantai Bias", 150000, R.drawable.budaya),
+            CartItem("Pantai Bias", 150000, R.drawable.aktifitas_air),
+            CartItem("Pantai Bias", 150000, R.drawable.tour),
         )
     }
 
@@ -202,9 +202,9 @@ fun SurfaceBottom(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 ElevatedButton(
-                    onClick = { navController.navigate(
-                        NavigationTourScreen.UploadBuktiScreen.name
-                    ) },
+                    onClick = {
+                    // nnti diisikan halaman selanjutnya
+                    },
                     modifier = Modifier
                         .width(145.dp)
                         .height(45.dp),

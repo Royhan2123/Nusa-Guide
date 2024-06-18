@@ -48,7 +48,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.component.CardRekomendasiItem
-import com.example.nusa_guide.model.RekomendasiModel
+import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.gray
@@ -215,13 +215,13 @@ fun HomeScreen(
         }
 
         item {
-            RekomendasiGrid(state)
+            RekomendasiGrid(state, navController)
         }
     }
 }
 
 @Composable
-fun RekomendasiGrid(state: List<RekomendasiModel>) {
+fun RekomendasiGrid(state: List<WisataModel>, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -237,7 +237,7 @@ fun RekomendasiGrid(state: List<RekomendasiModel>) {
         }
         items(state) { rekomendasi ->
             CardRekomendasiItem(rekomendasi = rekomendasi) {
-                /*TODO NOT FUNCTION */
+                navController.navigate("${NavigationTourScreen.DetailScreen.name}/${rekomendasi.id}")
             }
         }
     }

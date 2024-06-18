@@ -23,12 +23,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
-import com.example.nusa_guide.screen.detail_screen.startWhatsApp
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.grayText
 import com.example.nusa_guide.widget.ButtonStyle
@@ -53,14 +54,14 @@ fun TransactionSuccessScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(40.dp))
             Text(
-                text = "Anda Berhasil Upload",
+                text = "Pembayaran Anda Berhasil",
                 fontSize = 24.sp,
                 color = Color(0XFF1F2A37),
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "Anda telah berhasil mengupload bukti pembayaran. Silahkan klik button dibawah untuk melanjutkan aktivitas Anda !!!",
+                text = "Anda telah berhasil melakukan pembayaran. Silahkan klik button dibawah untuk melanjutkan aktivitas Anda !!!",
                 fontSize = 15.sp,
                 color = grayText,
                 textAlign = TextAlign.Center,
@@ -99,4 +100,10 @@ fun startWhatsApp(context: android.content.Context) {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse(url)
     context.startActivity(intent)
+}
+
+@Preview
+@Composable
+fun PreviewTransaction(){
+    TransactionSuccessScreen(navController = rememberNavController())
 }

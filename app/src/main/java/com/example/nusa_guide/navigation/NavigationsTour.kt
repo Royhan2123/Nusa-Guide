@@ -1,18 +1,13 @@
 package com.example.nusa_guide.navigation
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.example.nusa_guide.R
-import com.example.nusa_guide.model.PaketRegular
+import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.screen.AboutProfileScreen
 import com.example.nusa_guide.screen.CartScreen
 import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
-import com.example.nusa_guide.screen.DetailTransactionScreen
 import com.example.nusa_guide.screen.FavoriteScreen
 import com.example.nusa_guide.screen.FilteringScreen
 import com.example.nusa_guide.screen.ForgotPasswordScreen
@@ -22,21 +17,13 @@ import com.example.nusa_guide.screen.OnBoardingScreen
 import com.example.nusa_guide.screen.OnBoardingScreen2
 import com.example.nusa_guide.screen.ProfileScreen
 import com.example.nusa_guide.screen.RegisterScreen
-import com.example.nusa_guide.screen.RiwayatScreen
 import com.example.nusa_guide.screen.SearchScreen
 import com.example.nusa_guide.screen.SplashScreen
 import com.example.nusa_guide.screen.TransactionSuccessScreen
-import com.example.nusa_guide.screen.UlasanScreen
-import com.example.nusa_guide.screen.UlasanSuccesScreen
-import com.example.nusa_guide.screen.UploadBuktiScreen
 import com.example.nusa_guide.screen.VerificationCodeScreen
 import com.example.nusa_guide.screen.cameraX.CameraXScreen
 import com.example.nusa_guide.screen.detail_screen.DetailScreen
-import com.example.nusa_guide.screen.payment.PaymentDetailsUI
-import com.example.nusa_guide.screen.payment.PaymentScreen
 
-
-@SuppressLint("ComposableDestinationInComposeScope")
 @Composable
 fun NavigationsTour() {
     val navController = rememberNavController()
@@ -62,12 +49,8 @@ fun NavigationsTour() {
         composable(NavigationTourScreen.HalamanBottom.name) {
             HalamanBottom(navController)
         }
-
         composable(NavigationTourScreen.FavoriteScreen.name) {
             FavoriteScreen(navController)
-        }
-        composable(NavigationTourScreen.RiwayatScreen.name) {
-            RiwayatScreen(navController)
         }
         composable(NavigationTourScreen.ProfileScreen.name) {
             ProfileScreen(navController)
@@ -85,49 +68,27 @@ fun NavigationsTour() {
             SearchScreen(navController)
         }
 
-
         composable(NavigationTourScreen.AboutProfileScreen.name) {
             AboutProfileScreen(navController)
         }
-        composable(NavigationTourScreen.UlasanScreen.name) {
-            UlasanScreen(navController)
-        }
+
         composable(NavigationTourScreen.FilteringScreen.name) {
             FilteringScreen(navController)
         }
-        composable(NavigationTourScreen.UlasanSuccesScreen.name) {
-            UlasanSuccesScreen(navController)
-        }
+
         composable(NavigationTourScreen.CameraXScreen.name) {
             CameraXScreen(navController)
         }
-
         composable(NavigationTourScreen.DetailScreen.name) {
-            DetailScreen(navController)
+            DetailScreen(navController, rekomendasi = WisataModel())
+        }
+        composable(NavigationTourScreen.CartScreen.name) {
+            CartScreen(navController = navController)
         }
 
-
-
-
-            composable(NavigationTourScreen.CartScreen.name) {
-                CartScreen(navController = navController)
-            }
-            composable(NavigationTourScreen.UploadBuktiScreen.name) {
-                UploadBuktiScreen(navController = navController)
-            }
-            composable(NavigationTourScreen.PaymentDetailsUI.name) {
-                PaymentDetailsUI(navController = navController)
-            }
-            composable(NavigationTourScreen.PaymentScreen.name) {
-                PaymentScreen(navController = navController)
-            }
-            composable(NavigationTourScreen.TransactionSuccessScreen.name) {
-                TransactionSuccessScreen(navController = navController)
-            }
-            composable(NavigationTourScreen.DetailTransactionScreen.name) {
-                DetailTransactionScreen(navController = navController)
-            }
+        composable(NavigationTourScreen.TransactionSuccessScreen.name) {
+            TransactionSuccessScreen(navController = navController)
         }
+
     }
-
-
+}

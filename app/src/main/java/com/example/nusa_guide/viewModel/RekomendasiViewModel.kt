@@ -4,15 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.nusa_guide.model.RekomendasiModel
+import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.repository.RekomendasiRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class RekomendasiViewModel(private val repository: RekomendasiRepository) : ViewModel() {
-    private val _state = MutableStateFlow(emptyList<RekomendasiModel>())
-    val state: StateFlow<List<RekomendasiModel>> = _state
+    private val _state = MutableStateFlow(emptyList<WisataModel>())
+    val state: StateFlow<List<WisataModel>> = _state
 
     private var currentQuery = ""
     init {

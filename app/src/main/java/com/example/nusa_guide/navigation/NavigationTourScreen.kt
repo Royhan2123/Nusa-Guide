@@ -7,16 +7,12 @@ enum class NavigationTourScreen {
     LoginScreen,
     RegisterScreen,
     HomeScreen,
-    RiwayatScreen,
     FavoriteScreen,
     ProfileScreen,
     HalamanBottom,
     ChangePasswordSuccessScreen,
     ForgotPasswordScreen,
     VerificationCodeScreen,
-    RekomendasiScreen,
-    PaketPremiumScreen,
-    PaketRegulerScreen,
     SearchScreen,
     AboutProfileScreen,
     UlasanScreen,
@@ -24,13 +20,8 @@ enum class NavigationTourScreen {
     FilteringScreen,
     CameraXScreen,
     DetailScreen,
-    DetailPremiumScreen,
     CartScreen,
-    UploadBuktiScreen,
-    PaymentDetailsUI,
-    PaymentScreen,
-    TransactionSuccessScreen,
-    DetailTransactionScreen;
+    TransactionSuccessScreen;
     fun fromRoute(route: String?): NavigationTourScreen =
         when (route?.substringBefore("/")) {
             SplashScreen.name -> SplashScreen
@@ -39,16 +30,12 @@ enum class NavigationTourScreen {
             LoginScreen.name -> LoginScreen
             RegisterScreen.name -> RegisterScreen
             HomeScreen.name -> HomeScreen
-            RiwayatScreen.name -> RiwayatScreen
             FavoriteScreen.name -> FavoriteScreen
             ProfileScreen.name -> ProfileScreen
             HalamanBottom.name -> HalamanBottom
             ChangePasswordSuccessScreen.name -> ChangePasswordSuccessScreen
             ForgotPasswordScreen.name -> ForgotPasswordScreen
             VerificationCodeScreen.name -> VerificationCodeScreen
-            RekomendasiScreen.name -> RekomendasiScreen
-            PaketPremiumScreen.name -> PaketPremiumScreen
-            PaketRegulerScreen.name -> PaketRegulerScreen
             SearchScreen.name -> SearchScreen
             AboutProfileScreen.name -> AboutProfileScreen
             UlasanScreen.name -> UlasanScreen
@@ -56,13 +43,8 @@ enum class NavigationTourScreen {
             UlasanSuccesScreen.name -> UlasanSuccesScreen
             CameraXScreen.name -> CameraXScreen
             DetailScreen.name -> DetailScreen
-            DetailPremiumScreen.name -> DetailPremiumScreen
             CartScreen.name -> CartScreen
-            UploadBuktiScreen.name -> UploadBuktiScreen
-            PaymentDetailsUI.name -> PaymentDetailsUI
-            PaymentScreen.name -> PaymentScreen
             TransactionSuccessScreen.name -> TransactionSuccessScreen
-            DetailTransactionScreen.name -> DetailTransactionScreen
             null -> SplashScreen
             else -> throw IllegalArgumentException("Route $route is not recognized.")
         }

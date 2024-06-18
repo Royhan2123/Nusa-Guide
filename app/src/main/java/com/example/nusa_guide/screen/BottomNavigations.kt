@@ -3,9 +3,7 @@ package com.example.nusa_guide.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -31,17 +29,9 @@ sealed class BottomNavigationScreen(
     val iconOutlined: Int,
     val iconFilled: Int,
 ) {
-    data object HomeScreen :
-        BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
-
-    data object RiwayatScreen :
-        BottomNavigationScreen("Riwayat", R.drawable.icon_riwayat, R.drawable.icon_riwayat_filled)
-
-    data object FavoritScreen :
-        BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
-
-    data object ProfileScreen :
-        BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
+    object HomeScreen : BottomNavigationScreen("Home", R.drawable.icon_home, R.drawable.icon_home_filled)
+    object FavoritScreen : BottomNavigationScreen("Favorit", R.drawable.icon_favorit, R.drawable.icon_favorit_filled)
+    object ProfileScreen : BottomNavigationScreen("Profil", R.drawable.icon_profil, R.drawable.icon_profil_filled)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -51,7 +41,6 @@ fun HalamanBottom(navController: NavController) {
 
     val items = listOf(
         BottomNavigationScreen.HomeScreen,
-        BottomNavigationScreen.RiwayatScreen,
         BottomNavigationScreen.FavoritScreen,
         BottomNavigationScreen.ProfileScreen,
     )
@@ -65,8 +54,7 @@ fun HalamanBottom(navController: NavController) {
                 val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
                 items.forEach { screen ->
-                    val icon =
-                        if (currentRoute == screen.title) screen.iconFilled else screen.iconOutlined
+                    val icon = if (currentRoute == screen.title) screen.iconFilled else screen.iconOutlined
                     BottomNavigationItem(
                         selected = currentRoute == screen.title,
                         onClick = {
@@ -104,9 +92,8 @@ fun HalamanBottom(navController: NavController) {
                 startDestination = BottomNavigationScreen.HomeScreen.title,
                 modifier = Modifier.padding(innerPadding)
             ) {
-
-                composable(BottomNavigationScreen.RiwayatScreen.title) {
-                    RiwayatScreen(navController = navController)
+                composable(BottomNavigationScreen.HomeScreen.title) {
+                    HomeScreen(navController = navController)
                 }
                 composable(BottomNavigationScreen.FavoritScreen.title) {
                     FavoriteScreen(navController = navController)
