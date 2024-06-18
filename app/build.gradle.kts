@@ -160,4 +160,7 @@ dependencies {
     //noinspection UseTomlInstead
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
+    //noinspection UseTomlInstead
+    implementation ("androidx.compose.runtime:runtime:1.6.8")
+
 }

@@ -1,8 +1,8 @@
-package com.example.nusa_guide.Api
+package com.example.nusa_guide.api
 
-import com.example.nusa_guide.Api.response.ApiResponse
-import com.example.nusa_guide.Api.response.LoginResponse
-import com.example.nusa_guide.Api.response.RegisterResponse
+import com.example.nusa_guide.api.response.ApiResponse
+import com.example.nusa_guide.api.response.LoginResponse
+import com.example.nusa_guide.api.response.RegisterResponse
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
 import retrofit2.http.Body
@@ -18,5 +18,4 @@ interface ApiService {
 
     @POST("auth/login")
     suspend fun login(@Body loginModel: LoginModel): LoginResponse
-
 }
