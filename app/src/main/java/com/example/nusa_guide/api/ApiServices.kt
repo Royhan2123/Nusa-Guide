@@ -7,11 +7,14 @@ import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
     @GET("wisata")
-    suspend fun getRekomendasi(): ApiResponse
+    suspend fun getRekomendasi(
+        @Header("Authorization") token: String
+    ): ApiResponse
 
     @POST("auth/register")
     suspend fun register(@Body registerModel: RegisterModel): RegisterResponse

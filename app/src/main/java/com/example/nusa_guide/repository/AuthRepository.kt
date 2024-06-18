@@ -11,25 +11,12 @@ class AuthRepository(
     private val apiService: ApiService,
     private val dataStoreManager: DataStoreManager
 ) {
-
-    suspend fun register(registerModel: RegisterModel): AuthResult {
-        return try {
-            val response = apiService.register(registerModel)
-            if (response.status) {
-                AuthResult.Success(response.message)
-            } else {
-                AuthResult.Error(response.message)
-            }
-        } catch (e: Exception) {
-            AuthResult.Error("Register failed. Please try again.")
-        }
-    }
-
     suspend fun login(loginModel: LoginModel): AuthResult {
         return try {
             val response = apiService.login(loginModel)
             if (response.status) {
-                dataStoreManager.saveBearerToken(response.token ?: "")
+                val token = response.token.removePrefix("Bearer ")
+                dataStoreManager.saveBearerToken(token)
                 AuthResult.Success(response.message)
             } else {
                 AuthResult.Error(response.message)
@@ -39,8 +26,22 @@ class AuthRepository(
         }
     }
 
+    suspend fun register(registerModel: RegisterModel): AuthResult {
+        return try {
+            val response = apiService.register(registerModel)
+            if (response.message == "Register Success") {
+                AuthResult.Success(response.message)
+            } else {
+                AuthResult.Error(response.message)
+            }
+        } catch (e: Exception) {
+            AuthResult.Error("Register failed. Please try again.")
+        }
+    }
+
+
+
     suspend fun getBearerToken(): String? {
         return dataStoreManager.getBearerToken()
     }
-
 }

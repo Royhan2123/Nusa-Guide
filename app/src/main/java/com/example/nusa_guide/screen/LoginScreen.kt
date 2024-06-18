@@ -73,19 +73,22 @@ fun LoginScreen(
         factory = AuthViewModelFactory(
             repository = AuthRepository(
                 apiService = RetrofitInstance.api,
-                dataStoreManager = DataStoreManager(context = LocalContext.current)
+                dataStoreManager = DataStoreManager.getInstance(context = LocalContext.current)
             )
         )
     )
 ) {
 
     var txfUsername by rememberSaveable { mutableStateOf("") }
+
     var txfPassword by rememberSaveable { mutableStateOf("") }
+
     var obscureText by remember { mutableStateOf(true) }
 
     val loginResult by viewModel.loginResult.observeAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()

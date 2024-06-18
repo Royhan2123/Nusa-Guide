@@ -49,9 +49,9 @@ data class WisataModel(
     @field:SerializedName("informasi_tourguide")
     val informasiTourguide: String? = null,
 
-//    @field:SerializedName("payment_link")
-//    val paymentLink: String? = null,
-//
-//    @field:SerializedName("rating")
-//    val rating: String? = null,
+    @field:SerializedName("payment_link")
+    val paymentLink: String? = null,
+
+    @field:SerializedName("rating")
+    val rating: Int? = null,
 )

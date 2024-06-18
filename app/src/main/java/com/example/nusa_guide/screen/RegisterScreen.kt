@@ -72,14 +72,19 @@ fun RegisterScreen(
         factory = AuthViewModelFactory(
             repository = AuthRepository(
                 apiService = RetrofitInstance.api,
-                dataStoreManager = DataStoreManager(context = LocalContext.current)
+                dataStoreManager = DataStoreManager.getInstance(context = LocalContext.current)
             )
         )
     )
+
 ) {
+
     var txfUsername by rememberSaveable { mutableStateOf("") }
+
     var txfEmail by rememberSaveable { mutableStateOf("") }
+
     var txfPassword by rememberSaveable { mutableStateOf("") }
+
     var obscureText by remember { mutableStateOf(true) }
 
     val registerResult by viewModel.registerResult.observeAsState()
@@ -277,12 +282,15 @@ fun RegisterScreen(
             },
             text = stringResource(id = R.string.register),
         )
+
         // Menampilkan pesan sukses atau error setelah registrasi
         registerResult?.let { result ->
             when (result) {
                 is AuthResult.Success -> {
                     // Jika registrasi berhasil, navigasi ke halaman login
-                    navController.navigate(NavigationTourScreen.LoginScreen.name)
+                    navController.navigate(
+                        NavigationTourScreen.HalamanBottom.name
+                    )
                     Toast.makeText(LocalContext.current, "Berhasil Registrasi", Toast.LENGTH_SHORT)
                         .show()
                 }
