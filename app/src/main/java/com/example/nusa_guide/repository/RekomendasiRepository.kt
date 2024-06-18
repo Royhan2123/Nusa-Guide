@@ -32,5 +32,11 @@ class RekomendasiRepository {
             Log.e("RekomendasiRepository", "Error fetching data: ${e.message}")
             emptyList()
         }
+
+
+    }
+    suspend fun getWisataDetail(id: Int): WisataModel? {
+        val response = RetrofitInstance.api.getRekomendasi()
+        return response.data.find { it.id == id }
     }
 }

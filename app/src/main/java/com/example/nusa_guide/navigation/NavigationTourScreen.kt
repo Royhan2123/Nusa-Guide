@@ -15,8 +15,6 @@ enum class NavigationTourScreen {
     VerificationCodeScreen,
     SearchScreen,
     AboutProfileScreen,
-    UlasanScreen,
-    UlasanSuccesScreen,
     FilteringScreen,
     CameraXScreen,
     DetailScreen,
@@ -38,9 +36,7 @@ enum class NavigationTourScreen {
             VerificationCodeScreen.name -> VerificationCodeScreen
             SearchScreen.name -> SearchScreen
             AboutProfileScreen.name -> AboutProfileScreen
-            UlasanScreen.name -> UlasanScreen
             FilteringScreen.name -> FilteringScreen
-            UlasanSuccesScreen.name -> UlasanSuccesScreen
             CameraXScreen.name -> CameraXScreen
             DetailScreen.name -> DetailScreen
             CartScreen.name -> CartScreen

@@ -42,6 +42,10 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
     fun getCurrentQuery(): String {
         return currentQuery
     }
+
+    suspend fun getWisataDetail(id: Int): WisataModel? {
+        return repository.getWisataDetail(id)
+    }
 }
 @Suppress("UNCHECKED_CAST")
 class RekomendasiViewModelFactory(private val repository: RekomendasiRepository) : ViewModelProvider.Factory {

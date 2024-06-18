@@ -1,5 +1,6 @@
 package com.example.nusa_guide.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,9 +15,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -24,7 +30,9 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,15 +53,23 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.nusa_guide.Api.RetrofitInstance
 import com.example.nusa_guide.R
+import com.example.nusa_guide.data.DataStoreManager
+import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.gray900
 import com.example.nusa_guide.ui.theme.primary700
+import com.example.nusa_guide.viewModel.AuthState
+import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import com.example.nusa_guide.widget.ButtonStyle
 
 
@@ -60,13 +77,20 @@ import com.example.nusa_guide.widget.ButtonStyle
 fun LoginScreen(
     navController: NavController
 ) {
-
+    val context = LocalContext.current
+    val authRepository = remember {
+        AuthRepository(RetrofitInstance.api, DataStoreManager(context))
+    }
+    val authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(authRepository, DataStoreManager(LocalContext.current))
+    )
     var txfUsername by rememberSaveable { mutableStateOf("") }
     var txfPassword by rememberSaveable { mutableStateOf("") }
     var obscureText by remember { mutableStateOf(true) }
-
-
+    val authState by authViewModel.authState.observeAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -91,7 +115,7 @@ fun LoginScreen(
         )
         Spacer(modifier = Modifier.height(50.dp))
         Text(
-            text = stringResource(id = R.string.email),
+            text = stringResource(id = R.string.username),
             fontSize = 15.sp,
             color = gray900,
             fontWeight = FontWeight.SemiBold
@@ -131,7 +155,7 @@ fun LoginScreen(
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Email
+                keyboardType = KeyboardType.Text
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -239,10 +263,34 @@ fun LoginScreen(
         }
         ButtonStyle(
             onClicked = {
-                navController.navigate(NavigationTourScreen.HalamanBottom.name)
+                authViewModel.login(LoginModel(username = txfUsername, password = txfPassword))
             },
             text = stringResource(id = R.string.masuk),
         )
+        Spacer(modifier = Modifier.height(10.dp))
+        when (val currentState = authState) {
+            is AuthState.Loading -> {
+                CircularProgressIndicator(
+                    color = Color.Blue,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+            is AuthState.Success -> {
+                LaunchedEffect(Unit) {
+                    scaffoldState.snackbarHostState.showSnackbar(currentState.message)
+                    navController.navigate(NavigationTourScreen.LoginScreen.name)
+                }
+            }
+            is AuthState.Error -> {
+                LaunchedEffect(Unit) {
+                    scaffoldState.snackbarHostState.showSnackbar(currentState.message)
+                }
+            }
+            else -> {
+                Log.e("Login Screen","Error pada bagian Auth")
+
+            }
+        }
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -269,6 +317,7 @@ fun LoginScreen(
             }
         }
     }
+
 }
 
 @Preview(showBackground = true)

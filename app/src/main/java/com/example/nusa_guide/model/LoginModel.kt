@@ -1,6 +1,12 @@
 package com.example.nusa_guide.model
 
+import com.google.gson.annotations.SerializedName
+
 data class LoginModel(
-    val username:String,
-    val password:String,
+
+    @field:SerializedName("username")
+    val username: String? = null,
+
+    @field:SerializedName("password")
+    val password: String? = null,
 )
