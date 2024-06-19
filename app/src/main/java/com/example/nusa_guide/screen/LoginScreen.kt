@@ -113,7 +113,7 @@ fun LoginScreen(
         )
         Spacer(modifier = Modifier.height(50.dp))
         Text(
-            text = stringResource(id = R.string.email),
+            text = stringResource(id = R.string.username),
             fontSize = 15.sp,
             color = gray900,
             fontWeight = FontWeight.SemiBold
