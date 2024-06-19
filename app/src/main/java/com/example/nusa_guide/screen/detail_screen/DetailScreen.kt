@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.api.RetrofitInstance
+import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.*
@@ -40,7 +42,7 @@ fun DetailScreen(
     navController: NavController,
     wisataId: String,
     viewModel: RekomendasiViewModel = viewModel(factory = RekomendasiViewModelFactory(
-        RekomendasiRepository()
+        RekomendasiRepository(RetrofitInstance.api, DataStoreManager.getInstance(LocalContext.current))
     ))
 ) {
     val wisataDetail by produceState<WisataModel?>(initialValue = null, wisataId) {

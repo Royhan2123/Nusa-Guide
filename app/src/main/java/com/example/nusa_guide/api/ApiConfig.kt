@@ -1,4 +1,4 @@
-package com.example.nusa_guide.Api
+package com.example.nusa_guide.api
 
 import com.example.nusa_guide.CONSTANT
 import retrofit2.Retrofit

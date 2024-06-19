@@ -34,9 +34,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.WisataModel
-import com.example.nusa_guide.ui.theme.brandPrimary500
-import com.example.nusa_guide.ui.theme.gray
-import com.example.nusa_guide.ui.theme.gray700
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -55,7 +52,7 @@ fun CardRekomendasiItem(
             .border(
                 width = 1.dp,
                 shape = RoundedCornerShape(10.dp),
-                color = gray
+                color = Color.Gray
             )
             .height(260.dp),
         shape = RoundedCornerShape(10.dp),
@@ -64,7 +61,7 @@ fun CardRekomendasiItem(
             Column {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Image(
-                        painter = rememberAsyncImagePainter(model = rekomendasi.gambar1),
+                        painter = rememberAsyncImagePainter(rekomendasi.gambar1),
                         contentDescription = rekomendasi.nama,
                         modifier = Modifier
                             .height(100.dp)
@@ -92,7 +89,7 @@ fun CardRekomendasiItem(
                                         modifier = Modifier
                                             .size(20.dp)
                                             .padding(5.dp),
-                                        tint = gray700
+                                        tint = Color.Gray
                                     )
                                 } else {
                                     Icon(
@@ -106,7 +103,6 @@ fun CardRekomendasiItem(
                                 }
                             }
                         }
-
                     }
                 }
                 Column(
@@ -117,14 +113,14 @@ fun CardRekomendasiItem(
                 ) {
                     Text(
                         text = "- ${rekomendasi.jarakLokasi}",
-                        color = gray,
+                        color = Color.Gray,
                         fontSize = 10.sp,
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     rekomendasi.nama?.let {
                         Text(
                             text = it,
-                            color = gray700,
+                            color = Color.Gray,
                             fontSize = 13.sp,
                             fontWeight = FontWeight.SemiBold
                         )
@@ -139,35 +135,43 @@ fun CardRekomendasiItem(
                             painter = painterResource(id = R.drawable.icon_location),
                             contentDescription = "icon-location",
                             modifier = Modifier.size(13.dp),
-                            tint = gray700
+                            tint = Color.Gray
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         rekomendasi.lokasi?.let {
                             Text(
                                 text = it,
-                                color = gray700,
+                                color = Color.Gray,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Medium
                             )
                         }
                     }
                     Spacer(modifier = Modifier.height(7.dp))
-                    val formattedHarga =
-                        NumberFormat.getNumberInstance(Locale("in", "ID")).format(rekomendasi.harga)
+
+                    // Handle harga formatting and potential errors
+                    val formattedHarga = try {
+                        rekomendasi.harga?.let {
+                            NumberFormat.getNumberInstance(Locale("in", "ID")).format(it)
+                        } ?: "Harga tidak tersedia"
+                    } catch (e: Exception) {
+                        "Harga tidak valid"
+                    }
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = "Rp $formattedHarga",
-                            color = brandPrimary500,
+                            color = Color.Blue,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "/ orang",
-                            color = gray,
+                            color = Color.Gray,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium
                         )

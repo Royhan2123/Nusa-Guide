@@ -1,6 +1,6 @@
 package com.example.nusa_guide.screen
 
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,13 +15,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,7 +26,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -50,14 +45,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.nusa_guide.Api.RetrofitInstance
 import com.example.nusa_guide.R
+import com.example.nusa_guide.api.RetrofitInstance
+import com.example.nusa_guide.api.response.AuthResult
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
@@ -67,7 +61,6 @@ import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.gray900
 import com.example.nusa_guide.ui.theme.primary700
-import com.example.nusa_guide.viewModel.AuthState
 import com.example.nusa_guide.viewModel.AuthViewModel
 import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import com.example.nusa_guide.widget.ButtonStyle
@@ -75,22 +68,27 @@ import com.example.nusa_guide.widget.ButtonStyle
 
 @Composable
 fun LoginScreen(
-    navController: NavController
-) {
-    val context = LocalContext.current
-    val authRepository = remember {
-        AuthRepository(RetrofitInstance.api, DataStoreManager(context))
-    }
-    val authViewModel: AuthViewModel = viewModel(
-        factory = AuthViewModelFactory(authRepository, DataStoreManager(LocalContext.current))
+    navController: NavController,
+    viewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(
+            repository = AuthRepository(
+                apiService = RetrofitInstance.api,
+                dataStoreManager = DataStoreManager.getInstance(context = LocalContext.current)
+            )
+        )
     )
+) {
+
     var txfUsername by rememberSaveable { mutableStateOf("") }
+
     var txfPassword by rememberSaveable { mutableStateOf("") }
+
     var obscureText by remember { mutableStateOf(true) }
-    val authState by authViewModel.authState.observeAsState()
+
+    val loginResult by viewModel.loginResult.observeAsState()
+
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -115,7 +113,7 @@ fun LoginScreen(
         )
         Spacer(modifier = Modifier.height(50.dp))
         Text(
-            text = stringResource(id = R.string.username),
+            text = stringResource(id = R.string.email),
             fontSize = 15.sp,
             color = gray900,
             fontWeight = FontWeight.SemiBold
@@ -155,7 +153,7 @@ fun LoginScreen(
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Text
+                keyboardType = KeyboardType.Email
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -263,34 +261,45 @@ fun LoginScreen(
         }
         ButtonStyle(
             onClicked = {
-                authViewModel.login(LoginModel(username = txfUsername, password = txfPassword))
+                viewModel.login(
+                    loginModel = LoginModel(
+                        txfUsername,
+                        txfPassword
+                    )
+                )
             },
             text = stringResource(id = R.string.masuk),
         )
-        Spacer(modifier = Modifier.height(10.dp))
-        when (val currentState = authState) {
-            is AuthState.Loading -> {
-                CircularProgressIndicator(
-                    color = Color.Blue,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-            is AuthState.Success -> {
-                LaunchedEffect(Unit) {
-                    scaffoldState.snackbarHostState.showSnackbar(currentState.message)
-                    navController.navigate(NavigationTourScreen.LoginScreen.name)
+        // Menampilkan pesan sukses atau error setelah registrasi
+        loginResult?.let { result ->
+            when (result) {
+                is AuthResult.Success -> {
+                    // Jika registrasi berhasil, navigasi ke halaman login
+                    navController.navigate(NavigationTourScreen.HalamanBottom.name)
+                    Toast.makeText(LocalContext.current, "Berhasil Login", Toast.LENGTH_SHORT)
+                        .show()
                 }
-            }
-            is AuthState.Error -> {
-                LaunchedEffect(Unit) {
-                    scaffoldState.snackbarHostState.showSnackbar(currentState.message)
-                }
-            }
-            else -> {
-                Log.e("Login Screen","Error pada bagian Auth")
 
+                is AuthResult.Error -> {
+                    // Handle error jika registrasi gagal
+                    // Misalnya, tampilkan pesan kesalahan kepada pengguna
+                    Toast.makeText(LocalContext.current, result.message, Toast.LENGTH_SHORT).show()
+                }
+
+                AuthResult.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(40.dp),
+                            color = brandPrimary500
+                        )
+                    }
+                }
             }
         }
+
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -318,12 +327,4 @@ fun LoginScreen(
         }
     }
 
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        navController = rememberNavController(),
-    )
 }

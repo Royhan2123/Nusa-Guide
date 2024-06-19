@@ -6,29 +6,14 @@
     import androidx.navigation.compose.composable
     import androidx.navigation.compose.rememberNavController
     import androidx.navigation.navArgument
-    import com.example.nusa_guide.model.WisataModel
-    import com.example.nusa_guide.screen.AboutProfileScreen
-    import com.example.nusa_guide.screen.CartScreen
-    import com.example.nusa_guide.screen.ChangePasswordSuccessScreen
-    import com.example.nusa_guide.screen.FavoriteScreen
-    import com.example.nusa_guide.screen.FilteringScreen
-    import com.example.nusa_guide.screen.ForgotPasswordScreen
-    import com.example.nusa_guide.screen.HalamanBottom
-    import com.example.nusa_guide.screen.LoginScreen
-    import com.example.nusa_guide.screen.OnBoardingScreen
-    import com.example.nusa_guide.screen.OnBoardingScreen2
-    import com.example.nusa_guide.screen.ProfileScreen
-    import com.example.nusa_guide.screen.RegisterScreen
-    import com.example.nusa_guide.screen.SearchScreen
-    import com.example.nusa_guide.screen.SplashScreen
-    import com.example.nusa_guide.screen.TransactionSuccessScreen
-    import com.example.nusa_guide.screen.VerificationCodeScreen
+    import com.example.nusa_guide.screen.*
     import com.example.nusa_guide.screen.cameraX.CameraXScreen
     import com.example.nusa_guide.screen.detail_screen.DetailScreen
 
     @Composable
     fun NavigationsTour() {
         val navController = rememberNavController()
+
         NavHost(
             navController = navController,
             startDestination = NavigationTourScreen.SplashScreen.name
@@ -49,54 +34,46 @@
                 RegisterScreen(navController = navController)
             }
             composable(NavigationTourScreen.HalamanBottom.name) {
-                HalamanBottom(navController)
+                HalamanBottom(navController = navController)
             }
             composable(NavigationTourScreen.FavoriteScreen.name) {
-                FavoriteScreen(navController)
+                FavoriteScreen(navController = navController)
             }
             composable(NavigationTourScreen.ProfileScreen.name) {
-                ProfileScreen(navController)
+                ProfileScreen(navController = navController)
             }
             composable(NavigationTourScreen.ForgotPasswordScreen.name) {
-                ForgotPasswordScreen(navController)
+                ForgotPasswordScreen(navController = navController)
             }
             composable(NavigationTourScreen.ChangePasswordSuccessScreen.name) {
-                ChangePasswordSuccessScreen(navController)
+                ChangePasswordSuccessScreen(navController = navController)
             }
             composable(NavigationTourScreen.VerificationCodeScreen.name) {
-                VerificationCodeScreen(navController)
+                VerificationCodeScreen(navController = navController)
             }
             composable(NavigationTourScreen.SearchScreen.name) {
-                SearchScreen(navController)
+                SearchScreen(navController = navController)
             }
-
-            composable(NavigationTourScreen.AboutProfileScreen.name) {
-                AboutProfileScreen(navController)
-            }
-
             composable(NavigationTourScreen.FilteringScreen.name) {
-                FilteringScreen(navController)
+                FilteringScreen(navController = navController)
             }
-
             composable(NavigationTourScreen.CameraXScreen.name) {
-                CameraXScreen(navController)
+                CameraXScreen(navController = navController)
+            }
+            composable(NavigationTourScreen.CartScreen.name) {
+                CartScreen(navController = navController)
+            }
+            composable(NavigationTourScreen.TransactionSuccessScreen.name) {
+                TransactionSuccessScreen(navController = navController)
+            }
+            composable(NavigationTourScreen.AboutProfileScreen.name) {
+                AboutProfileScreen(navController = navController)
             }
             composable(
                 route = "${NavigationTourScreen.DetailScreen.name}/{wisataId}",
                 arguments = listOf(navArgument("wisataId") { type = NavType.StringType })
             ) {
                 DetailScreen(navController = navController, wisataId = it.arguments?.getString("wisataId") ?: "")
-            }
-            composable(NavigationTourScreen.CartScreen.name) {
-                CartScreen(navController = navController)
-            }
-
-            composable(NavigationTourScreen.TransactionSuccessScreen.name) {
-                TransactionSuccessScreen(navController = navController)
-            }
-
-            composable(NavigationTourScreen.TransactionSuccessScreen.name) {
-                TransactionSuccessScreen(navController = navController)
             }
         }
     }

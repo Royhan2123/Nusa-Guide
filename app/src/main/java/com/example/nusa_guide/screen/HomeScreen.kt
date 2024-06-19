@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +48,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.api.RetrofitInstance
 import com.example.nusa_guide.component.CardRekomendasiItem
+import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.repository.RekomendasiRepository
@@ -63,7 +66,11 @@ import com.example.nusa_guide.viewModel.RekomendasiViewModelFactory
 fun HomeScreen(
     navController: NavController,
 ) {
-    val rekomendasiRepository = remember { RekomendasiRepository() }
+
+    val context = LocalContext.current
+    val dataStoreManager = DataStoreManager.getInstance(context)
+    val apiService = RetrofitInstance.api
+    val rekomendasiRepository = remember { RekomendasiRepository(apiService, dataStoreManager) }
     val rekomendasiViewModel: RekomendasiViewModel = viewModel(
         factory = RekomendasiViewModelFactory(rekomendasiRepository)
     )

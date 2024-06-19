@@ -4,11 +4,19 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
+<<<<<<< HEAD
         <DropdownSelection timestamp="2024-06-16T05:13:09.788140100Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ASUS\.android\avd\Pixel_7_Pro_API_34.avd" />
             </handle>
+=======
+        <DropdownSelection timestamp="2024-06-18T14:44:39.775219Z">
+          <Target type="DEFAULT_BOOT">
+            <template>
+              <DeviceId pluginId="FirebaseDirectAccess" type="TEMPLATE" identifier="model_id=panther/33" />
+            </template>
+>>>>>>> 9e3d9a3920bf94f3ffcbfc9f5a4ea17ff22de2b6
           </Target>
         </DropdownSelection>
         <DialogSelection />

@@ -47,7 +47,7 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
         return repository.getWisataDetail(id)
     }
 }
-@Suppress("UNCHECKED_CAST")
+
 class RekomendasiViewModelFactory(private val repository: RekomendasiRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RekomendasiViewModel::class.java)) {
