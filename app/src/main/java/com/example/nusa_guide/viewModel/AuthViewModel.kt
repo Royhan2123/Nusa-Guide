@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nusa_guide.api.response.AuthResult
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
+import com.example.nusa_guide.model.UserModel
 import com.example.nusa_guide.repository.AuthRepository
 import kotlinx.coroutines.launch
 
@@ -19,6 +20,35 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
 
     private val _loginResult = MutableLiveData<AuthResult>()
     val loginResult: LiveData<AuthResult> = _loginResult
+
+    private val _user = MutableLiveData<UserModel?>()
+    val user: LiveData<UserModel?> = _user
+
+    private val _userId = MutableLiveData<Int?>()
+    val userId: LiveData<Int?> = _userId
+
+    init {
+        viewModelScope.launch {
+            val userId = repository.getUserId()
+            if (userId != null) {
+                fetchUser(userId)
+            }
+        }
+    }
+
+    suspend fun fetchUser(userId: Int) {
+        try {
+            val user = repository.getUser(userId)
+            _user.postValue(user)
+        } catch (e: Exception) {
+            // Handle error appropriately
+            _user.postValue(null)
+        }
+    }
+
+    suspend fun getBearerToken(): String? {
+        return repository.getBearerToken()
+    }
 
     fun register(registerModel: RegisterModel) {
         viewModelScope.launch {
@@ -38,6 +68,10 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
                 _loginResult.value = AuthResult.Loading
                 val result = repository.login(loginModel)
                 _loginResult.value = result
+                if (result is AuthResult.Success) {
+                    val userId = repository.getUserId() ?: 0
+                    fetchUser(userId)
+                }
             } catch (e: Exception) {
                 _loginResult.value = AuthResult.Error("Login failed")
             }

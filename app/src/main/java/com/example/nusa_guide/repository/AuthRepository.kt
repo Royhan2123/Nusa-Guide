@@ -5,6 +5,7 @@ import com.example.nusa_guide.api.response.AuthResult
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
+import com.example.nusa_guide.model.UserModel
 
 
 class AuthRepository(
@@ -17,6 +18,7 @@ class AuthRepository(
             if (response.status) {
                 val token = response.token.removePrefix("Bearer ")
                 dataStoreManager.saveBearerToken(token)
+                dataStoreManager.saveUserId(response.data.id ?: 0) // Simpan ID pengguna, default 0 jika null
                 AuthResult.Success(response.message)
             } else {
                 AuthResult.Error(response.message)
@@ -39,9 +41,19 @@ class AuthRepository(
         }
     }
 
-
-
     suspend fun getBearerToken(): String? {
         return dataStoreManager.getBearerToken()
+    }
+
+    suspend fun getUserId(): Int? {
+        return dataStoreManager.getUserId()
+    }
+
+    suspend fun getUser(userId: Int): UserModel? {
+        return try {
+            apiService.getUser(userId)
+        } catch (e: Exception) {
+            null
+        }
     }
 }

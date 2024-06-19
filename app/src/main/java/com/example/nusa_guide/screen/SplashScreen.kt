@@ -16,28 +16,50 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.api.RetrofitInstance
+import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray50
+import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import kotlinx.coroutines.delay
 
 
 @Composable
 fun SplashScreen(
     navController: NavController,
+    authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(
+            repository = AuthRepository(
+                apiService = RetrofitInstance.api,
+                dataStoreManager = DataStoreManager.getInstance(context = LocalContext.current)
+            )
+        )
+    )
 ) {
     LaunchedEffect(key1 = true) {
         delay(3000L)
 
-        navController.navigate(NavigationTourScreen.OnBoardingScreen.name)
+        val token = authViewModel.getBearerToken()
+        if (!token.isNullOrBlank()) {
+            val userId = authViewModel.userId.value ?: 0
+            authViewModel.fetchUser(userId)
+            navController.navigate(NavigationTourScreen.HalamanBottom.name)
+        } else {
+            navController.navigate(NavigationTourScreen.OnBoardingScreen.name)
+        }
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
