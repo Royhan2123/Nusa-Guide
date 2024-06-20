@@ -1,5 +1,6 @@
 package com.example.nusa_guide.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,9 +30,15 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            val userId = repository.getUserId()
-            if (userId != null) {
-                fetchUser(userId)
+            try {
+                val userId = repository.getUserId()
+                if (userId != null) {
+                    fetchUser(userId)
+                } else {
+                    Log.e("AuthViewModel", "User ID is null")
+                }
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "Failed to get user ID", e)
             }
         }
     }
@@ -41,7 +48,7 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
             val user = repository.getUser(userId)
             _user.postValue(user)
         } catch (e: Exception) {
-            // Handle error appropriately
+            Log.e("AuthViewModel", "Failed to fetch user", e)
             _user.postValue(null)
         }
     }
@@ -57,6 +64,7 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
                 val result = repository.register(registerModel)
                 _registerResult.value = result
             } catch (e: Exception) {
+                Log.e("AuthViewModel", "Registration failed", e)
                 _registerResult.value = AuthResult.Error("Registration failed")
             }
         }
@@ -73,6 +81,7 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
                     fetchUser(userId)
                 }
             } catch (e: Exception) {
+                Log.e("AuthViewModel", "Login failed", e)
                 _loginResult.value = AuthResult.Error("Login failed")
             }
         }

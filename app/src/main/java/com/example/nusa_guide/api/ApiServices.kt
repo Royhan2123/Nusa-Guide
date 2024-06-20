@@ -19,14 +19,21 @@ interface ApiService {
     ): ApiResponse
 
     @POST("auth/register")
-    suspend fun register(@Body registerModel: RegisterModel): RegisterResponse
+    suspend fun register(@Body registerModel: RegisterModel
+    ): RegisterResponse
 
     @POST("auth/login")
-    suspend fun login(@Body loginModel: LoginModel): LoginResponse
+    suspend fun login(@Body loginModel: LoginModel
+    ): LoginResponse
 
     @GET("user/{id}")
     suspend fun getUser(
         @Path("id") id: Int
     ): UserModel
+
+    @GET("wisata/{id}")
+    suspend fun getWisataById(
+        @Path("id") id: Int
+    ): ApiResponse
 }
 

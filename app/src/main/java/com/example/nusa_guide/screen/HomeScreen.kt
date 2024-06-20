@@ -98,8 +98,8 @@ fun HomeScreen(
     var selectedCategory by remember {
         mutableStateOf("Alam")
     }
+
     val user by authViewModel.user.observeAsState()
-    val userId by authViewModel.userId.observeAsState()
 
     // Pastikan untuk mengambil data user di awal
     LaunchedEffect(Unit) {

@@ -1,5 +1,6 @@
 package com.example.nusa_guide.repository
 
+import android.util.Log
 import com.example.nusa_guide.api.ApiService
 import com.example.nusa_guide.api.response.AuthResult
 import com.example.nusa_guide.data.DataStoreManager
@@ -24,6 +25,7 @@ class AuthRepository(
                 AuthResult.Error(response.message)
             }
         } catch (e: Exception) {
+            Log.e("AuthRepository", "Login failed", e)
             AuthResult.Error("Login failed. Please try again.")
         }
     }
@@ -51,8 +53,10 @@ class AuthRepository(
 
     suspend fun getUser(userId: Int): UserModel? {
         return try {
+            Log.d("AuthRepository", "Fetching user with ID: $userId")
             apiService.getUser(userId)
         } catch (e: Exception) {
+            Log.e("AuthRepository", "Failed to fetch user", e)
             null
         }
     }
