@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
 import com.example.nusa_guide.api.RetrofitInstance
 import com.example.nusa_guide.data.DataStoreManager
@@ -35,7 +36,6 @@ import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.*
 import com.example.nusa_guide.viewModel.RekomendasiViewModel
 import com.example.nusa_guide.viewModel.RekomendasiViewModelFactory
-import kotlinx.coroutines.launch
 
 @Composable
 fun DetailScreen(
@@ -111,7 +111,7 @@ fun HeaderImage(navController: NavController, imageUrl: String?, isSelected: Boo
             .height(300.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.alam), // Ganti dengan Coil untuk memuat gambar dari URL
+            painter = rememberAsyncImagePainter(imageUrl),
             contentDescription = "Foto Utama",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -237,7 +237,7 @@ fun PhotoSnippets(gambar2: String?, gambar3: String?, gambar4: String?) {
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Image(
-                painter = painterResource(id = R.drawable.alam), // Ganti dengan Coil untuk memuat gambar dari URL
+                painter = rememberAsyncImagePainter(gambar2),
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
@@ -245,7 +245,7 @@ fun PhotoSnippets(gambar2: String?, gambar3: String?, gambar4: String?) {
                 contentScale = ContentScale.Crop
             )
             Image(
-                painter = painterResource(id = R.drawable.alam), // Ganti dengan Coil untuk memuat gambar dari URL
+                painter = rememberAsyncImagePainter(gambar3),
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
@@ -253,7 +253,7 @@ fun PhotoSnippets(gambar2: String?, gambar3: String?, gambar4: String?) {
                 contentScale = ContentScale.Crop
             )
             Image(
-                painter = painterResource(id = R.drawable.alam), // Ganti dengan Coil untuk memuat gambar dari URL
+                painter = rememberAsyncImagePainter(gambar4),
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
@@ -391,4 +391,3 @@ fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, mo
 fun HorizontalDivider(modifier: Modifier = Modifier) {
     Divider(color = gray300, modifier = modifier.height(1.dp))
 }
-

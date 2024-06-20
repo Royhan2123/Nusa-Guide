@@ -98,8 +98,8 @@ fun HomeScreen(
     var selectedCategory by remember {
         mutableStateOf("Alam")
     }
+
     val user by authViewModel.user.observeAsState()
-    val userId by authViewModel.userId.observeAsState()
 
     // Pastikan untuk mengambil data user di awal
     LaunchedEffect(Unit) {
@@ -262,7 +262,7 @@ fun RekomendasiGrid(state: List<WisataModel>, navController: NavController) {
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.height(600.dp)  // Specify a height to make it scrollable within the LazyColumn
+        modifier = Modifier.height(600.dp)
     ) {
         if (state.isEmpty()) {
             item(span = { GridItemSpan(2) }) {

@@ -14,7 +14,19 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
     private val _state = MutableStateFlow(emptyList<WisataModel>())
     val state: StateFlow<List<WisataModel>> = _state
 
+    init {
+        fetchRekomendasi()
+    }
+
+    private fun fetchRekomendasi() {
+        viewModelScope.launch {
+            _state.value = repository.getRekomendasi()
+        }
+    }
+
     private var currentQuery = ""
+
+
     init {
         viewModelScope.launch {
             try {
@@ -48,6 +60,7 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 class RekomendasiViewModelFactory(private val repository: RekomendasiRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RekomendasiViewModel::class.java)) {

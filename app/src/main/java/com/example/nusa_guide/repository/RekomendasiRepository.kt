@@ -42,7 +42,6 @@ class RekomendasiRepository(
             emptyList()
         }
 
-
     }
     suspend fun getWisataDetail(id: Int): WisataModel? {
         return try {
