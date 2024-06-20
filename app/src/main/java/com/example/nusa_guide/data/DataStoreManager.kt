@@ -3,6 +3,7 @@ package com.example.nusa_guide.data
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +15,8 @@ class DataStoreManager private constructor(private val context: Context) {
 
     companion object {
         val BEARER_TOKEN = stringPreferencesKey("BEARER_TOKEN")
+        val USER_ID = intPreferencesKey("USER_ID")
+
         @SuppressLint("StaticFieldLeak")
         @Volatile
         private var INSTANCE: DataStoreManager? = null
@@ -30,9 +33,20 @@ class DataStoreManager private constructor(private val context: Context) {
             preferences[BEARER_TOKEN]
         }
 
+    val userId: Flow<Int?> = context.dataStore.data
+        .map { preferences ->
+            preferences[USER_ID]
+        }
+
     suspend fun saveBearerToken(token: String) {
         context.dataStore.edit { preferences ->
             preferences[BEARER_TOKEN] = token
+        }
+    }
+
+    suspend fun saveUserId(id: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[USER_ID] = id
         }
     }
 
@@ -42,7 +56,17 @@ class DataStoreManager private constructor(private val context: Context) {
         }
     }
 
+    suspend fun clearUserId() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(USER_ID)
+        }
+    }
+
     suspend fun getBearerToken(): String? {
         return context.dataStore.data.first()[BEARER_TOKEN]
+    }
+
+    suspend fun getUserId(): Int? {
+        return context.dataStore.data.first()[USER_ID]
     }
 }

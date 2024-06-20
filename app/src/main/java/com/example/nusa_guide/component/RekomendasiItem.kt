@@ -29,11 +29,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.WisataModel
+import com.example.nusa_guide.ui.theme.brandPrimary500
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -122,10 +124,13 @@ fun CardRekomendasiItem(
                             text = it,
                             color = Color.Gray,
                             fontSize = 13.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.fillMaxWidth(),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
-                    Spacer(modifier = Modifier.height(7.dp))
+                    Spacer(modifier = Modifier.weight(1f))
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -164,16 +169,15 @@ fun CardRekomendasiItem(
                     ) {
                         Text(
                             text = "Rp $formattedHarga",
-                            color = Color.Blue,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
+                            color = brandPrimary500,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "/ orang",
+                            text = "/orang",
                             color = Color.Gray,
                             fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium
                         )
                     }
                 }

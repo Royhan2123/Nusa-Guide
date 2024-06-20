@@ -375,7 +375,7 @@ fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, mo
             }
             Button(
                 onClick = {
-                    val url = "https://www.google.com"
+                    val url = "https://www.TokoPedia.com"
                     val intent = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) }
                     context.startActivity(intent)
                 },
@@ -391,3 +391,4 @@ fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, mo
 fun HorizontalDivider(modifier: Modifier = Modifier) {
     Divider(color = gray300, modifier = modifier.height(1.dp))
 }
+

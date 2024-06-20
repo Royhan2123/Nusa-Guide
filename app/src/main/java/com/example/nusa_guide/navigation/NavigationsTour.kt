@@ -18,6 +18,7 @@
             navController = navController,
             startDestination = NavigationTourScreen.SplashScreen.name
         ) {
+
             composable(NavigationTourScreen.SplashScreen.name) {
                 SplashScreen(navController = navController)
             }

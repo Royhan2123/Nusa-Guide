@@ -29,8 +29,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -53,11 +55,14 @@ import com.example.nusa_guide.component.CardRekomendasiItem
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.repository.RekomendasiRepository
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray50
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.grayText
+import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import com.example.nusa_guide.viewModel.RekomendasiViewModel
 import com.example.nusa_guide.viewModel.RekomendasiViewModelFactory
 
@@ -65,19 +70,43 @@ import com.example.nusa_guide.viewModel.RekomendasiViewModelFactory
 @Composable
 fun HomeScreen(
     navController: NavController,
+    authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(
+            repository = AuthRepository(
+                apiService = RetrofitInstance.api,
+                dataStoreManager = DataStoreManager.getInstance(context = LocalContext.current)
+            )
+        )
+    )
 ) {
 
     val context = LocalContext.current
+
     val dataStoreManager = DataStoreManager.getInstance(context)
+
     val apiService = RetrofitInstance.api
+
     val rekomendasiRepository = remember { RekomendasiRepository(apiService, dataStoreManager) }
+
     val rekomendasiViewModel: RekomendasiViewModel = viewModel(
         factory = RekomendasiViewModelFactory(rekomendasiRepository)
     )
+
     val state by rekomendasiViewModel.state.collectAsState()
+
 
     var selectedCategory by remember {
         mutableStateOf("Alam")
+    }
+    val user by authViewModel.user.observeAsState()
+    val userId by authViewModel.userId.observeAsState()
+
+    // Pastikan untuk mengambil data user di awal
+    LaunchedEffect(Unit) {
+        // Ambil userId dari _userId jika belum ada data user
+        authViewModel.userId.value?.let { userId ->
+            authViewModel.fetchUser(userId)
+        }
     }
 
     LazyColumn(
@@ -112,7 +141,7 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Text(
-                        text = "Muhammad Al Kahfi",
+                        text = user?.username ?: "User Pengguna",
                         fontSize = 16.sp,
                         color = gray700,
                         fontWeight = FontWeight.SemiBold
