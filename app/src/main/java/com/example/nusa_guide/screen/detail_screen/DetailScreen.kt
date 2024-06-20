@@ -99,7 +99,7 @@ fun DetailContent(navController: NavController, wisata: WisataModel) {
             ReviewItem()
             Spacer(modifier = Modifier.height(80.dp))
         }
-        SurfaceBottom(navController, wisata.harga, wisata.lokasi, Modifier.align(Alignment.BottomCenter))
+        SurfaceBottom(navController, wisata.harga, wisata.lokasi, wisata.paymentLink, Modifier.align(Alignment.BottomCenter))
     }
 }
 
@@ -346,7 +346,7 @@ fun ReviewItem() {
 }
 
 @Composable
-fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, modifier: Modifier = Modifier) {
+fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, paymentLink: String?, modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
     Surface(
@@ -375,11 +375,13 @@ fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, mo
             }
             Button(
                 onClick = {
-                    val url = "https://www.TokoPedia.com"
-                    val intent = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) }
-                    context.startActivity(intent)
+                    paymentLink?.let {
+                        val intent = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(it) }
+                        context.startActivity(intent)
+                    }
                 },
-                colors = ButtonDefaults.buttonColors(brandPrimary500)
+                colors = ButtonDefaults.buttonColors(brandPrimary500),
+                enabled = !paymentLink.isNullOrEmpty()
             ) {
                 Text(text = "Pesan Sekarang", color = Color.White)
             }
