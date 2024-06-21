@@ -54,8 +54,7 @@ fun SplashScreen(
 
         val token = authViewModel.getBearerToken()
         if (!token.isNullOrBlank()) {
-            val userId = authViewModel.userId.value ?: 0
-            authViewModel.fetchUser(userId)
+            authViewModel.fetchUser()
             navController.navigate(NavigationTourScreen.HalamanBottom.name)
         } else {
             navController.navigate(NavigationTourScreen.OnBoardingScreen.name)
@@ -69,47 +68,41 @@ fun SplashScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_splash),
-                    contentDescription = "img-splash-Scren",
-                    modifier = Modifier
-                        .width(251.dp)
-                        .height(194.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
-            Box(
+            Image(
+                painter = painterResource(id = R.drawable.img_splash),
+                contentDescription = "img-splash-Screen",
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 20.dp),
-                contentAlignment = Alignment.BottomCenter
+                    .width(251.dp)
+                    .height(194.dp),
+                contentScale = ContentScale.Crop
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 20.dp),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "From",
-                        fontSize = 14.sp,
-                        color = gray50,
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "I Gusti Ngurah Rai",
-                        fontSize = 16.sp,
-                        color = gray50,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
+                Text(
+                    text = "From",
+                    fontSize = 14.sp,
+                    color = gray50,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "I Gusti Ngurah Rai",
+                    fontSize = 16.sp,
+                    color = gray50,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
         }
     }
 }
-
 
 @Preview
 @Composable

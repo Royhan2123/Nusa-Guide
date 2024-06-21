@@ -80,6 +80,7 @@ fun HomeScreen(
         )
     )
 ) {
+
     val context = LocalContext.current
     val dataStoreManager = DataStoreManager.getInstance(context)
     val apiService = RetrofitInstance.api
@@ -95,9 +96,7 @@ fun HomeScreen(
     val user by authViewModel.user.observeAsState()
 
     LaunchedEffect(Unit) {
-        authViewModel.userId.value?.let { userId ->
-            authViewModel.fetchUser(userId)
-        }
+          authViewModel.fetchUser()
     }
 
     LaunchedEffect(selectedCategory) {

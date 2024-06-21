@@ -32,8 +32,9 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val userId = repository.getUserId()
+                _userId.postValue(userId)
                 if (userId != null) {
-                    fetchUser(userId)
+                    fetchUser()
                 } else {
                     Log.e("AuthViewModel", "User ID is null")
                 }
@@ -43,9 +44,10 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         }
     }
 
-    suspend fun fetchUser(userId: Int) {
+    suspend fun fetchUser() {
         try {
-            val user = repository.getUser(userId)
+            val token = repository.getBearerToken() ?: return
+            val user = repository.getUser(token)
             _user.postValue(user)
         } catch (e: Exception) {
             Log.e("AuthViewModel", "Failed to fetch user", e)
@@ -53,6 +55,7 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         }
     }
 
+    // Mendapatkan bearer token dari DataStoreManager
     suspend fun getBearerToken(): String? {
         return repository.getBearerToken()
     }
@@ -78,7 +81,8 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
                 _loginResult.value = result
                 if (result is AuthResult.Success) {
                     val userId = repository.getUserId() ?: 0
-                    fetchUser(userId)
+                    fetchUser()
+                    _userId.postValue(userId)
                 }
             } catch (e: Exception) {
                 Log.e("AuthViewModel", "Login failed", e)

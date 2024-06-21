@@ -13,13 +13,16 @@ class AuthRepository(
     private val apiService: ApiService,
     private val dataStoreManager: DataStoreManager
 ) {
+
     suspend fun login(loginModel: LoginModel): AuthResult {
         return try {
             val response = apiService.login(loginModel)
             if (response.status) {
                 val token = response.token.removePrefix("Bearer ")
                 dataStoreManager.saveBearerToken(token)
-                dataStoreManager.saveUserId(response.data.id ?: 0) // Simpan ID pengguna, default 0 jika null
+                dataStoreManager.saveUserId(
+                    response.data.id ?: 0
+                ) // Simpan ID pengguna, default 0 jika null
                 AuthResult.Success(response.message)
             } else {
                 AuthResult.Error(response.message)
@@ -51,10 +54,9 @@ class AuthRepository(
         return dataStoreManager.getUserId()
     }
 
-    suspend fun getUser(userId: Int): UserModel? {
+    suspend fun getUser(token: String): UserModel? {
         return try {
-            Log.d("AuthRepository", "Fetching user with ID: $userId")
-            apiService.getUser(userId)
+            apiService.getUser(token, UserModel(token = token))
         } catch (e: Exception) {
             Log.e("AuthRepository", "Failed to fetch user", e)
             null
