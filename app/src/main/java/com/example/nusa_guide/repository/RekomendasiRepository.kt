@@ -41,4 +41,19 @@ class RekomendasiRepository(
             emptyList()
         }
     }
+
+    suspend fun getWisataByKategori(kategori: String): List<WisataModel> {
+        return try {
+            val token = dataStoreManager.getBearerToken() ?: ""
+            val response = apiService.getWisataByKategori("Bearer $token", kategori)
+            if (response.message.contains("Berhasil")) {
+                response.data
+            } else {
+                emptyList()
+            }
+        } catch (e: Exception) {
+            Log.e("RekomendasiRepository", "Error fetching data: ${e.message}")
+            emptyList()
+        }
+    }
 }

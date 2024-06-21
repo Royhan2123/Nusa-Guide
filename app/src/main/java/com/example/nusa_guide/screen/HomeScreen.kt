@@ -1,6 +1,7 @@
 package com.example.nusa_guide.screen
 
 import android.annotation.SuppressLint
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -79,42 +80,35 @@ fun HomeScreen(
         )
     )
 ) {
-
     val context = LocalContext.current
-
     val dataStoreManager = DataStoreManager.getInstance(context)
-
     val apiService = RetrofitInstance.api
 
     val rekomendasiRepository = remember { RekomendasiRepository(apiService, dataStoreManager) }
-
     val rekomendasiViewModel: RekomendasiViewModel = viewModel(
         factory = RekomendasiViewModelFactory(rekomendasiRepository)
     )
 
     val state by rekomendasiViewModel.state.collectAsState()
-
-
-    var selectedCategory by remember {
-        mutableStateOf("Alam")
-    }
+    var selectedCategory by remember { mutableStateOf("") }
 
     val user by authViewModel.user.observeAsState()
 
-    // Pastikan untuk mengambil data user di awal
     LaunchedEffect(Unit) {
-        // Ambil userId dari _userId jika belum ada data user
         authViewModel.userId.value?.let { userId ->
             authViewModel.fetchUser(userId)
         }
     }
 
+    LaunchedEffect(selectedCategory) {
+        if (selectedCategory.isNotEmpty()) {
+            rekomendasiViewModel.getWisataByKategori(selectedCategory)
+        }
+    }
+
     LazyColumn(
         modifier = Modifier
-            .padding(
-                vertical = 20.dp,
-                horizontal = 16.dp,
-            )
+            .padding(vertical = 20.dp, horizontal = 16.dp)
             .fillMaxSize()
     ) {
         item {
@@ -181,28 +175,21 @@ fun HomeScreen(
                     .border(
                         width = 2.dp,
                         color = gray,
-                        shape = RoundedCornerShape(
-                            size = 10.dp
-                        ),
+                        shape = RoundedCornerShape(10.dp),
                     )
                     .clickable {
                         navController.navigate(
                             NavigationTourScreen.SearchScreen.name
                         )
                     },
-                shape = RoundedCornerShape(
-                    size = 10.dp
-                ),
+                shape = RoundedCornerShape(10.dp),
                 color = gray50,
                 shadowElevation = 5.dp
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(
-                            vertical = 10.dp,
-                            horizontal = 17.dp
-                        ),
+                        .padding(vertical = 10.dp, horizontal = 17.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
@@ -230,27 +217,41 @@ fun HomeScreen(
         }
 
         item {
+            // Kategori
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                CategoryItem("Alam", R.drawable.alam, rekomendasiViewModel, 1) {
-                    selectedCategory = "Alam"
-                }
-                CategoryItem("Budaya", R.drawable.budaya, rekomendasiViewModel, 2) {
-                    selectedCategory = "Budaya"
-                }
-                CategoryItem("Tour", R.drawable.tour, rekomendasiViewModel, 3) {
-                    selectedCategory = "Tour"
-                }
-                CategoryItem("Aktifitas Air", R.drawable.aktifitas_air, rekomendasiViewModel, 4) {
-                    selectedCategory = "Aktifitas Air"
-                }
+                CategoryItem(
+                    imageRes = R.drawable.alam,
+                    label = "Alam",
+                    isSelected = selectedCategory == "alam",
+                    onClick = { selectedCategory = "alam" },
+                )
+                CategoryItem(
+                    imageRes = R.drawable.budaya,
+                    label = "Budaya",
+                    isSelected = selectedCategory == "budaya",
+                    onClick = { selectedCategory = "budaya" },
+                )
+                CategoryItem(
+                    imageRes = R.drawable.tour,
+                    label = "Tour",
+                    isSelected = selectedCategory == "tour",
+                    onClick = { selectedCategory = "tour" },
+                )
+                CategoryItem(
+                    imageRes = R.drawable.aktifitas_air,
+                    label = "Aktifitas Air",
+                    isSelected = selectedCategory == "aktivitas-air",
+                    onClick = { selectedCategory = "aktivitas-air" },
+                )
             }
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(30.dp))
         }
 
         item {
+            // Rekomendasi
             RekomendasiGrid(state)
         }
     }
@@ -262,7 +263,7 @@ fun RekomendasiGrid(state: List<WisataModel>) {
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.height(600.dp)  // Specify a height to make it scrollable within the LazyColumn
+        modifier = Modifier.height(600.dp)  // Tentukan tinggi agar dapat digulirkan dalam LazyColumn
     ) {
         if (state.isEmpty()) {
             item(span = { GridItemSpan(2) }) {
@@ -281,10 +282,9 @@ fun RekomendasiGrid(state: List<WisataModel>) {
 
 @Composable
 fun CategoryItem(
-    title: String,
-    iconRes: Int,
-    viewModel: RekomendasiViewModel,
-    id: Int,
+    @DrawableRes imageRes: Int,
+    label: String,
+    isSelected: Boolean,
     onClick: () -> Unit
 ) {
     Column(
@@ -295,31 +295,25 @@ fun CategoryItem(
             modifier = Modifier
                 .size(70.dp)
                 .border(
-                    width = 2.dp,
-                    color = gray700,
-                    shape = RoundedCornerShape(
-                        size = 10.dp
-                    )
+                    width = if (isSelected) 2.dp else 1.dp,
+                    color = if (isSelected) gray700 else gray,
+                    shape = RoundedCornerShape(10.dp)
                 )
-                .clickable {
-                    onClick()
-                },
-            shape = RoundedCornerShape(
-                size = 10.dp
-            ),
-            shadowElevation = 10.dp
+                .clickable { onClick() },
+            shape = RoundedCornerShape(10.dp),
+            shadowElevation = 20.dp
         ) {
             Image(
-                painter = painterResource(id = iconRes),
-                contentDescription = "gambar-$title",
-                contentScale = ContentScale.Crop,
+                painter = painterResource(id = imageRes),
+                contentDescription = label,
+                contentScale = ContentScale.Crop
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = title,
+            text = label,
             fontSize = 14.sp,
-            color = gray700,
+            color = grayText
         )
     }
 }

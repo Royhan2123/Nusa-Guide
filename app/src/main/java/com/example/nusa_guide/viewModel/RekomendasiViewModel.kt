@@ -8,13 +8,26 @@ import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.repository.RekomendasiRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RekomendasiViewModel(private val repository: RekomendasiRepository) : ViewModel() {
-    private val _state = MutableStateFlow(emptyList<WisataModel>())
-    val state: StateFlow<List<WisataModel>> = _state
+    private val _state = MutableStateFlow<List<WisataModel>>(emptyList())
+    val state: StateFlow<List<WisataModel>> = _state.asStateFlow()
+
+    fun getWisataByKategori(kategori: String) {
+        viewModelScope.launch {
+            try {
+                val result = repository.getWisataByKategori(kategori)
+                _state.value = result
+            } catch (e: Exception) {
+                Log.e("RekomendasiViewModel", "Error fetching data: ${e.message}")
+            }
+        }
+    }
 
     private var currentQuery = ""
+
     init {
         viewModelScope.launch {
             try {
@@ -40,8 +53,10 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
     }
 }
 
+
 @Suppress("UNCHECKED_CAST")
-class RekomendasiViewModelFactory(private val repository: RekomendasiRepository) : ViewModelProvider.Factory {
+class RekomendasiViewModelFactory(private val repository: RekomendasiRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RekomendasiViewModel::class.java)) {
             return RekomendasiViewModel(repository) as T

@@ -11,11 +11,18 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("wisata")
     suspend fun getRekomendasi(
         @Header("Authorization") token: String
+    ): ApiResponse
+
+    @GET("wisata")
+    suspend fun getWisataByKategori(
+        @Header("Authorization") token: String,
+        @Query("kategori") kategori: String
     ): ApiResponse
 
     @POST("auth/register")
@@ -31,9 +38,5 @@ interface ApiService {
         @Path("id") id: Int
     ): UserModel
 
-    @GET("wisata/{id}")
-    suspend fun getWisataById(
-        @Path("id") id: Int
-    ): ApiResponse
 }
 
