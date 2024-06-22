@@ -54,7 +54,6 @@ fun SplashScreen(
 
         val token = authViewModel.getBearerToken()
         if (!token.isNullOrBlank()) {
-            authViewModel.fetchUser()
             navController.navigate(NavigationTourScreen.HalamanBottom.name)
         } else {
             navController.navigate(NavigationTourScreen.OnBoardingScreen.name)

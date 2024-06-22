@@ -3,9 +3,9 @@ package com.example.nusa_guide.api
 import com.example.nusa_guide.api.response.ApiResponse
 import com.example.nusa_guide.api.response.LoginResponse
 import com.example.nusa_guide.api.response.RegisterResponse
+import com.example.nusa_guide.api.response.UserResponse
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
-import com.example.nusa_guide.model.UserModel
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -34,10 +34,10 @@ interface ApiService {
         @Body loginModel: LoginModel
     ): LoginResponse
 
-    @POST("user")
+    @GET("user")
     suspend fun getUser(
-        @Header("Authorization") token: String,
-        @Body userModel: UserModel
-    ): UserModel
+        @Header("Authorization") token: String
+    ): UserResponse
+
 }
 

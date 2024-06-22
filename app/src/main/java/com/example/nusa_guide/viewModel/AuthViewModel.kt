@@ -14,6 +14,11 @@ import com.example.nusa_guide.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 
+sealed class UserResult {
+    data class Success(val data: UserModel) : UserResult()
+    data class Error(val message: String) : UserResult()
+}
+
 class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
 
     private val _registerResult = MutableLiveData<AuthResult>()
@@ -22,36 +27,19 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     private val _loginResult = MutableLiveData<AuthResult>()
     val loginResult: LiveData<AuthResult> = _loginResult
 
-    private val _user = MutableLiveData<UserModel?>()
-    val user: LiveData<UserModel?> = _user
+    private val _user = MutableLiveData<UserModel>()
+    val user: LiveData<UserModel> = _user
 
-    private val _userId = MutableLiveData<Int?>()
-    val userId: LiveData<Int?> = _userId
-
-    init {
+    fun getUser() {
         viewModelScope.launch {
             try {
-                val userId = repository.getUserId()
-                _userId.postValue(userId)
-                if (userId != null) {
-                    fetchUser()
-                } else {
-                    Log.e("AuthViewModel", "User ID is null")
+                val result = repository.getUser()
+                if (result is UserResult.Success) {
+                    _user.value = result.data
                 }
             } catch (e: Exception) {
-                Log.e("AuthViewModel", "Failed to get user ID", e)
+                Log.e("AuthViewModel", "Get user failed", e)
             }
-        }
-    }
-
-    suspend fun fetchUser() {
-        try {
-            val token = repository.getBearerToken() ?: return
-            val user = repository.getUser(token)
-            _user.postValue(user)
-        } catch (e: Exception) {
-            Log.e("AuthViewModel", "Failed to fetch user", e)
-            _user.postValue(null)
         }
     }
 
@@ -79,11 +67,6 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
                 _loginResult.value = AuthResult.Loading
                 val result = repository.login(loginModel)
                 _loginResult.value = result
-                if (result is AuthResult.Success) {
-                    val userId = repository.getUserId() ?: 0
-                    fetchUser()
-                    _userId.postValue(userId)
-                }
             } catch (e: Exception) {
                 Log.e("AuthViewModel", "Login failed", e)
                 _loginResult.value = AuthResult.Error("Login failed")

@@ -6,7 +6,7 @@ import com.example.nusa_guide.api.response.AuthResult
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
-import com.example.nusa_guide.model.UserModel
+import com.example.nusa_guide.viewModel.UserResult
 
 
 class AuthRepository(
@@ -20,9 +20,6 @@ class AuthRepository(
             if (response.status) {
                 val token = response.token.removePrefix("Bearer ")
                 dataStoreManager.saveBearerToken(token)
-                dataStoreManager.saveUserId(
-                    response.data.id ?: 0
-                ) // Simpan ID pengguna, default 0 jika null
                 AuthResult.Success(response.message)
             } else {
                 AuthResult.Error(response.message)
@@ -50,16 +47,19 @@ class AuthRepository(
         return dataStoreManager.getBearerToken()
     }
 
-    suspend fun getUserId(): Int? {
-        return dataStoreManager.getUserId()
-    }
-
-    suspend fun getUser(token: String): UserModel? {
+    suspend fun getUser(): UserResult {
         return try {
-            apiService.getUser(token, UserModel(token = token))
+            val token = "Bearer " + dataStoreManager.getBearerToken()
+            val response = apiService.getUser(token)
+            if (response.message == "Data user Berhasil Diambil!") {
+                UserResult.Success(response.data[0])
+            } else {
+                UserResult.Error(response.message)
+            }
         } catch (e: Exception) {
-            Log.e("AuthRepository", "Failed to fetch user", e)
-            null
+            Log.e("AuthRepository", "Get user failed", e)
+            UserResult.Error("Get user failed. Please try again.")
         }
     }
+
 }

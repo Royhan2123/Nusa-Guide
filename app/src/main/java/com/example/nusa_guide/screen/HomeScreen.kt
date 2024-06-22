@@ -95,8 +95,9 @@ fun HomeScreen(
 
     val user by authViewModel.user.observeAsState()
 
+    // Mendapatkan data user setelah login
     LaunchedEffect(Unit) {
-          authViewModel.fetchUser()
+        authViewModel.getUser()
     }
 
     LaunchedEffect(selectedCategory) {
