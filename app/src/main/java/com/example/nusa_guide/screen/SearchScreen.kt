@@ -2,7 +2,6 @@ package com.example.nusa_guide.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,15 +11,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -45,7 +39,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.api.RetrofitInstance
-import com.example.nusa_guide.component.CardRekomendasiItem
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.repository.RekomendasiRepository
@@ -141,24 +134,7 @@ fun SearchScreen(navController: NavController) {
             )
         }
         Spacer(modifier = Modifier.height(50.dp))
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            if (state.isEmpty()) {
-                item(span = { GridItemSpan(2) }) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
-                }
-            }
-            items(state) { rekomendasi ->
-                CardRekomendasiItem(rekomendasi = rekomendasi) {
-                    /*TODO NOT FUNCTION */
-                }
-            }
-        }
+        RekomendasiGrid(state = state, navController = navController)
     }
 }
 

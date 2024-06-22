@@ -30,7 +30,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
-import com.example.nusa_guide.screen.detail_screen.startWhatsApp
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.grayText
 import com.example.nusa_guide.widget.ButtonStyle

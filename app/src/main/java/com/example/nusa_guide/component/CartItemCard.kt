@@ -2,13 +2,7 @@ package com.example.nusa_guide.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -50,16 +44,12 @@ fun CartItemCard(
     onSelectionChange: () -> Unit
 ) {
     Surface(
-        modifier = Modifier
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp)
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Selection Checkbox
@@ -70,7 +60,7 @@ fun CartItemCard(
                         uncheckedColor = brandPrimary500,
                         checkmarkColor = brandPrimary600
                     ),
-                    onCheckedChange = { onSelectionChange() },
+                    onCheckedChange = { onSelectionChange() }
                 )
 
                 // Image
@@ -85,16 +75,15 @@ fun CartItemCard(
                 )
 
                 Spacer(modifier = Modifier.width(10.dp))
+
                 // Texts Column
-                Column(
-                    horizontalAlignment = Alignment.Start
-                ) {
+                Column(horizontalAlignment = Alignment.Start) {
                     Text(
                         text = title,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = gray700,
-                        maxLines = 1,
+                        maxLines = 1
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
@@ -104,18 +93,12 @@ fun CartItemCard(
                         color = brandPrimary500
                     )
                     Spacer(modifier = Modifier.height(15.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Surface (
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Surface(
                             modifier = Modifier
                                 .size(30.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = gray,
-                                    shape = CircleShape
-                                ),
-                            shape = CircleShape,
+                                .border(width = 1.dp, color = gray, shape = CircleShape),
+                            shape = CircleShape
                         ) {
                             IconButton(onClick = onRemove) {
                                 Icon(
@@ -134,16 +117,11 @@ fun CartItemCard(
                             color = Color.Black
                         )
                         Spacer(modifier = Modifier.width(10.dp))
-
-                        Surface (
+                        Surface(
                             modifier = Modifier
                                 .size(30.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = gray,
-                                    shape = CircleShape
-                                ),
-                            shape = CircleShape,
+                                .border(width = 1.dp, color = gray, shape = CircleShape),
+                            shape = CircleShape
                         ) {
                             IconButton(onClick = onAdd) {
                                 Icon(
@@ -154,10 +132,11 @@ fun CartItemCard(
                                 )
                             }
                         }
-
                     }
                 }
+
                 Spacer(modifier = Modifier.weight(1f))
+
                 IconButton(onClick = onDelete) {
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -165,8 +144,8 @@ fun CartItemCard(
                         tint = Color(0xFF008080)
                     )
                 }
-
             }
+
             Spacer(modifier = Modifier.height(50.dp))
             HorizontalDivider(thickness = 1.dp, color = gray)
         }

@@ -26,6 +26,16 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
         }
     }
 
+    init {
+        fetchRekomendasi()
+    }
+
+    private fun fetchRekomendasi() {
+        viewModelScope.launch {
+            _state.value = repository.getRekomendasi()
+        }
+    }
+
     private var currentQuery = ""
 
     init {
@@ -50,6 +60,10 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
                 Log.e("RekomendasiViewModel", "Error searching data: ${e.message}")
             }
         }
+    }
+
+    suspend fun getWisataDetail(id: Int): WisataModel? {
+        return repository.getWisataDetail(id)
     }
 }
 

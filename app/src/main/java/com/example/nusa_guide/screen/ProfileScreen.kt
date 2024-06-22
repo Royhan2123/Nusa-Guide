@@ -1,6 +1,5 @@
 package com.example.nusa_guide.screen
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,15 +41,13 @@ import com.example.nusa_guide.R
 import com.example.nusa_guide.navigation.NavigationTourScreen
 import com.example.nusa_guide.ui.theme.Gray80
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController) {
-
     Scaffold(
         topBar = {
             TopAppBar(title = {
-                Text(text = "Profile", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text(text = "Profil", fontWeight = FontWeight.Bold, fontSize = 20.sp)
             })
         }
     ) { padding ->
@@ -67,18 +64,16 @@ fun ProfileScreen(navController: NavController) {
             FavoriteSection()
         }
     }
-
 }
 
 @Composable
 fun ProfileHeader(navController: NavController) {
-
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(id = R.drawable.profile_picture),
-            contentDescription = "Profile Picture",
+            contentDescription = "Gambar Profil",
             modifier = Modifier
                 .size(64.dp)
                 .clip(CircleShape)
@@ -121,7 +116,6 @@ fun ProfileMenuItem(title: String, drawable: Int) {
             contentDescription = null,
             modifier = Modifier.size(24.dp)
         )
-
         Text(
             text = title,
             color = Gray80,

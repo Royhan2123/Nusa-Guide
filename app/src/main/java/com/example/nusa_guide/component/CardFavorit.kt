@@ -221,6 +221,7 @@ fun formatHarga(harga: Int): String {
     return numberFormat.format(harga)
 }
 
+
 @Preview
 @Composable
 fun PreviewCardFavorit() {

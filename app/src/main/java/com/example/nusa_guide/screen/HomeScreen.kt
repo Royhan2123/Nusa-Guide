@@ -251,19 +251,18 @@ fun HomeScreen(
         }
 
         item {
-            // Rekomendasi
-            RekomendasiGrid(state)
+            RekomendasiGrid(state, navController)
         }
     }
 }
 
 @Composable
-fun RekomendasiGrid(state: List<WisataModel>) {
+fun RekomendasiGrid(state: List<WisataModel>, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.height(600.dp)  // Tentukan tinggi agar dapat digulirkan dalam LazyColumn
+        modifier = Modifier.height(600.dp)
     ) {
         if (state.isEmpty()) {
             item(span = { GridItemSpan(2) }) {
@@ -274,7 +273,7 @@ fun RekomendasiGrid(state: List<WisataModel>) {
         }
         items(state) { rekomendasi ->
             CardRekomendasiItem(rekomendasi = rekomendasi) {
-                /*TODO NOT FUNCTION */
+                navController.navigate("${NavigationTourScreen.DetailScreen.name}/${rekomendasi.id}")
             }
         }
     }

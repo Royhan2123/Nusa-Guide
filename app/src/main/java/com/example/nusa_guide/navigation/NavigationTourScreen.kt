@@ -13,7 +13,6 @@ enum class NavigationTourScreen {
     ChangePasswordSuccessScreen,
     ForgotPasswordScreen,
     VerificationCodeScreen,
-    RekomendasiScreen,
     SearchScreen,
     AboutProfileScreen,
     FilteringScreen,
@@ -35,7 +34,6 @@ enum class NavigationTourScreen {
             ChangePasswordSuccessScreen.name -> ChangePasswordSuccessScreen
             ForgotPasswordScreen.name -> ForgotPasswordScreen
             VerificationCodeScreen.name -> VerificationCodeScreen
-            RekomendasiScreen.name -> RekomendasiScreen
             SearchScreen.name -> SearchScreen
             AboutProfileScreen.name -> AboutProfileScreen
             FilteringScreen.name -> FilteringScreen
