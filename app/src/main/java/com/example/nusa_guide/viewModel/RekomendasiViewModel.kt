@@ -65,6 +65,17 @@ class RekomendasiViewModel(private val repository: RekomendasiRepository) : View
     suspend fun getWisataDetail(id: Int): WisataModel? {
         return repository.getWisataDetail(id)
     }
+
+    fun getWisataByRating(rating: Int) {
+        viewModelScope.launch {
+            try {
+                val result = repository.getWisataByRating(rating)
+                _state.value = result
+            } catch (e: Exception) {
+                Log.e("getRatingViewModel ", "Error fetching data: ${e.message}")
+            }
+        }
+    }
 }
 
 

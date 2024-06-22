@@ -2,6 +2,7 @@ package com.example.nusa_guide.api
 
 import com.example.nusa_guide.api.response.ApiResponse
 import com.example.nusa_guide.api.response.LoginResponse
+import com.example.nusa_guide.api.response.LogoutResponse
 import com.example.nusa_guide.api.response.RegisterResponse
 import com.example.nusa_guide.api.response.UserResponse
 import com.example.nusa_guide.model.LoginModel
@@ -24,6 +25,12 @@ interface ApiService {
         @Query("kategori") kategori: String
     ): ApiResponse
 
+    @GET("wisata")
+    suspend fun getWisataByRating(
+        @Header("Authorization") token: String,
+        @Query("rating") rating: Int
+    ): ApiResponse
+
     @POST("auth/register")
     suspend fun register(
         @Body registerModel: RegisterModel
@@ -38,5 +45,10 @@ interface ApiService {
     suspend fun getUser(
         @Header("Authorization") token: String
     ): UserResponse
+
+    @POST("auth/logout")
+    suspend fun logout(
+        @Header("Authorization") token: String
+    ): LogoutResponse
 
 }

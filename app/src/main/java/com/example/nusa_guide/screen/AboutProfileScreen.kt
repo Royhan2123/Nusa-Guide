@@ -26,24 +26,35 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.api.RetrofitInstance
+import com.example.nusa_guide.api.response.AuthResult
+import com.example.nusa_guide.data.DataStoreManager
+import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.ui.theme.BlueButton
 import com.example.nusa_guide.ui.theme.BrandPrimary400
 import com.example.nusa_guide.ui.theme.Gray60
 import com.example.nusa_guide.ui.theme.Gray80
 import com.example.nusa_guide.ui.theme.brandPrimary500
+import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -52,7 +63,18 @@ import com.example.nusa_guide.ui.theme.brandPrimary500
 @Composable
 fun AboutProfileScreen(
     navController: NavController,
+    authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(
+            repository = AuthRepository(
+                apiService = RetrofitInstance.api,
+                dataStoreManager = DataStoreManager.getInstance(context = LocalContext.current)
+            )
+        )
+    )
 ) {
+
+    val logoutResult by authViewModel.logoutResult.observeAsState()
+
     Scaffold(topBar = {
         CenterAlignedTopAppBar(
             title = {
@@ -96,9 +118,18 @@ fun AboutProfileScreen(
                     .padding(vertical = 20.dp),
             )
             Spacer(modifier = Modifier.height(14.dp))
-            ProfileTextField(label = "Nama Lengkap", value = "Kim Jiwon")
-            ProfileTextField(label = "Email", value = "kimjin@gmail.com")
-            ProfileTextField(label = "Nomor Telepon", value = "08123456")
+            ProfileTextField(
+                label = "Nama Lengkap",
+                value = "Kim Jiwon"
+            )
+            ProfileTextField(
+                label = "Email",
+                value = "kimjin@gmail.com"
+            )
+            ProfileTextField(
+                label = "Nomor Telepon",
+                value = "08123456"
+            )
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = { /* Handle save */ },
@@ -112,7 +143,7 @@ fun AboutProfileScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             TextButton(onClick = {
-                /*TODO THIS NOT FUNCTION*/
+                authViewModel.logout()
             }) {
                 Text(
                     text = "Logout",
@@ -121,7 +152,15 @@ fun AboutProfileScreen(
                     fontWeight = FontWeight.SemiBold
                 )
             }
-
+            logoutResult?.let {
+                if (it is AuthResult.Success) {
+                    navController.navigate(NavigationTourScreen.LoginScreen.name) {
+                        popUpTo(0)  // Remove all back stack
+                    }
+                } else if (it is AuthResult.Error) {
+                    Text(text = it.message)
+                }
+            }
         }
     }
 }

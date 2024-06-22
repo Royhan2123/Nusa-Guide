@@ -3,6 +3,7 @@ package com.example.nusa_guide.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -37,6 +40,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.ui.theme.brandPrimary500
+import com.example.nusa_guide.ui.theme.gray700
+import com.example.nusa_guide.ui.theme.lightGray
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -48,6 +53,7 @@ fun CardRekomendasiItem(
     var isSelected by remember {
         mutableStateOf(true)
     }
+
     Surface(
         modifier = Modifier
             .width(200.dp)
@@ -60,6 +66,7 @@ fun CardRekomendasiItem(
             .height(260.dp),
         shape = RoundedCornerShape(10.dp),
     ) {
+
         Box {
             Column {
                 Box(modifier = Modifier.fillMaxWidth()) {
@@ -74,35 +81,66 @@ fun CardRekomendasiItem(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 15.dp, vertical = 5.dp),
-                        contentAlignment = Alignment.TopEnd
+                            .padding(horizontal = 15.dp, vertical = 10.dp),
                     ) {
-                        Surface(
-                            modifier = Modifier
-                                .height(20.dp)
-                                .width(20.dp),
-                            shape = CircleShape,
-                            color = Color.White
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            IconButton(onClick = { isSelected = !isSelected }) {
-                                if (isSelected) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.icon_favorit_red),
-                                        contentDescription = "icon-favorit",
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .padding(5.dp),
-                                        tint = Color.Gray
-                                    )
-                                } else {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.icon_favorit_red),
-                                        contentDescription = "icon-favorit",
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .padding(5.dp),
-                                        tint = Color.Red
-                                    )
+                            Surface(
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(20.dp),
+                                color = lightGray,
+                                shadowElevation = 8.dp,
+                                shape = RoundedCornerShape(10.dp)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center,
+                                ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Star,
+                                            contentDescription = "icon-star",
+                                            modifier = Modifier.size(15.dp),
+                                            tint = Color.Yellow
+                                        )
+                                        Text(
+                                            text = rekomendasi.rating.toString(),
+                                            fontSize = 13.sp,
+                                            color = gray700,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                }
+                            }
+                            Surface(
+                                modifier = Modifier
+                                    .height(20.dp)
+                                    .width(20.dp),
+                                shape = CircleShape,
+                                color = Color.White
+                            ) {
+                                IconButton(onClick = { isSelected = !isSelected }) {
+                                    if (isSelected) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.icon_favorit_red),
+                                            contentDescription = "icon-favorit",
+                                            modifier = Modifier
+                                                .size(20.dp)
+                                                .padding(5.dp),
+                                            tint = Color.Gray
+                                        )
+                                    } else {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.icon_favorit_red),
+                                            contentDescription = "icon-favorit",
+                                            modifier = Modifier
+                                                .size(20.dp)
+                                                .padding(5.dp),
+                                            tint = Color.Red
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -186,6 +224,7 @@ fun CardRekomendasiItem(
         }
     }
 }
+
 @Preview
 @Composable
 fun PreviewCardRekomendasi() {

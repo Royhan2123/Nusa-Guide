@@ -30,6 +30,22 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     private val _user = MutableLiveData<UserModel>()
     val user: LiveData<UserModel> = _user
 
+    private val _logoutResult = MutableLiveData<AuthResult>()
+    val logoutResult: LiveData<AuthResult> = _logoutResult
+
+    fun logout() {
+        viewModelScope.launch {
+            try {
+                _logoutResult.value = AuthResult.Loading
+                val result = repository.logout()
+                _logoutResult.value = result
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "Logout failed", e)
+                _logoutResult.value = AuthResult.Error("Logout failed")
+            }
+        }
+    }
+
     fun getUser() {
         viewModelScope.launch {
             try {

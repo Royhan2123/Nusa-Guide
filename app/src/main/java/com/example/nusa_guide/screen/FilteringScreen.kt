@@ -1,4 +1,3 @@
-@file:Suppress("UNUSED_EXPRESSION")
 
 package com.example.nusa_guide.screen
 
@@ -112,7 +111,7 @@ fun FilteringScreen(navController: NavController) {
             val onClickAction = if (isChipSelected) {
                 {
                     navController.navigate(
-                        NavigationTourScreen.SearchScreen.name
+                        "${NavigationTourScreen.SearchScreen.name}?rating=${selectedRating}"
                     )
                 }
             } else {
@@ -172,7 +171,7 @@ fun FilteringScreen(navController: NavController) {
             ) {
                 ElevatedButton(
                     onClick = {
-                        onClickAction
+                        onClickAction.invoke()
                     },
                     colors = ButtonDefaults.buttonColors(
                         if (isChipSelected) brandPrimary500 else gray
@@ -194,7 +193,6 @@ fun FilteringScreen(navController: NavController) {
         }
     }
 }
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RatingChip(

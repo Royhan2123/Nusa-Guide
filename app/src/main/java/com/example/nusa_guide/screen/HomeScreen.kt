@@ -82,15 +82,19 @@ fun HomeScreen(
 ) {
 
     val context = LocalContext.current
+
     val dataStoreManager = DataStoreManager.getInstance(context)
+
     val apiService = RetrofitInstance.api
 
     val rekomendasiRepository = remember { RekomendasiRepository(apiService, dataStoreManager) }
+
     val rekomendasiViewModel: RekomendasiViewModel = viewModel(
         factory = RekomendasiViewModelFactory(rekomendasiRepository)
     )
 
     val state by rekomendasiViewModel.state.collectAsState()
+
     var selectedCategory by remember { mutableStateOf("") }
 
     val user by authViewModel.user.observeAsState()
@@ -157,13 +161,7 @@ fun HomeScreen(
                                 navController.navigate(
                                     NavigationTourScreen.CartScreen.name
                                 )
-                            }
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_notification),
-                        contentDescription = "icon-notification",
-                        modifier = Modifier.size(25.dp)
+                            },
                     )
                 }
             }
@@ -316,6 +314,7 @@ fun CategoryItem(
         )
     }
 }
+
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewHomeScreen() {

@@ -20,6 +20,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,8 +49,10 @@ import com.example.nusa_guide.viewModel.RekomendasiViewModel
 import com.example.nusa_guide.viewModel.RekomendasiViewModelFactory
 
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(navController: NavController, selectedRating: Int? = null) {
+
     val context = LocalContext.current
+
     val dataStoreManager = DataStoreManager.getInstance(context)
 
     val apiService = RetrofitInstance.api
@@ -60,9 +63,18 @@ fun SearchScreen(navController: NavController) {
         factory = RekomendasiViewModelFactory(rekomendasiRepository)
     )
     val state by rekomendasiViewModel.state.collectAsState()
+
     var txfSearch by remember {
         mutableStateOf("")
     }
+
+    // Fetch wisata by rating if selectedRating is not null
+    LaunchedEffect(selectedRating) {
+        if (selectedRating != null) {
+            rekomendasiViewModel.getWisataByRating(selectedRating)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -107,7 +119,7 @@ fun SearchScreen(navController: NavController) {
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "icon-back",
+                        contentDescription = "icon-search",
                         modifier = Modifier.size(24.dp),
                         tint = gray
                     )
@@ -133,10 +145,11 @@ fun SearchScreen(navController: NavController) {
                 tint = black51,
             )
         }
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         RekomendasiGrid(state = state, navController = navController)
     }
 }
+
 
 @Preview(showSystemUi = true)
 @Composable

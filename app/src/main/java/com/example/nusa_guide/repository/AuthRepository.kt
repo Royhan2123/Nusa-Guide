@@ -62,4 +62,20 @@ class AuthRepository(
         }
     }
 
+    suspend fun logout(): AuthResult {
+        return try {
+            val token = "Bearer " + dataStoreManager.getBearerToken()
+            val response = apiService.logout(token)
+            if (response.success) {
+                dataStoreManager.clearBearerToken()  // Hapus token dari DataStore
+                AuthResult.Success(response.message)
+            } else {
+                AuthResult.Error(response.message)
+            }
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "Logout failed", e)
+            AuthResult.Error("Logout failed. Please try again.")
+        }
+    }
+
 }

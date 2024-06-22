@@ -2,7 +2,6 @@ package com.example.nusa_guide.repository
 
 import android.util.Log
 import com.example.nusa_guide.api.ApiService
-import com.example.nusa_guide.api.RetrofitInstance
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.WisataModel
 
@@ -43,6 +42,7 @@ class RekomendasiRepository(
         }
 
     }
+
     suspend fun getWisataDetail(id: Int): WisataModel? {
         return try {
             val token = dataStoreManager.getBearerToken() ?: ""
@@ -65,6 +65,22 @@ class RekomendasiRepository(
             }
         } catch (e: Exception) {
             Log.e("RekomendasiRepository", "Error fetching data: ${e.message}")
+            emptyList()
+        }
+    }
+
+    suspend fun getWisataByRating(rating: Int): List<WisataModel> {
+        return try {
+            val token = dataStoreManager.getBearerToken() ?: ""
+            val response = apiService.getWisataByRating("Bearer $token", rating)
+            if (response.message.contains("Berhasil")) {
+                Log.d("getRatingRepository", "data rating: ${response.message}")
+                response.data
+            } else {
+                emptyList()
+            }
+        } catch (e: Exception) {
+            Log.e("getRatingRepository", "Error fetching data: ${e.message}")
             emptyList()
         }
     }

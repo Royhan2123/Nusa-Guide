@@ -32,4 +32,10 @@ class DataStoreManager private constructor(private val context: Context) {
     suspend fun getBearerToken(): String? {
         return context.dataStore.data.first()[BEARER_TOKEN]
     }
+
+    suspend fun clearBearerToken() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(BEARER_TOKEN)
+        }
+    }
 }
