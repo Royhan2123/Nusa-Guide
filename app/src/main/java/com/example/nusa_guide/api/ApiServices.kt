@@ -1,16 +1,19 @@
 package com.example.nusa_guide.api
 
 import com.example.nusa_guide.api.response.ApiResponse
+import com.example.nusa_guide.api.response.FavoriteResponse
 import com.example.nusa_guide.api.response.LoginResponse
 import com.example.nusa_guide.api.response.LogoutResponse
 import com.example.nusa_guide.api.response.RegisterResponse
 import com.example.nusa_guide.api.response.UserResponse
+import com.example.nusa_guide.model.FavoritModel
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -50,5 +53,16 @@ interface ApiService {
     suspend fun logout(
         @Header("Authorization") token: String
     ): LogoutResponse
+
+    @GET("favorite")
+    suspend fun getFavorite(
+        @Header("Authorization") token: String
+    ): FavoriteResponse
+
+//    @GET("favorite/{id}")
+//    suspend fun getFavoriteData(@Path("id") id: Int) : FavoriteResponse
+//
+//    @GET("favorite")
+//    suspend fun getFavorite(@Body favoriteModel: FavoritModel) : FavoriteResponse
 
 }

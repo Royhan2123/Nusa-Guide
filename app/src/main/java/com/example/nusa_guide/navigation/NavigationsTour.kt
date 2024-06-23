@@ -6,6 +6,7 @@
     import androidx.navigation.compose.composable
     import androidx.navigation.compose.rememberNavController
     import androidx.navigation.navArgument
+    import com.example.nusa_guide.model.FavoritModel
     import com.example.nusa_guide.screen.*
     import com.example.nusa_guide.screen.cameraX.CameraXScreen
     import com.example.nusa_guide.screen.detail_screen.DetailScreen

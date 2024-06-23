@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.nusa_guide.R
 import com.example.nusa_guide.model.FavoritModel
 import com.example.nusa_guide.ui.theme.black51
@@ -67,8 +68,8 @@ fun CardFavorit(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = favorit.image),
-                    contentDescription = favorit.title,
+                    painter = rememberAsyncImagePainter(favorit.gambar1),
+                    contentDescription = null,
                     modifier = Modifier
                         .width(135.dp)
                         .height(110.dp)
@@ -76,7 +77,7 @@ fun CardFavorit(
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(
-                        text = favorit.title,
+                        text = favorit.nama.toString(),
                         fontSize = 16.sp,
                         color = gray700,
                         fontWeight = FontWeight.SemiBold
@@ -91,7 +92,7 @@ fun CardFavorit(
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
-                            text = "${formatTime(favorit.waktu)} - ${formatTime(favorit.waktuSelesai)} WITA",
+                            text = "${favorit.jam_buka} - ${favorit.jam_tutup} WITA",
                             fontSize = 14.sp,
                             color = gray700,
                             fontWeight = FontWeight.Medium
@@ -107,7 +108,7 @@ fun CardFavorit(
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
-                            text = "${favorit.km} km - ${favorit.menit} menit",
+                            text = "${favorit.jarak_lokasi} km - ${favorit.lokasi} menit",
                             fontSize = 12.sp,
                             color = gray700,
                         )
@@ -153,14 +154,14 @@ fun CardFavorit(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Rp ${formatHarga(favorit.harga)}",
+                    text = "Rp ${favorit.harga}",
                     color = brandPrimary500,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = "Rp ${formatHarga(favorit.potonganHarga)}",
+                    text = "Rp ${favorit.harga}",
                     color = gray,
                     fontSize = 16.sp,
                     textDecoration = TextDecoration.LineThrough
@@ -177,7 +178,7 @@ fun CardFavorit(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "${favorit.diskon}%",
+                            text = "${favorit.harga}%",
                             color = Color.Red,
                             fontSize = 14.sp,
                             textAlign = TextAlign.Center,
@@ -222,21 +223,21 @@ fun formatHarga(harga: Int): String {
 }
 
 
-@Preview
-@Composable
-fun PreviewCardFavorit() {
-    val favoritModel = FavoritModel(
-        id = 1,
-        title = "Pantai Pandawa",
-        waktu = 6.00,
-        waktuSelesai = 18.00,
-        km = 1,
-        rating = 4.5,
-        harga = 150000,
-        potonganHarga = 500000,
-        diskon = 50,
-        image = R.drawable.alam,
-        menit = 20
-    )
-    CardFavorit(favorit = favoritModel)
-}
+//@Preview
+//@Composable
+//fun PreviewCardFavorit() {
+//    val favoritModel = FavoritModel(
+//        id = 1,
+//        title = "Pantai Pandawa",
+//        waktu = 6.00,
+//        waktuSelesai = 18.00,
+//        km = 1,
+//        rating = 4.5,
+//        harga = 150000,
+//        potonganHarga = 500000,
+//        diskon = 50,
+//        image = R.drawable.alam,
+//        menit = 20
+//    )
+//    CardFavorit(favorit = favoritModel)
+//}
