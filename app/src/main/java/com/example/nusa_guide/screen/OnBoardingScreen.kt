@@ -96,7 +96,7 @@ fun OnBoardingScreen(navController: NavController) {
                     ButtonStyle(
                         onClicked = {
                             navController.navigate(
-                                NavigationTourScreen.OnBoardingScreen2.name
+                                NavigationTourScreen.LoginScreen.name
                             )
                         },
                         text = stringResource(id = R.string.mulai)

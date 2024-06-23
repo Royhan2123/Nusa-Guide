@@ -1,6 +1,12 @@
 package com.example.nusa_guide.screen
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +32,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -60,7 +67,6 @@ import com.example.nusa_guide.ui.theme.brandPrimary500
 import com.example.nusa_guide.ui.theme.gray
 import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.ui.theme.gray900
-import com.example.nusa_guide.ui.theme.primary700
 import com.example.nusa_guide.viewModel.AuthViewModel
 import com.example.nusa_guide.viewModel.AuthViewModelFactory
 import com.example.nusa_guide.widget.ButtonStyle
@@ -85,6 +91,12 @@ fun RegisterScreen(
     val registerResult by auth.registerResult.observeAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
+    val (visible, setVisible) = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        setVisible(true)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -93,210 +105,278 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.Start
     ) {
         Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            text = stringResource(id = R.string.daftar),
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            color = gray700
-        )
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(1200)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            Text(
+                text = stringResource(id = R.string.daftar),
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = gray700
+            )
+        }
         Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = stringResource(id = R.string.deskRegister),
-            fontSize = 15.sp,
-            color = gray700
-        )
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(1400)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            Text(
+                text = stringResource(id = R.string.deskRegister),
+                fontSize = 15.sp,
+                color = gray700
+            )
+        }
         Spacer(modifier = Modifier.height(50.dp))
-        Text(
-            text = stringResource(id = R.string.username),
-            fontSize = 15.sp,
-            color = gray900,
-            fontWeight = FontWeight.SemiBold
-        )
-        OutlinedTextField(
-            value = txfUsername,
-            onValueChange = {
-                txfUsername = it
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-                .padding(top = 5.dp),
-            shape = RoundedCornerShape(10.dp),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_account),
-                    contentDescription = stringResource(id = R.string.username),
-                    modifier = Modifier.size(25.dp),
-                    tint = gray
-                )
-            },
-            textStyle = TextStyle(fontSize = 15.sp, color = Color.Black),
-            placeholder = {
-                Text(
-                    text = "enter your name",
-                    fontSize = 14.sp,
-                    color = gray
-                )
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Text
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                }
-            ),
-            maxLines = 1,
-
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = brandPrimary500,
-                unfocusedBorderColor = gray
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(1600)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            Text(
+                text = stringResource(id = R.string.username),
+                fontSize = 15.sp,
+                color = gray900,
+                fontWeight = FontWeight.SemiBold
             )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = stringResource(id = R.string.email),
-            fontSize = 15.sp,
-            color = gray900,
-            fontWeight = FontWeight.SemiBold
-        )
-        OutlinedTextField(
-            value = txfEmail,
-            onValueChange = {
-                txfEmail = it
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-                .padding(top = 5.dp),
-            shape = RoundedCornerShape(10.dp),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_email),
-                    contentDescription = stringResource(id = R.string.email),
-                    modifier = Modifier.size(25.dp),
-                    tint = gray
-                )
-            },
-            textStyle = TextStyle(fontSize = 15.sp, color = Color.Black),
-            placeholder = {
-                Text(
-                    text = "name@example.com",
-                    fontSize = 14.sp,
-                    color = gray
-                )
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Email
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                }
-            ),
-            maxLines = 1,
-
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = brandPrimary500,
-                unfocusedBorderColor = gray
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = stringResource(id = R.string.kata_sandi),
-            fontSize = 15.sp,
-            color = gray900,
-            fontWeight = FontWeight.SemiBold
-        )
-        OutlinedTextField(
-            value = txfPassword,
-            onValueChange = {
-                txfPassword = it
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-                .padding(top = 5.dp),
-            shape = RoundedCornerShape(10.dp),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_password),
-                    contentDescription = stringResource(id = R.string.kata_sandi),
-                    modifier = Modifier.size(25.dp),
-                    tint = gray
-                )
-            },
-            textStyle = TextStyle(fontSize = 15.sp, color = Color.Black),
-            placeholder = {
-                Text(
-                    text = "enter your password",
-                    fontSize = 16.sp,
-                    color = gray
-                )
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Password
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                }
-            ),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = brandPrimary500,
-                unfocusedBorderColor = gray
-            ),
-            visualTransformation = if (obscureText) PasswordVisualTransformation() else VisualTransformation.None,
-            trailingIcon = {
-                IconButton(onClick = {
-                    obscureText = !obscureText
-                }) {
-                    val visibilityIcon =
-                        if (obscureText) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
-                    val description = if (obscureText) "Hide Password" else "Show Password"
+        }
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(1800)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            OutlinedTextField(
+                value = txfUsername,
+                onValueChange = {
+                    txfUsername = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .padding(top = 5.dp),
+                shape = RoundedCornerShape(10.dp),
+                leadingIcon = {
                     Icon(
-                        imageVector = visibilityIcon,
-                        contentDescription = description,
+                        painter = painterResource(id = R.drawable.icon_account),
+                        contentDescription = stringResource(id = R.string.username),
+                        modifier = Modifier.size(25.dp),
                         tint = gray
                     )
-                }
-            },
-            maxLines = 1,
+                },
+                textStyle = TextStyle(fontSize = 15.sp, color = Color.Black),
+                placeholder = {
+                    Text(
+                        text = "enter your name",
+                        fontSize = 14.sp,
+                        color = gray
+                    )
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Text
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                    }
+                ),
+                maxLines = 1,
 
-        )
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = brandPrimary500,
+                    unfocusedBorderColor = gray
+                )
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(2000)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            Text(
+                text = stringResource(id = R.string.email),
+                fontSize = 15.sp,
+                color = gray900,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(2200)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            OutlinedTextField(
+                value = txfEmail,
+                onValueChange = {
+                    txfEmail = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .padding(top = 5.dp),
+                shape = RoundedCornerShape(10.dp),
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_email),
+                        contentDescription = stringResource(id = R.string.email),
+                        modifier = Modifier.size(25.dp),
+                        tint = gray
+                    )
+                },
+                textStyle = TextStyle(fontSize = 15.sp, color = Color.Black),
+                placeholder = {
+                    Text(
+                        text = "name@example.com",
+                        fontSize = 14.sp,
+                        color = gray
+                    )
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Email
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                    }
+                ),
+                maxLines = 1,
+
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = brandPrimary500,
+                    unfocusedBorderColor = gray
+                )
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(2400)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            Text(
+                text = stringResource(id = R.string.kata_sandi),
+                fontSize = 15.sp,
+                color = gray900,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(2600)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            OutlinedTextField(
+                value = txfPassword,
+                onValueChange = {
+                    txfPassword = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .padding(top = 5.dp),
+                shape = RoundedCornerShape(10.dp),
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_password),
+                        contentDescription = stringResource(id = R.string.kata_sandi),
+                        modifier = Modifier.size(25.dp),
+                        tint = gray
+                    )
+                },
+                textStyle = TextStyle(fontSize = 15.sp, color = Color.Black),
+                placeholder = {
+                    Text(
+                        text = "enter your password",
+                        fontSize = 16.sp,
+                        color = gray
+                    )
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                    }
+                ),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = brandPrimary500,
+                    unfocusedBorderColor = gray
+                ),
+                visualTransformation = if (obscureText) PasswordVisualTransformation() else VisualTransformation.None,
+                trailingIcon = {
+                    IconButton(onClick = {
+                        obscureText = !obscureText
+                    }) {
+                        val visibilityIcon =
+                            if (obscureText) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+                        val description = if (obscureText) "Hide Password" else "Show Password"
+                        Icon(
+                            imageVector = visibilityIcon,
+                            contentDescription = description,
+                            tint = gray
+                        )
+                    }
+                },
+                maxLines = 1,
+
+                )
+        }
         Spacer(modifier = Modifier.height(22.dp))
 
-        ButtonStyle(
-            onClicked = {
-                auth.register(
-                    RegisterModel(
-                        username = txfUsername,
-                        email = txfEmail,
-                        password = txfPassword
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(2800)) +
+                    slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) +
+                    slideOutVertically(targetOffsetY = { -40 })
+        ) {
+            ButtonStyle(
+                onClicked = {
+                    auth.register(
+                        RegisterModel(
+                            username = txfUsername,
+                            email = txfEmail,
+                            password = txfPassword
+                        )
                     )
-                )
-            },
-            text = stringResource(id = R.string.register),
-        )
+                },
+                text = stringResource(id = R.string.register),
+            )
+        }
 
-        // Menampilkan pesan sukses atau error setelah registrasi
         registerResult?.let { result ->
             when (result) {
                 is AuthResult.Success -> {
-                    // Jika registrasi berhasil, navigasi ke halaman login
                     navController.navigate(NavigationTourScreen.LoginScreen.name)
                     Toast.makeText(LocalContext.current, "Berhasil Registrasi", Toast.LENGTH_SHORT)
                         .show()
                 }
 
                 is AuthResult.Error -> {
-                    // Handle error jika registrasi gagal
-                    // Misalnya, tampilkan pesan kesalahan kepada pengguna
                     Toast.makeText(LocalContext.current, result.message, Toast.LENGTH_SHORT).show()
                 }
 
@@ -315,24 +395,29 @@ fun RegisterScreen(
         }
 
         Spacer(modifier = Modifier.weight(1f))
-
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.BottomCenter
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(3000)) + slideInVertically(initialOffsetY = { -40 }),
+            exit = fadeOut(animationSpec = tween(500)) + slideOutVertically(targetOffsetY = { -40 })
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = stringResource(id = R.string.sudahPunyaAkun),
-                    fontSize = 14.sp,
-                )
-                TextButton(onClick = {
-                    navController.navigate(NavigationTourScreen.LoginScreen.name)
-                }) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = stringResource(id = R.string.masuk),
-                        color = primary700,
+                        text = stringResource(id = R.string.sudahPunyaAkun),
                         fontSize = 14.sp,
                     )
+                    TextButton(onClick = {
+                        navController.navigate(NavigationTourScreen.LoginScreen.name)
+                    }) {
+                        Text(
+                            text = stringResource(id = R.string.masuk),
+                            color = brandPrimary500,
+                            fontSize = 14.sp,
+                        )
+                    }
                 }
             }
         }
