@@ -162,5 +162,7 @@ dependencies {
 
     //noinspection UseTomlInstead
     implementation ("androidx.compose.runtime:runtime:1.6.8")
+    //noinspection UseTomlInstead
+    implementation("com.airbnb.android:lottie-compose:4.0.0")
 
 }

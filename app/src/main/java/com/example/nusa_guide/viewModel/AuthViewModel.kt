@@ -7,17 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.nusa_guide.api.response.AuthResult
+import com.example.nusa_guide.api.response.UserResult
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
 import com.example.nusa_guide.model.UserModel
 import com.example.nusa_guide.repository.AuthRepository
 import kotlinx.coroutines.launch
 
-
-sealed class UserResult {
-    data class Success(val data: UserModel) : UserResult()
-    data class Error(val message: String) : UserResult()
-}
 
 class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
 
@@ -32,6 +28,17 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
 
     private val _logoutResult = MutableLiveData<AuthResult>()
     val logoutResult: LiveData<AuthResult> = _logoutResult
+
+    private val _otpResult = MutableLiveData<AuthResult>()
+    val otpResult: LiveData<AuthResult> = _otpResult
+
+    fun sendOtp(email: String) {
+        viewModelScope.launch {
+            _otpResult.value = AuthResult.Loading
+            val result = repository.sendOtp(email)
+            _otpResult.value = result
+        }
+    }
 
     fun logout() {
         viewModelScope.launch {
@@ -89,6 +96,7 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
             }
         }
     }
+
 }
 
 class AuthViewModelFactory(private val repository: AuthRepository) : ViewModelProvider.Factory {

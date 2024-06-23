@@ -3,6 +3,7 @@ package com.example.nusa_guide.api
 import com.example.nusa_guide.api.response.ApiResponse
 import com.example.nusa_guide.api.response.LoginResponse
 import com.example.nusa_guide.api.response.LogoutResponse
+import com.example.nusa_guide.api.response.OtpResponse
 import com.example.nusa_guide.api.response.RegisterResponse
 import com.example.nusa_guide.api.response.UserResponse
 import com.example.nusa_guide.model.LoginModel
@@ -51,4 +52,13 @@ interface ApiService {
         @Header("Authorization") token: String
     ): LogoutResponse
 
+    @POST("auth/send-otp")
+    suspend fun sendOtp(
+        @Body email: EmailRequest
+    ): OtpResponse
+
 }
+
+data class EmailRequest(
+    val email: String
+)

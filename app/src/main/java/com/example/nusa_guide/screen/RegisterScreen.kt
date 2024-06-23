@@ -68,7 +68,7 @@ import com.example.nusa_guide.widget.ButtonStyle
 @Composable
 fun RegisterScreen(
     navController: NavController,
-    viewModel: AuthViewModel = viewModel(
+    auth: AuthViewModel = viewModel(
         factory = AuthViewModelFactory(
             repository = AuthRepository(
                 apiService = RetrofitInstance.api,
@@ -76,18 +76,13 @@ fun RegisterScreen(
             )
         )
     )
-
 ) {
-
     var txfUsername by rememberSaveable { mutableStateOf("") }
-
     var txfEmail by rememberSaveable { mutableStateOf("") }
-
     var txfPassword by rememberSaveable { mutableStateOf("") }
-
     var obscureText by remember { mutableStateOf(true) }
 
-    val registerResult by viewModel.registerResult.observeAsState()
+    val registerResult by auth.registerResult.observeAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
     Column(
@@ -152,6 +147,8 @@ fun RegisterScreen(
                     keyboardController?.hide()
                 }
             ),
+            maxLines = 1,
+
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = brandPrimary500,
                 unfocusedBorderColor = gray
@@ -200,6 +197,8 @@ fun RegisterScreen(
                     keyboardController?.hide()
                 }
             ),
+            maxLines = 1,
+
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = brandPrimary500,
                 unfocusedBorderColor = gray
@@ -267,12 +266,14 @@ fun RegisterScreen(
                     )
                 }
             },
+            maxLines = 1,
+
         )
         Spacer(modifier = Modifier.height(22.dp))
 
         ButtonStyle(
             onClicked = {
-                viewModel.register(
+                auth.register(
                     RegisterModel(
                         username = txfUsername,
                         email = txfEmail,
@@ -288,9 +289,7 @@ fun RegisterScreen(
             when (result) {
                 is AuthResult.Success -> {
                     // Jika registrasi berhasil, navigasi ke halaman login
-                    navController.navigate(
-                        NavigationTourScreen.HalamanBottom.name
-                    )
+                    navController.navigate(NavigationTourScreen.LoginScreen.name)
                     Toast.makeText(LocalContext.current, "Berhasil Registrasi", Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -338,5 +337,4 @@ fun RegisterScreen(
             }
         }
     }
-
 }

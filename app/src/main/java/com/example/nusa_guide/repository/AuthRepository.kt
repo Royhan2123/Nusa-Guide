@@ -2,12 +2,13 @@ package com.example.nusa_guide.repository
 
 import android.util.Log
 import com.example.nusa_guide.api.ApiService
+import com.example.nusa_guide.api.EmailRequest
 import com.example.nusa_guide.api.response.AuthResult
+import com.example.nusa_guide.api.response.UserResult
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
-import com.example.nusa_guide.viewModel.UserResult
-
+import java.net.SocketTimeoutException
 
 class AuthRepository(
     private val apiService: ApiService,
@@ -33,13 +34,32 @@ class AuthRepository(
     suspend fun register(registerModel: RegisterModel): AuthResult {
         return try {
             val response = apiService.register(registerModel)
-            if (response.message == "Register Success") {
+            if (response.status) {
                 AuthResult.Success(response.message)
             } else {
                 AuthResult.Error(response.message)
             }
         } catch (e: Exception) {
             AuthResult.Error("Register failed. Please try again.")
+        }
+    }
+
+    suspend fun sendOtp(email: String): AuthResult {
+        return try {
+            Log.d("AuthRepository", "Sending OTP to email: $email")
+            val response = apiService.sendOtp(EmailRequest(email))
+            Log.d("AuthRepository", "Response: $response")
+            if (response.status) {
+                AuthResult.Success(response.message)
+            } else {
+                AuthResult.Error(response.message)
+            }
+        } catch (e: SocketTimeoutException) {
+            Log.e("AuthRepository", "Send OTP failed due to timeout", e)
+            AuthResult.Error("Send OTP failed due to timeout. Please try again.")
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "Send OTP failed", e)
+            AuthResult.Error("Send OTP failed. Please try again.")
         }
     }
 
@@ -67,7 +87,7 @@ class AuthRepository(
             val token = "Bearer " + dataStoreManager.getBearerToken()
             val response = apiService.logout(token)
             if (response.success) {
-                dataStoreManager.clearBearerToken()  // Hapus token dari DataStore
+                dataStoreManager.clearBearerToken()
                 AuthResult.Success(response.message)
             } else {
                 AuthResult.Error(response.message)
@@ -77,5 +97,4 @@ class AuthRepository(
             AuthResult.Error("Logout failed. Please try again.")
         }
     }
-
 }

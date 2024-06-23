@@ -1,4 +1,4 @@
-package com.example.nusa_guide.screen.detail_screen
+package com.example.nusa_guide.screen
 
 import android.content.Intent
 import android.net.Uri

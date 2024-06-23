@@ -151,6 +151,7 @@ fun LoginScreen(
                     color = gray
                 )
             },
+            maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Email
@@ -177,6 +178,8 @@ fun LoginScreen(
             onValueChange = {
                 txfPassword = it
             },
+            maxLines = 1,
+
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
