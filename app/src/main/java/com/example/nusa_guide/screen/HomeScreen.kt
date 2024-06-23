@@ -275,6 +275,7 @@ fun RekomendasiGrid(state: List<WisataModel>, navController: NavController) {
             }
         }
     }
+
 }
 
 @Composable
