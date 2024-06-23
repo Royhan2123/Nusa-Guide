@@ -156,7 +156,7 @@ fun ForgotPasswordScreen(
     when (otpResult) {
         is AuthResult.Success -> {
             LaunchedEffect(Unit) {
-                navController.navigate(NavigationTourScreen.VerificationCodeScreen.name)
+                navController.navigate(NavigationTourScreen.TransactionSuccessScreen.name)
             }
         }
         is AuthResult.Error -> {

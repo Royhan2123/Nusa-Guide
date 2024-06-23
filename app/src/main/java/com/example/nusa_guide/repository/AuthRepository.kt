@@ -8,7 +8,6 @@ import com.example.nusa_guide.api.response.UserResult
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.LoginModel
 import com.example.nusa_guide.model.RegisterModel
-import java.net.SocketTimeoutException
 
 class AuthRepository(
     private val apiService: ApiService,
@@ -48,15 +47,11 @@ class AuthRepository(
         return try {
             Log.d("AuthRepository", "Sending OTP to email: $email")
             val response = apiService.sendOtp(EmailRequest(email))
-            Log.d("AuthRepository", "Response: $response")
             if (response.status) {
                 AuthResult.Success(response.message)
             } else {
                 AuthResult.Error(response.message)
             }
-        } catch (e: SocketTimeoutException) {
-            Log.e("AuthRepository", "Send OTP failed due to timeout", e)
-            AuthResult.Error("Send OTP failed due to timeout. Please try again.")
         } catch (e: Exception) {
             Log.e("AuthRepository", "Send OTP failed", e)
             AuthResult.Error("Send OTP failed. Please try again.")
