@@ -4,31 +4,14 @@
   <img src="https://github.com/Royhan2123/Tour-Guide/blob/main/nusa-guide.jpg" alt="Deskripsi Gambar" style="width:100%;">
 </p>
 
-The Wild Nest app aims to increase understanding of the positive and negative impacts of poisonous plants. We facilitate the identification of poisonous plants through image scanning, provide full descriptions, and information on their utilization for medicinal purposes. Our goal is to preserve the knowledge of future generations about the civilization of certain poisonous plants. By providing educational resources, we seek to promote the wise use of poisonous plants, ensure safe use, and preserve knowledge for the future.
+Nusa Guide" is your ultimate companion for seamless tour guide bookings in the city of Bali. Whether you're exploring the serene temples of Ubud or surfing the waves of Kuta Beach, our app connects you with knowledgeable local guides who ensure an enriching and authentic experience. With just a few taps, browse through profiles, select your preferred guide based on reviews and specialties, and book effortlessly. Enhance your journey with Nusa Guide and uncover the hidden gems of Bali with confidence
 
 ## Built with
-
-- **Machine Learning:**
-  - Python
-  - TensorFlow
-  - Google Colab
-  - Roboflow
-  - Android Studio
-  - VSC
-
-- **Mobile Development:**
   - Figma
   - Android Studio
   - Kotlin
   - Firebase
-  - Model tfLite
-
-- **Cloud Computing:**
-  - Google Cloud Run
-  - Google Cloud Storage
-  - Firebase
-  - express js
-  - docker
+  - Api documentation
 
 ## Getting Started
 
@@ -38,15 +21,12 @@ The Wild Nest app aims to increase understanding of the positive and negative im
 
 - **Installation:**
   - Download the .apk file
-  - install and let look for poisonous plants.
+  - Install and book tickets for your destinations in Bali.
 
-## About Project
-<div align="center">
-  <video src="https://github.com/Royhan2123/WILD-NEST/assets/121564375/549bc4ba-419d-4697-a11e-df3d0fce1676" width="400" />
-</div>
+## Features of Nusa Guide APP
 
-## Features of Will Nest APP
-
-- detection of a poisonous plant using camera
-- insert a picture of a poisonous plant from the gallery
-- Provides all detailed information on types of poisonous plants including treatment methods and the effects of these plants
+- Easy Booking via Midtrans: Seamlessly book tour guide services with secure payment processing through Midtrans.
+- Favorite Feature: Save your preferred guides or tours to easily access them later.
+- Account Management: Manage your profile, bookings, and preferences conveniently.
+- Search Screen: Effortlessly find specific guides, tours, or locations with a user-friendly search interface.
+- Filtering Options: Refine search results based on criteria such as price range, language proficiency, tour duration, and more.
