@@ -29,14 +29,14 @@ Nusa Guide" is your ultimate companion for seamless tour guide bookings in the c
 ### **Easy Booking via Midtrans**
 Seamlessly book tour guide services with secure payment processing through Midtrans.
 
-### **Favorite Feature**
+- ### **Favorite Feature**
 Save your preferred guides or tours to easily access them later.
 
-### **Account Management**
+- ### **Account Management**
 Manage your profile, bookings, and preferences conveniently.
 
-### **Search Screen**
+- ### **Search Screen**
 Effortlessly find specific guides, tours, or locations with a user-friendly search interface.
 
-### **Filtering Options**
+- ### **Filtering Options**
 Refine search results based on criteria such as price range, language proficiency, tour duration, and more.
