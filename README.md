@@ -9,6 +9,7 @@ Nusa Guide" is your ultimate companion for seamless tour guide bookings in the c
 ## Built with
   - Figma
   - Android Studio
+  - Jetpack Compose
   - Kotlin
   - Firebase
   - Api documentation
