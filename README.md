@@ -1,4 +1,4 @@
-# WILD NEST
+# Nusa Guide
 
 <p align="center">
   <img src="https://github.com/Royhan2123/WILD-NEST/blob/main/overview.JPG" alt="Deskripsi Gambar" style="width:100%;">
