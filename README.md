@@ -24,6 +24,11 @@ Nusa Guide" is your ultimate companion for seamless tour guide bookings in the c
   - Download the .apk file
   - Install and book tickets for your destinations in Bali.
 
+## Download APK
+
+Her is the [link](https://drive.google.com/file/d/1Z4o6TQLmbEcgNwOnMg-HmYPyiOxyMfu3/view?usp=sharing)
+
+
 ## Features of Nusa Guide App
 
 ### **Easy Booking via Midtrans**
