@@ -3,7 +3,17 @@ package com.example.nusa_guide.screen
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,8 +23,21 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,17 +56,26 @@ import com.example.nusa_guide.api.RetrofitInstance
 import com.example.nusa_guide.data.DataStoreManager
 import com.example.nusa_guide.model.WisataModel
 import com.example.nusa_guide.repository.RekomendasiRepository
-import com.example.nusa_guide.ui.theme.*
+import com.example.nusa_guide.ui.theme.brandPrimary500
+import com.example.nusa_guide.ui.theme.gray300
+import com.example.nusa_guide.ui.theme.gray700
 import com.example.nusa_guide.viewModel.RekomendasiViewModel
 import com.example.nusa_guide.viewModel.RekomendasiViewModelFactory
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun DetailScreen(
     navController: NavController,
     wisataId: String,
-    viewModel: RekomendasiViewModel = viewModel(factory = RekomendasiViewModelFactory(
-        RekomendasiRepository(RetrofitInstance.api, DataStoreManager.getInstance(LocalContext.current))
-    ))
+    viewModel: RekomendasiViewModel = viewModel(
+        factory = RekomendasiViewModelFactory(
+            RekomendasiRepository(
+                RetrofitInstance.api,
+                DataStoreManager.getInstance(LocalContext.current)
+            )
+        )
+    )
 ) {
     val wisataDetail by produceState<WisataModel?>(initialValue = null, wisataId) {
         value = viewModel.getWisataDetail(wisataId.toInt())
@@ -99,16 +131,26 @@ fun DetailContent(navController: NavController, wisata: WisataModel) {
             ReviewItem()
             Spacer(modifier = Modifier.height(80.dp))
         }
-        SurfaceBottom(navController, wisata.harga, wisata.lokasi, wisata.paymentLink, Modifier.align(Alignment.BottomCenter))
+        SurfaceBottom(
+            navController,
+            wisata.harga,
+            wisata.lokasi,
+            wisata.paymentLink,
+            Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 
 @Composable
-fun HeaderImage(navController: NavController, imageUrl: String?, isSelected: Boolean, onFavoriteClick: () -> Unit) {
+fun HeaderImage(
+    navController: NavController,
+    imageUrl: String?, isSelected: Boolean,
+    onFavoriteClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
+            .height(250.dp)
     ) {
         Image(
             painter = rememberAsyncImagePainter(imageUrl),
@@ -128,9 +170,9 @@ fun HeaderImage(navController: NavController, imageUrl: String?, isSelected: Boo
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = "icon-back",
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(30.dp)
                         .clip(CircleShape),
-                    tint = black51
+                    tint = Color.White
                 )
             }
             IconButton(onClick = onFavoriteClick) {
@@ -140,7 +182,7 @@ fun HeaderImage(navController: NavController, imageUrl: String?, isSelected: Boo
                         contentDescription = "icon-favorit-filled",
                         tint = Color.Red,
                         modifier = Modifier
-                            .size(35.dp)
+                            .size(30.dp)
                             .clip(CircleShape)
                     )
                 } else {
@@ -160,22 +202,23 @@ fun HeaderImage(navController: NavController, imageUrl: String?, isSelected: Boo
 
 @Composable
 fun TitleAndPrice(nama: String?, harga: Int?) {
+    val formattedHarga = formatToRupiah(harga)
+
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(
             text = nama ?: "N/A",
-            fontSize = 24.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Rp ${harga ?: 0} /orang",
+            text = formattedHarga,
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
             color = brandPrimary500
         )
     }
 }
-
 @Composable
 fun LocationInfo(lokasi: String?) {
     Row(
@@ -213,7 +256,11 @@ fun DistanceInfo(jarakLokasi: String?) {
         modifier = Modifier.padding(horizontal = 16.dp)
     ) {
         Icon(painter = painterResource(id = R.drawable.icon_wisata), contentDescription = null)
-        Text(text = jarakLokasi ?: "N/A", fontSize = 16.sp, modifier = Modifier.padding(start = 8.dp))
+        Text(
+            text = jarakLokasi ?: "N/A",
+            fontSize = 16.sp,
+            modifier = Modifier.padding(start = 8.dp)
+        )
     }
 }
 
@@ -221,10 +268,10 @@ fun DistanceInfo(jarakLokasi: String?) {
 fun DescriptionSection(deskripsi: String?) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(text = "Deskripsi", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = deskripsi ?: "N/A",
-            fontSize = 16.sp,
+            fontSize = 15.sp,
             color = gray700
         )
     }
@@ -234,7 +281,7 @@ fun DescriptionSection(deskripsi: String?) {
 fun PhotoSnippets(gambar2: String?, gambar3: String?, gambar4: String?) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(text = "Cuplikan Foto", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Image(
                 painter = rememberAsyncImagePainter(gambar2),
@@ -268,16 +315,17 @@ fun PhotoSnippets(gambar2: String?, gambar3: String?, gambar4: String?) {
 fun TourGuideInfo(informasiTourguide: String?, hargaTermasuk: String?) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(text = "Informasi Tour Guide", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = informasiTourguide ?: "N/A",
             fontSize = 16.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Harga sudah Termasuk:", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = hargaTermasuk ?: "N/A",
-            fontSize = 16.sp,
+            fontSize = 15.sp,
             color = gray700
         )
     }
@@ -287,25 +335,25 @@ fun TourGuideInfo(informasiTourguide: String?, hargaTermasuk: String?) {
 fun RatingAndReview() {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(text = "Rating dan Ulasan", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "4.8", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text(text = "4.8", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.width(8.dp))
                 repeat(5) {
                     Icon(
                         painter = painterResource(id = R.drawable.icon_star),
                         contentDescription = null,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(15.dp)
                     )
                 }
             }
             TextButton(onClick = {}) {
-                Text(text = "Lihat semua review", fontSize = 16.sp, color = brandPrimary500)
+                Text(text = "Lihat semua review", fontSize = 14.sp, color = brandPrimary500)
             }
         }
     }
@@ -342,19 +390,27 @@ fun ReviewItem() {
             fontSize = 16.sp,
             color = gray700
         )
+        Spacer(modifier = Modifier.height(15.dp))
     }
 }
 
 @Composable
-fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, paymentLink: String?, modifier: Modifier = Modifier) {
+fun SurfaceBottom(
+    navController: NavController,
+    harga: Int?,
+    lokasi: String?,
+    paymentLink: String?,
+    modifier: Modifier = Modifier
+) {
     val context = LocalContext.current
+    val formattedHarga = formatToRupiah(harga)
 
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .height(80.dp),
         color = Color.White,
-        shadowElevation = 8.dp
+        shadowElevation = 10.dp
     ) {
         Row(
             modifier = Modifier
@@ -365,7 +421,7 @@ fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, pa
         ) {
             Column {
                 Text(
-                    text = "Rp ${harga ?: 0} /orang",
+                    text = formattedHarga,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = brandPrimary500
@@ -392,4 +448,10 @@ fun SurfaceBottom(navController: NavController, harga: Int?, lokasi: String?, pa
 @Composable
 fun HorizontalDivider(modifier: Modifier = Modifier) {
     Divider(color = gray300, modifier = modifier.height(1.dp))
+}
+
+fun formatToRupiah(number: Int?): String {
+    val localeID = Locale("id", "ID")
+    val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
+    return formatRupiah.format(number ?: 0)
 }

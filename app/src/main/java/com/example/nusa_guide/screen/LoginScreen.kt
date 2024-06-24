@@ -162,7 +162,7 @@ fun LoginScreen(
                     ),
                     placeholder = {
                         Text(
-                            text = "name@example.com",
+                            text = "enter your name",
                             fontSize = 14.sp,
                             color = gray
                         )
