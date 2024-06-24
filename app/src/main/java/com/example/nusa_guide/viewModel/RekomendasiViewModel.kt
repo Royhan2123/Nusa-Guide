@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RekomendasiViewModel(private val repository: RekomendasiRepository) : ViewModel() {
+
     private val _state = MutableStateFlow<List<WisataModel>>(emptyList())
     val state: StateFlow<List<WisataModel>> = _state.asStateFlow()
 

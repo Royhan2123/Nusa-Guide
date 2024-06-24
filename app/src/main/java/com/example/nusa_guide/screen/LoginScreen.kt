@@ -156,14 +156,6 @@ fun LoginScreen(
                         .height(60.dp)
                         .padding(top = 5.dp),
                     shape = RoundedCornerShape(10.dp),
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_email),
-                            contentDescription = stringResource(id = R.string.email),
-                            modifier = Modifier.size(25.dp),
-                            tint = gray
-                        )
-                    },
                     textStyle = TextStyle(
                         fontSize = 15.sp,
                         color = Color.Black

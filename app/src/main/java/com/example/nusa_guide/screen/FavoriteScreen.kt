@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material3.Icon
@@ -23,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.nusa_guide.component.CardFavorit
+import com.example.nusa_guide.model.dummyListFavoritModel
 import com.example.nusa_guide.ui.theme.gray700
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -65,6 +69,15 @@ fun FavoriteScreen(navController: NavController) {
                 modifier = Modifier.size(35.dp),
                 tint = Color.Gray
             )
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+        ) {
+            items(dummyListFavoritModel) { favorit ->
+                CardFavorit(favorit = favorit)
+            }
         }
     }
 }

@@ -2,7 +2,6 @@ package com.example.nusa_guide.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -29,11 +27,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,11 +53,13 @@ fun CardFavorit(
     }
     Surface(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(10.dp),
         shape = RoundedCornerShape(10.dp),
+        shadowElevation = 20.dp
     ) {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(10.dp)
         ){
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -72,12 +71,13 @@ fun CardFavorit(
                     modifier = Modifier
                         .width(135.dp)
                         .height(110.dp)
+                        .clip(RoundedCornerShape(10.dp)),
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(
                         text = favorit.title,
-                        fontSize = 16.sp,
+                        fontSize = 15.sp,
                         color = gray700,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -92,24 +92,9 @@ fun CardFavorit(
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
                             text = "${formatTime(favorit.waktu)} - ${formatTime(favorit.waktuSelesai)} WITA",
-                            fontSize = 14.sp,
-                            color = gray700,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(5.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_location),
-                            contentDescription = "icon-location",
-                            modifier = Modifier.size(15.dp),
-                            tint = black51,
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(
-                            text = "${favorit.km} km - ${favorit.menit} menit",
                             fontSize = 12.sp,
                             color = gray700,
+                            fontWeight = FontWeight.Medium
                         )
                     }
                     Spacer(modifier = Modifier.height(5.dp))
@@ -155,36 +140,9 @@ fun CardFavorit(
                 Text(
                     text = "Rp ${formatHarga(favorit.harga)}",
                     color = brandPrimary500,
-                    fontSize = 16.sp,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = "Rp ${formatHarga(favorit.potonganHarga)}",
-                    color = gray,
-                    fontSize = 16.sp,
-                    textDecoration = TextDecoration.LineThrough
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Surface(
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(22.dp),
-                    color = Color(0XFFFBD5D5),
-                    shape = RoundedCornerShape(6.dp)
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "${favorit.diskon}%",
-                            color = Color.Red,
-                            fontSize = 14.sp,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                }
                 Spacer(modifier = Modifier.weight(1f))
                 ElevatedButton(
                     onClick = { /*TODO*/ },
@@ -202,9 +160,8 @@ fun CardFavorit(
                         color = white,
                     )
                 }
+                Spacer(modifier = Modifier.width(10.dp))
             }
-            Spacer(modifier = Modifier.height(25.dp))
-            HorizontalDivider(thickness = 1.dp, color = gray)
         }
     }
 }
@@ -233,10 +190,7 @@ fun PreviewCardFavorit() {
         km = 1,
         rating = 4.5,
         harga = 150000,
-        potonganHarga = 500000,
-        diskon = 50,
         image = R.drawable.alam,
-        menit = 20
     )
     CardFavorit(favorit = favoritModel)
 }

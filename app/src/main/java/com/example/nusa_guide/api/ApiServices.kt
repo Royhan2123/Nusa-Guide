@@ -56,7 +56,6 @@ interface ApiService {
     suspend fun sendOtp(
         @Body email: EmailRequest
     ): OtpResponse
-
 }
 
 data class EmailRequest(

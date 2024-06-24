@@ -16,34 +16,62 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nusa_guide.R
+import com.example.nusa_guide.api.RetrofitInstance
+import com.example.nusa_guide.data.DataStoreManager
+import com.example.nusa_guide.model.UserModel
 import com.example.nusa_guide.navigation.NavigationTourScreen
+import com.example.nusa_guide.repository.AuthRepository
 import com.example.nusa_guide.ui.theme.Gray80
+import com.example.nusa_guide.viewModel.AuthViewModel
+import com.example.nusa_guide.viewModel.AuthViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun ProfileScreen(
+    navController: NavController,
+    authViewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(
+            repository = AuthRepository(
+                apiService = RetrofitInstance.api,
+                dataStoreManager = DataStoreManager.getInstance(context = LocalContext.current)
+            )
+        )
+    )
+) {
+    val user by authViewModel.user.observeAsState()
+
+    // Fetch user data when the composable is launched
+    LaunchedEffect(Unit) {
+        authViewModel.getUser()
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -55,9 +83,9 @@ fun ProfileScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 10.dp)
         ) {
-            ProfileHeader(navController)
+            ProfileHeader(navController, user) // Pass user to ProfileHeader
             Spacer(modifier = Modifier.height(24.dp))
             AccountSection()
             Spacer(modifier = Modifier.height(36.dp))
@@ -65,23 +93,36 @@ fun ProfileScreen(navController: NavController) {
         }
     }
 }
-
 @Composable
-fun ProfileHeader(navController: NavController) {
+fun ProfileHeader(navController: NavController, user: UserModel?) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.profile_picture),
-            contentDescription = "Gambar Profil",
+        Surface(
             modifier = Modifier
                 .size(64.dp)
-                .clip(CircleShape)
-        )
+                .clickable {
+                    navController.navigate(
+                        NavigationTourScreen.AboutProfileScreen.name
+                    )
+                },
+        ) {
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = "icon-circle",
+            )
+        }
         Spacer(modifier = Modifier.width(16.dp))
         Column {
-            Text(text = "Kim Jiwon", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text(text = "kimjin@gmail.com", fontSize = 16.sp)
+            Text(
+                text = user?.username ?: "User Pengguna",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = user?.email ?: "User Email",
+                fontSize = 14.sp
+            )
         }
         Spacer(modifier = Modifier.weight(1f))
         Image(
@@ -92,9 +133,11 @@ fun ProfileHeader(navController: NavController) {
                     NavigationTourScreen.AboutProfileScreen.name
                 )
             }
+                .size(70.dp)
         )
     }
 }
+
 
 @Composable
 fun AccountSection() {
@@ -110,18 +153,22 @@ fun AccountSection() {
 
 @Composable
 fun ProfileMenuItem(title: String, drawable: Int) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Image(
             painter = painterResource(drawable),
             contentDescription = null,
             modifier = Modifier.size(24.dp)
         )
+        Spacer(modifier = Modifier.width(20.dp))
         Text(
             text = title,
             color = Gray80,
             fontSize = 16.sp,
-            modifier = Modifier.padding(start = 30.dp, end = 180.dp),
         )
+        Spacer(modifier = Modifier.weight(1f))
         TextButton(onClick = { /*TODO*/ }) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -137,12 +184,8 @@ fun ProfileMenuItem(title: String, drawable: Int) {
 @Composable
 fun FavoriteSection() {
     val images = listOf(
-        R.drawable.alam,
-        R.drawable.alam,
-        R.drawable.budaya,
-        R.drawable.tour,
         R.drawable.aktifitas_air,
-        R.drawable.alam
+        R.drawable.tour,
     )
 
     LazyVerticalGrid(

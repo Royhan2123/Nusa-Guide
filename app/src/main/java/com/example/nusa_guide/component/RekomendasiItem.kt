@@ -33,7 +33,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -50,6 +49,7 @@ fun CardRekomendasiItem(
     rekomendasi: WisataModel,
     onClick: () -> Unit,
 ) {
+
     var isSelected by remember {
         mutableStateOf(true)
     }
@@ -66,7 +66,6 @@ fun CardRekomendasiItem(
             .height(260.dp),
         shape = RoundedCornerShape(10.dp),
     ) {
-
         Box {
             Column {
                 Box(modifier = Modifier.fillMaxWidth()) {
@@ -100,18 +99,18 @@ fun CardRekomendasiItem(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.Center,
                                 ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Star,
-                                            contentDescription = "icon-star",
-                                            modifier = Modifier.size(15.dp),
-                                            tint = Color.Yellow
-                                        )
-                                        Text(
-                                            text = rekomendasi.rating.toString(),
-                                            fontSize = 13.sp,
-                                            color = gray700,
-                                            fontWeight = FontWeight.SemiBold
-                                        )
+                                    Icon(
+                                        imageVector = Icons.Default.Star,
+                                        contentDescription = "icon-star",
+                                        modifier = Modifier.size(15.dp),
+                                        tint = Color.Yellow
+                                    )
+                                    Text(
+                                        text = rekomendasi.rating?.toString() ?: "0",
+                                        fontSize = 13.sp,
+                                        color = gray700,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
                                 }
                             }
                             Surface(
@@ -121,7 +120,9 @@ fun CardRekomendasiItem(
                                 shape = CircleShape,
                                 color = Color.White
                             ) {
-                                IconButton(onClick = { isSelected = !isSelected }) {
+                                IconButton(onClick = {
+                                    isSelected = !isSelected
+                                }) {
                                     if (isSelected) {
                                         Icon(
                                             painter = painterResource(id = R.drawable.icon_favorit_red),
@@ -193,7 +194,6 @@ fun CardRekomendasiItem(
                     }
                     Spacer(modifier = Modifier.height(7.dp))
 
-                    // Handle harga formatting and potential errors
                     val formattedHarga = try {
                         rekomendasi.harga?.let {
                             NumberFormat.getNumberInstance(Locale("in", "ID")).format(it)
@@ -223,30 +223,4 @@ fun CardRekomendasiItem(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewCardRekomendasi() {
-    CardRekomendasiItem(
-        rekomendasi = WisataModel(
-            id = 1,
-            nama = "Jatiluwih Rice Terraces in Bali",
-            lokasi = "Tabanan",
-            jamBuka = "08:00:00",
-            jamTutup = "18:00:00",
-            jarakLokasi = "56,7 km",
-            harga = 250000,
-            deskripsi = "Sawah terasering Jatiluwih mencakup lebih dari 600 hektar sawah yang tersebar di lereng gunung Batukaru dan cenderung lebih sepi daripada Tegallalang. Anda juga akan menemukan lebih sedikit pengagum wisata di sini, sehingga lebih mudah untuk berjalan-jalan dan menjelajahi tanpa gangguan.",
-            gambar1 = "https://i.pinimg.com/236x/a2/7e/c5/a27ec55e489abbbd8369f5048c69e6f1.jpg",
-            gambar2 = "https://i.pinimg.com/236x/99/b6/d5/99b6d5698cfcb9b46a2ff0a1e304243e.jpg",
-            gambar3 = "https://i.pinimg.com/236x/75/f5/d8/75f5d8767c547a0d11c551f6a3f02a7c.jpg",
-            gambar4 = "https://i.pinimg.com/236x/12/c0/3b/12c03bbd3fb11f56c3a25b68709e6cb3.jpg",
-            informasiTourguide = "Tour guide kami adalah profesional berpengalaman dengan pengetahuan mendalam tentang sejarah, budaya, dan tempat wisata lokal. Mahir dalam berbagai bahasa, mereka ramah, bersertifikasi, dan mendapat banyak testimoni positif dari wisatawan. Dengan kemampuan menyesuaikan itinerary sesuai keinginan Anda, mereka memastikan perjalanan Anda nyaman, informatif, dan tak terlupakan.",
-            hargaTermasuk = "Mobil Avanza Private (TIDAK digabung dengan group lain) + BBM + Supir/Guide, Tiket masuk objek wisata, Makan Siang, Asuransi Jiwa, Kain, Selendang, dan Payung, Parkir dan Retribusi",
-            kategori = "alam",
-            paymentLink = "https://app.sandbox.midtrans.com/payment-links/1718439912442",
-            rating = 4
-        )
-    ) {}
 }
